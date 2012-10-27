@@ -85,9 +85,6 @@
     <ClInclude Include="DefaultEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fbxsdk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
