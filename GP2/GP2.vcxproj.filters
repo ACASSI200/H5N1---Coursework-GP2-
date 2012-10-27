@@ -22,6 +22,9 @@
     <Filter Include="Effects">
       <UniqueIdentifier>{e7e0afe1-4082-46ca-bf80-1af47b3ae17f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{dcf5ac4c-7f01-420f-b9ad-e8966a19b6f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScreenSpace.fx">
@@ -31,6 +34,15 @@
       <Filter>Effects</Filter>
     </None>
     <None Include="Texture.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="ambient.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="diffuse.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="Specular.fx">
       <Filter>Effects</Filter>
     </None>
   </ItemGroup>
@@ -76,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="GameApplication.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="GameApplication.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.h">
+      <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,6 +40,7 @@ private:
 
 	CWin32Window * m_pWindow;
 
+
 	CTimer m_Timer;
 	
 	//Get Game Object Manager

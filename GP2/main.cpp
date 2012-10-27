@@ -22,6 +22,8 @@ int main(int argc, char **argv)
 
 	if (!pApp->init())
 	{
+
+
 		if(pApp)
 		{
 			delete pApp;
@@ -38,20 +40,5 @@ int main(int argc, char **argv)
 		pApp = NULL;
 	}
 	return 0;
-
-
-	/*CWin32Window * pWin=new CWin32Window();
-
-	
-
-	pWin->init(TEXT("Anthony Denovan"),860,640,false);
-
-	while(pWin->running()){
-		pWin->checkForWindowMessages();
-	}
-
-	delete pWin;
-
-	return 0;*/
 }
 

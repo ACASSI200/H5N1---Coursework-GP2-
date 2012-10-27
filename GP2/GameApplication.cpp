@@ -59,6 +59,7 @@ bool CGameApplication::init()
 
 bool CGameApplication::initGame()
 {
+
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
@@ -359,5 +360,6 @@ bool CGameApplication::initWindow()
 	m_pWindow=new CWin32Window();
 	if (!m_pWindow->init(TEXT("Lab 1 - Triangle"),800,640,false))
 		return false;
+
 	return true;
 }
