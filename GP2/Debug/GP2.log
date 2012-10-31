@@ -1,32 +1,20 @@
-﻿Build started 27/10/2012 07:54:39 PM.
+﻿Build started 31/10/2012 09:14:14 PM.
      1>Project "C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\GP2.unsuccessfulbuild".
+         Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2013.3\lib\vs2010\x86" /LIBPATH:"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib fmodstudio_vc.lib "fbxsdk-2013.3d.lib" xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
-         Debug\Audio.obj
-         Debug\CameraComponent.obj
-         Debug\GameApplication.obj
-         Debug\GameObject.obj
-         Debug\GameObjectManager.obj
-         Debug\GeometryComponent.obj
-         Debug\Input.obj
-         Debug\Joypad.obj
-         Debug\Keyboard.obj
-         Debug\main.obj
-         Debug\MaterialComponent.obj
-         Debug\ModelLoader.obj
-         Debug\Mouse.obj
-         Debug\Timer.obj
-         Debug\Win32Window.obj
-     1>Audio.obj : error LNK2019: unresolved external symbol _FMOD_System_Create@4 referenced in function "enum FMOD_RESULT __cdecl FMOD::System_Create(class FMOD::System * *)" (?System_Create@FMOD@@YA?AW4FMOD_RESULT@@PAPAVSystem@1@@Z)
-     1>C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe : fatal error LNK1120: 1 unresolved externals
-     1>Done Building Project "C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (build target(s)) -- FAILED.
+         All outputs are up-to-date.
+       Manifest:
+         All outputs are up-to-date.
+       FinalizeBuildStatus:
+         Deleting file "Debug\GP2.unsuccessfulbuild".
+         Touching "Debug\GP2.lastbuildstate".
+     1>Done Building Project "C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:00.37
+Time Elapsed 00:00:00.10

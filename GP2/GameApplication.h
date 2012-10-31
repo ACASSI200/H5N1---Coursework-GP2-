@@ -10,6 +10,7 @@
 #include "GeometryComponent.h"
 #include "TransformComponent.h"
 #include "CameraComponent.h"
+#include "Audio.h"
 
 #include <vector>
 
@@ -40,6 +41,7 @@ private:
 
 	CWin32Window * m_pWindow;
 
+	Audio *audio;
 
 	CTimer m_Timer;
 	

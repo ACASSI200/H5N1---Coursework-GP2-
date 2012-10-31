@@ -3,8 +3,7 @@
 #define NUM_CHANNELS 3
 #endif
 #include "fmod.hpp"
-#include "fmod_common.h"
-
+#include "Win32Window.h"
 
 class Audio {
 public:

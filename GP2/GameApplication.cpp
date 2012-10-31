@@ -54,6 +54,10 @@ bool CGameApplication::init()
 		return false;
 	if (!initGame())
 		return false;
+	
+	
+
+
 	return true;
 }
 
@@ -110,6 +114,9 @@ bool CGameApplication::initGame()
 
 	//init
 	m_pGameObjectManager->init();
+
+	
+	audio->initSound();
 	
 	m_Timer.start();
 	return true;
@@ -358,8 +365,10 @@ bool CGameApplication::initGraphics()
 bool CGameApplication::initWindow()
 {
 	m_pWindow=new CWin32Window();
+
 	if (!m_pWindow->init(TEXT("Lab 1 - Triangle"),800,640,false))
 		return false;
+
 
 	return true;
 }
