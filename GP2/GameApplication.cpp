@@ -1,7 +1,7 @@
 #include "GameApplication.h"
 #include "GameObject.h"
 
-#include "ModelLoader.h"
+
 #include "Input.h"
 #include "Keyboard.h"
 
@@ -67,23 +67,27 @@ bool CGameApplication::initGame()
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
 	pTestGameObject->setName("Test");
-	
+	//Position
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,10.0f);
+	//pTestGameObject->getTransform()->setScale(0.01f,0.01f,0.01f);
 	//create material
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->loadDiffuseTexture("face.png");
-	pMaterial->setEffectFilename("Transform.fx");
-	
-	//Create geometry
-	CModelLoader modelloader;
-	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
-	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,2.0f,2.0f,2.0f);
-	pGeometry->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("Specular.fx");
+	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
+	pTestGameObject->addComponent(pMaterial);
+
+	//Create Mesh
+	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
+	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	pMesh->SetRenderingDevice(m_pD3D10Device);
+	pTestGameObject->addComponent(pMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(pTestGameObject);
 
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-5.0f);
 	pCameraGameObject->setName("Camera");
-
 
 	D3D10_VIEWPORT vp;
 	UINT numViewports=1;
@@ -96,18 +100,22 @@ bool CGameApplication::initGame()
 	pCamera->setAspectRatio((float)(vp.Width/vp.Height));
 	pCamera->setFarClip(1000.0f);
 	pCamera->setNearClip(0.1f);
-
 	pCameraGameObject->addComponent(pCamera);
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-5.0f);
 
-	//Add component
-	pTestGameObject->addComponent(pMaterial);
-	pTestGameObject->addComponent(pGeometry);
-	//add the game object
-	m_pGameObjectManager->addGameObject(pTestGameObject);
 	m_pGameObjectManager->addGameObject(pCameraGameObject);
 
-	//init
+	CGameObject *pLightGameObject=new CGameObject();
+	pLightGameObject->setName("DirectionalLight");
+
+	CDirectionalLightComponent *pLightComponent=new CDirectionalLightComponent();
+	pLightComponent->setDirection(D3DXVECTOR3(0.0f,0.0f,-1.0f));
+	pLightGameObject->addComponent(pLightComponent);
+
+	m_pGameObjectManager->addGameObject(pLightGameObject);
+
+	m_pGameObjectManager->setMainLight(pLightComponent);
+
+	//init, this must be called after we have created all game objects
 	m_pGameObjectManager->init();
 	
 	m_Timer.start();
@@ -141,24 +149,32 @@ void CGameApplication::render()
 		//grab the transform
 		CTransformComponent *pTransform=(*iter)->getTransform();
 		//and the geometry
-		CGeometryComponent *pGeometry=static_cast<CGeometryComponent*>((*iter)->getComponent("GeometryComponent"));
+		CMeshComponent *pMesh=static_cast<CMeshComponent*>((*iter)->getComponent("MeshComponent"));
 		//and the material
 		CMaterialComponent *pMaterial=static_cast<CMaterialComponent*>((*iter)->getComponent("MaterialComponent"));
 
-		//if we have a valid geometry
-		if (pGeometry)
-		{
-			//bind the buffer
-			pGeometry->bindBuffers();
-		}
 		//do we have a matrial
 		if (pMaterial)
 		{
+			CCameraComponent *camera=m_pGameObjectManager->getMainCamera();
+
 			//set the matrices
-			pMaterial->setProjectionMatrix((float*)m_pGameObjectManager->getMainCamera()->getProjection());
-			pMaterial->setViewMatrix((float*)m_pGameObjectManager->getMainCamera()->getView());
+			pMaterial->setProjectionMatrix((float*)camera->getProjection());
+			pMaterial->setViewMatrix((float*)camera->getView());
 			pMaterial->setWorldMatrix((float*)pTransform->getWorld());
+			//set light colour
+			pMaterial->setAmbientLightColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
+
+			//get the main light and the camera
+			CDirectionalLightComponent * light=m_pGameObjectManager->getMainLight();
+			pMaterial->setDiffuseLightColour(light->getDiffuseColour());
+			pMaterial->setSpecularLightColour(light->getSpecularColour());
+			pMaterial->setLightDirection(light->getLightDirection());
+			
+			pMaterial->setCameraPosition(camera->getParent()->getTransform()->getPosition());
+
 			pMaterial->setTextures();
+			pMaterial->setMaterial();
 			//bind the vertex layout
 			pMaterial->bindVertexLayout();
 			//loop for the passes in the material
@@ -167,10 +183,18 @@ void CGameApplication::render()
 				//Apply the current pass
 				pMaterial->applyPass(i);
 				//we have a geometry
-				if (pGeometry)
+				if (pMesh)
 				{
-					//draw from the geometry
-					m_pD3D10Device->DrawIndexed(pGeometry->getNumberOfIndices(),0,0);
+					//Loop through all the subsets in the mesh
+					for (int i=0;i<pMesh->getTotalNumberOfSubsets();i++)
+					{
+						//grab one of the subset
+						CGeometry *pSubset=pMesh->getSubset(i);
+						//bind the buffers contained in the subset
+						pSubset->bindBuffers();
+						//draw
+						m_pD3D10Device->DrawIndexed(pSubset->getNumberOfIndices(),0,0);
+					}
 				}
 			}
 		}
@@ -185,13 +209,30 @@ void CGameApplication::update()
 {
 	m_Timer.update();
 
-	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
+	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
 		//play sound
 		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		pTransform->rotate(m_Timer.getElapsedTime(),0.0f,0.0f);
 	}
-
+	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
+	{
+		//play sound
+		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+		pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
+	}
+	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
+	{
+		//play sound
+		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+		pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
+	}
+	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
+	{
+		//play sound
+		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+		pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+	}
 	m_pGameObjectManager->update(m_Timer.getElapsedTime());
 
 	
@@ -357,7 +398,7 @@ bool CGameApplication::initGraphics()
 bool CGameApplication::initWindow()
 {
 	m_pWindow=new CWin32Window();
-	if (!m_pWindow->init(TEXT("Lab 1 - Triangle"),800,640,false))
+	if (!m_pWindow->init(TEXT("Games Programming"),800,640,false))
 		return false;
 	return true;
 }

@@ -1,4 +1,7 @@
 #include "Win32Window.h"
+#include "Input.h"
+#include "Keyboard.h"
+#include "Mouse.h"
 
 CWin32Window * g_pWindow=NULL;
 
@@ -18,7 +21,6 @@ CWin32Window::~CWin32Window(void)
 {
 
 }
-
 
 bool CWin32Window::init(const wstring &title,int width,int height,bool fullscreen)
 {
@@ -107,6 +109,13 @@ bool CWin32Window::init(const wstring &title,int width,int height,bool fullscree
 
 	// if all goes well, set running to true -BMD
 	m_bIsRunning=true;
+
+    m_Rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC; 
+    m_Rid[0].usUsage = HID_USAGE_GENERIC_MOUSE; 
+    m_Rid[0].dwFlags = RIDEV_INPUTSINK;   
+    m_Rid[0].hwndTarget = m_hWND;
+    RegisterRawInputDevices(m_Rid, 1, sizeof(m_Rid[0]));
+
 	return true;
 }
 
@@ -153,6 +162,42 @@ LRESULT CALLBACK CWin32Window::wndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 				PostQuitMessage(0);	
 				break;
 			}
+		case WM_KEYDOWN:
+			{
+				CInput::getInstance().getKeyboard()->setKeyDown((int)wParam);
+				break;
+			}
+		case WM_KEYUP:
+			{
+				CInput::getInstance().getKeyboard()->setKeyUp((int)wParam);
+				break;
+			}
+			case WM_INPUT: 
+			{
+				UINT dwSize = 40;
+				static BYTE lpb[40];
+    
+				GetRawInputData((HRAWINPUT)lParam, RID_INPUT, 
+								lpb, &dwSize, sizeof(RAWINPUTHEADER));
+    
+				RAWINPUT* raw = (RAWINPUT*)lpb;
+    
+				if (raw->header.dwType == RIM_TYPEMOUSE) 
+				{
+					int xPosRelative = raw->data.mouse.lLastX;
+					int yPosRelative = raw->data.mouse.lLastY;
+					int mouseOneButtonDown=raw->data.mouse.ulButtons&RI_MOUSE_BUTTON_1_DOWN;
+					int mouseTwoButtonDown=raw->data.mouse.ulButtons&RI_MOUSE_BUTTON_2_DOWN;
+					int mouseThreeButtonDown=raw->data.mouse.ulButtons&RI_MOUSE_BUTTON_3_DOWN;
+
+					CInput::getInstance().getMouse()->setMouseButtonsDown((bool)mouseOneButtonDown,
+						(bool)mouseTwoButtonDown,(bool)mouseThreeButtonDown);
+
+					CInput::getInstance().getMouse()->setMouseMove((float)xPosRelative,(float)yPosRelative);
+				} 
+				break;
+			}
+
 			//if no message has been handled by us, just let windows handle it
 			// http://msdn.microsoft.com/en-us/library/ms633572%28v=vs.85%29.aspx - BMD
 			default:

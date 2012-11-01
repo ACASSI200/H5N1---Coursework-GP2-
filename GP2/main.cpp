@@ -5,7 +5,6 @@
 #endif
 
 #include "GameApplication.h"
-#include "Win32Window.h"
 
 //Check to see if we are on windows
 #ifdef WIN32
@@ -18,40 +17,22 @@ int WINAPI WinMain(HINSTANCE hInstance,
 int main(int argc, char **argv)
 #endif
 {
-	CGameApplication *pApp = new CGameApplication();
-
+	CGameApplication *pApp=new CGameApplication();
 	if (!pApp->init())
 	{
-		if(pApp)
+		if (pApp)
 		{
 			delete pApp;
-			pApp = NULL;
+			pApp=NULL;
 			return 1;
 		}
 	}
-
 	pApp->run();
-
 	if (pApp)
 	{
 		delete pApp;
-		pApp = NULL;
+		pApp=NULL;
 	}
 	return 0;
-
-
-	/*CWin32Window * pWin=new CWin32Window();
-
-	
-
-	pWin->init(TEXT("Anthony Denovan"),860,640,false);
-
-	while(pWin->running()){
-		pWin->checkForWindowMessages();
-	}
-
-	delete pWin;
-
-	return 0;*/
 }
 

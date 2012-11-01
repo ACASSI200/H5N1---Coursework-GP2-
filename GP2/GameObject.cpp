@@ -14,7 +14,6 @@ CGameObject::CGameObject()
 
 CGameObject::~CGameObject()
 {
-	//delete everything in the vector
 	vector<IComponent*>::iterator iter=m_Components.begin();
 	while(iter!=m_Components.end())
 	{
