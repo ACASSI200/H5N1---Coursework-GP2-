@@ -142,6 +142,9 @@
     <ClInclude Include="Win32Window.h">
       <Filter>Window</Filter>
     </ClInclude>
+    <ClInclude Include="GameApplication.h">
+      <Filter>Game</Filter>
+    </ClInclude>
     <ClInclude Include="DirectionLightComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -152,9 +155,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MeshComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

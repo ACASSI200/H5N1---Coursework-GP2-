@@ -68,8 +68,7 @@ bool CGameApplication::initGame()
 	//Set the name
 	pTestGameObject->setName("Test");
 	//Position
-	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,10.0f);
-	//pTestGameObject->getTransform()->setScale(0.01f,0.01f,0.01f);
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
 	//create material
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
@@ -78,7 +77,7 @@ bool CGameApplication::initGame()
 	pTestGameObject->addComponent(pMaterial);
 
 	//Create Mesh
-	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
+	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"AnotherFuckingTest.fbx");
 	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
 	pMesh->SetRenderingDevice(m_pD3D10Device);
 	pTestGameObject->addComponent(pMesh);
@@ -86,7 +85,7 @@ bool CGameApplication::initGame()
 	m_pGameObjectManager->addGameObject(pTestGameObject);
 
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-5.0f);
+	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,-5.0f);
 	pCameraGameObject->setName("Camera");
 
 	D3D10_VIEWPORT vp;
@@ -98,7 +97,7 @@ bool CGameApplication::initGame()
 	pCamera->setLookAt(0.0f,0.0f,0.0f);
 	pCamera->setFOV(D3DX_PI*0.25f);
 	pCamera->setAspectRatio((float)(vp.Width/vp.Height));
-	pCamera->setFarClip(1000.0f);
+	pCamera->setFarClip(10000.0f);
 	pCamera->setNearClip(0.1f);
 	pCameraGameObject->addComponent(pCamera);
 
