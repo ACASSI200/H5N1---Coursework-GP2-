@@ -1,13 +1,17 @@
 float4x4 matWorld:WORLD<string UIWidget="None";>;
-float4x4 matView:VIEW;
-float4x4 matProjection:PROJECTION;
+float4x4 matView:VIEW<string UIWidget="None";>;
+float4x4 matProjection:PROJECTION<string UIWidget="None";>;
 
-float4 ambientMaterial
+float4 ambientMaterialColour
 <
 	string UIName="Ambient Material";
 	string UIWidget="Color";	
 >;
-float4 ambientLightColour;
+float4 ambientLightColour
+<
+	string UIName="Ambient Light Colour";
+	string UIWidget="Color";
+>;
 
 struct VS_INPUT
 {

@@ -7,10 +7,12 @@
 #include "GameObjectManager.h"
 
 #include "MaterialComponent.h"
-#include "GeometryComponent.h"
 #include "TransformComponent.h"
 #include "CameraComponent.h"
-#include "Audio.h"
+#include "DirectionLightComponent.h"
+#include "MeshComponent.h"
+
+#include "ModelLoader.h"
 
 #include <vector>
 
@@ -41,10 +43,10 @@ private:
 
 	CWin32Window * m_pWindow;
 
-	Audio *audio;
-
 	CTimer m_Timer;
 	
 	//Get Game Object Manager
 	CGameObjectManager *m_pGameObjectManager;
+
+	CModelLoader modelloader;
 };

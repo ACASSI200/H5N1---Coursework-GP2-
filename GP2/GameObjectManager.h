@@ -8,6 +8,7 @@ using namespace std;
 //forward decleration of Game Object
 class CGameObject;
 class CCameraComponent;
+class CDirectionalLightComponent;
 
 //Game Object Manager, used to hold all the game objects
 class CGameObjectManager
@@ -47,6 +48,16 @@ public:
 	{
 		m_pMainCamera=pCamera;
 	};
+
+	CDirectionalLightComponent * getMainLight()
+	{
+		return m_pMainLight;
+	};
+
+	void setMainLight(CDirectionalLightComponent * lightDir)
+	{
+		m_pMainLight=lightDir;
+	};
 private:
 	//vector of game objects
 	vector<CGameObject*> m_GameObjects;
@@ -54,6 +65,7 @@ private:
 	map<string,CGameObject*> m_GameObjectsMap;
 
 	CCameraComponent *m_pMainCamera;
+	CDirectionalLightComponent *m_pMainLight;
 	vector<CCameraComponent*> m_Cameras;
 
 };

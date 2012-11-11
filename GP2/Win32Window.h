@@ -1,12 +1,16 @@
-//Header Guards- another way of doing this. 
-//only includes this header file once in the compilation.
-
 #pragma once
 
 #include <string>
 #include <Windows.h>
 
 using namespace std;
+
+#ifndef HID_USAGE_PAGE_GENERIC
+#define HID_USAGE_PAGE_GENERIC         ((USHORT) 0x01)
+#endif
+#ifndef HID_USAGE_GENERIC_MOUSE
+#define HID_USAGE_GENERIC_MOUSE        ((USHORT) 0x02)
+#endif
 
 class CWin32Window
 {
@@ -39,4 +43,6 @@ private:
 	bool m_bIsRunning;
 	bool m_bIsFullScreen;
 	HWND m_hWND;
+	RAWINPUTDEVICE m_Rid[1];
+
 };
