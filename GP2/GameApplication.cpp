@@ -62,6 +62,8 @@ bool CGameApplication::initGame()
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
+	
+	//===========================================================================================================================
 
 	//Create Game Object
 	CGameObject *pTestGameObject=new CGameObject();
@@ -84,8 +86,36 @@ bool CGameApplication::initGame()
 	//add the game object
 	m_pGameObjectManager->addGameObject(pTestGameObject);
 
+	//=============================================================================================================================
+
+	//=========================================================================================================================
+
+	//Create Game Object
+	CGameObject *pCubeGameObject=new CGameObject();
+	//Set the name
+	pCubeGameObject->setName("armoredrecon");
+	//Position
+	pCubeGameObject->getTransform()->setPosition(3.0f,3.0f,3.0f);
+
+	//create material
+	CMaterialComponent *cpMaterial=new CMaterialComponent();
+	cpMaterial->SetRenderingDevice(m_pD3D10Device);
+	cpMaterial->setEffectFilename("Specular.fx");
+	cpMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
+	pCubeGameObject->addComponent(cpMaterial);
+
+	//Create Mesh
+	CMeshComponent *cpMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
+	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	cpMesh->SetRenderingDevice(m_pD3D10Device);
+	pCubeGameObject->addComponent(cpMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(pCubeGameObject);
+
+	//========================================================================================================================
+
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,-5.0f);
+	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,-20.0f);
 	pCameraGameObject->setName("Camera");
 
 	D3D10_VIEWPORT vp;
