@@ -1,9 +1,8 @@
 #include "GameApplication.h"
 #include "GameObject.h"
-
-
 #include "Input.h"
 #include "Keyboard.h"
+
 
 CGameApplication::CGameApplication(void)
 {
@@ -14,6 +13,9 @@ CGameApplication::CGameApplication(void)
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
 	m_pGameObjectManager=new CGameObjectManager();
+	m_Fps = 0;
+	m_Cpu = 0;
+	m_FPSTimer = 0;
 }
 
 CGameApplication::~CGameApplication(void)
@@ -37,15 +39,40 @@ CGameApplication::~CGameApplication(void)
 		m_pSwapChain->Release();
 	if (m_pD3D10Device)
 		m_pD3D10Device->Release();
+
 	if (m_pWindow)
 	{
 		delete m_pWindow;
 		m_pWindow=NULL;
 	}
+
+	// Release the timer object.
+	if(m_FPSTimer)
+	{
+		delete m_FPSTimer;
+		m_FPSTimer = 0;
+	}
+
+	// Release the cpu object.
+	if(m_Cpu)
+	{
+		m_Cpu->Shutdown();
+		delete m_Cpu;
+		m_Cpu = 0;
+	}
+
+	// Release the fps object.
+	if(m_Fps)
+	{
+		delete m_Fps;
+		m_Fps = 0;
+	}
 }
 
 bool CGameApplication::init()
 {
+	bool result;
+
 	if (!initWindow())
 		return false;
 	if (!initGraphics())
@@ -54,17 +81,48 @@ bool CGameApplication::init()
 		return false;
 	if (!initGame())
 		return false;
+	// Create the fps object.
+	m_Fps = new FpsClass;
+	if(!m_Fps)
+	{
+		return false;
+	}
+
+	// Initialize the fps object.
+	m_Fps->Initialize();
+
+	// Create the cpu object.
+	m_Cpu = new CpuClass;
+	if(!m_Cpu)
+	{
+		return false;
+	}
+
+	// Initialize the cpu object.
+	m_Cpu->Initialize();
+
+	// Create the timer object.
+	m_FPSTimer = new TimerClass;
+	if(!m_FPSTimer)
+	{
+		return false;
+	}
+
+	// Initialize the timer object.
+	result = m_FPSTimer->Initialize();	
 	return true;
+
 }
+
+
 
 bool CGameApplication::initGame()
 {
+
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
-	
-	//===========================================================================================================================
-
+//===========================================================================================================================
 	//Create Game Object
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
@@ -79,14 +137,12 @@ bool CGameApplication::initGame()
 	pTestGameObject->addComponent(pMaterial);
 
 	//Create Mesh
-	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"AnotherFuckingTest.fbx");
+	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"AnotherTest.fbx");
 	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
 	pMesh->SetRenderingDevice(m_pD3D10Device);
 	pTestGameObject->addComponent(pMesh);
 	//add the game object
 	m_pGameObjectManager->addGameObject(pTestGameObject);
-
-	//=============================================================================================================================
 
 	//=========================================================================================================================
 
@@ -111,6 +167,8 @@ bool CGameApplication::initGame()
 	pCubeGameObject->addComponent(cpMesh);
 	//add the game object
 	m_pGameObjectManager->addGameObject(pCubeGameObject);
+
+
 
 	//========================================================================================================================
 
@@ -159,8 +217,22 @@ void CGameApplication::run()
 		{
 			update();
 			render();
+			Frame();
 		}
 	}
+}
+
+bool CGameApplication::Frame()
+{
+	bool result;
+
+
+	// Update the system stats.
+	m_FPSTimer->Frame();
+	m_Fps->Frame();
+	m_Cpu->Frame();	
+
+	return true;
 }
 
 void CGameApplication::render()

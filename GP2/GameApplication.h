@@ -14,6 +14,10 @@
 
 #include "ModelLoader.h"
 
+#include "Fpsclass.h"
+#include "Cpuclass.h"
+#include "Timerclass.h"
+
 #include <vector>
 
 using namespace std;
@@ -24,15 +28,19 @@ public:
 	CGameApplication(void);
 	~CGameApplication(void);
 	bool init();
+	void Shutdown();
 	void run();
+
+
 private:
 	bool initInput();
 	bool initGame();
 	bool initGraphics();
-
 	bool initWindow();
+	bool Frame();
 	void render();
 	void update();
+
 private:
 	//Graphics
 	ID3D10Device * m_pD3D10Device;
@@ -44,6 +52,11 @@ private:
 	CWin32Window * m_pWindow;
 
 	CTimer m_Timer;
+	FpsClass* m_Fps;
+	CpuClass* m_Cpu;
+	TimerClass* m_FPSTimer;
+
+	
 	
 	//Get Game Object Manager
 	CGameObjectManager *m_pGameObjectManager;
