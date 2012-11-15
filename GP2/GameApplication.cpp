@@ -168,8 +168,6 @@ bool CGameApplication::initGame()
 	//add the game object
 	m_pGameObjectManager->addGameObject(pCubeGameObject);
 
-
-
 	//========================================================================================================================
 
 	CGameObject *pCameraGameObject=new CGameObject();

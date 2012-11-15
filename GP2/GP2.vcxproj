@@ -52,12 +52,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\hk2011_3_1_r1\Source;$(DXSDK_DIR)\include;$(FBXSDK_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\GP2\Havok;C:\hk2011_3_1_r1\Source;$(DXSDK_DIR)\include;$(FBXSDK_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;$(FBXSDK_DIR)\lib\vs2010\x86;$(DXSDK_Dir)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\GP2\Havok\Lib\win32_vs2010\debug_multithreaded_dll;C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;$(FBXSDK_DIR)\lib\vs2010\x86;$(DXSDK_Dir)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d10.lib;d3dx10.lib;fbxsdk-2013.1d.lib;xinput.lib;hkBase.lib;hkGeometryUtilities.lib;hkSceneData.lib;hkVisualize.lib;hkpCollide.lib;hkpInternal.lib;hkpVehicle.lib;hkcdInternal.lib;hkCompat.lib;hkInternal.lib;hkSerialize.lib;hkpConstraintSolver.lib;hkpDynamics.lib;hkpUtilities.lib;hkcdCollide.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

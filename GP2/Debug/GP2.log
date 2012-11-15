@@ -1,9 +1,9 @@
-﻿Build started 11/15/2012 11:16:01 AM.
+﻿Build started 11/15/2012 11:48:29 AM.
      1>Project "C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug\GP2.unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\hk2011_3_1_r1\Source /I"C:\apps\Microsoft DirectX SDK (June 2010)\\include" /IC:\Apps\Autodesk\FBX\FbxSdk\2013.1\\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt CameraComponent.cpp Cpuclass.cpp DirectionalLightComponent.cpp Fpsclass.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp Timer.cpp Timerclass.cpp Win32Window.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\GP2\Havok" /IC:\hk2011_3_1_r1\Source /I"C:\apps\Microsoft DirectX SDK (June 2010)\\include" /IC:\Apps\Autodesk\FBX\FbxSdk\2013.1\\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt CameraComponent.cpp Cpuclass.cpp DirectionalLightComponent.cpp Fpsclass.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp Timer.cpp Timerclass.cpp Win32Window.cpp
          Win32Window.cpp
      1>c:\users\bhanna200\desktop\github\h5n1---coursework-gp2-\gp2\win32window.cpp(193): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
      1>c:\users\bhanna200\desktop\github\h5n1---coursework-gp2-\gp2\win32window.cpp(194): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
@@ -42,8 +42,8 @@
          GameObjectManager.cpp
          GameObject.cpp
          GameApplication.cpp
-     1>c:\users\bhanna200\desktop\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(186): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\bhanna200\desktop\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(227): warning C4101: 'result' : unreferenced local variable
+     1>c:\users\bhanna200\desktop\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(184): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\bhanna200\desktop\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(225): warning C4101: 'result' : unreferenced local variable
          Fpsclass.cpp
          DirectionalLightComponent.cpp
          Cpuclass.cpp
@@ -55,7 +55,7 @@
        ManifestResourceCompile:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GP2.exe.embed.manifest.res" Debug\GP2_manifest.rc 
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll /LIBPATH:C:\Apps\Autodesk\FBX\FbxSdk\2013.1\\lib\vs2010\x86 /LIBPATH:"C:\apps\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib "fbxsdk-2013.1d.lib" xinput.lib hkBase.lib hkGeometryUtilities.lib hkSceneData.lib hkVisualize.lib hkpCollide.lib hkpInternal.lib hkpVehicle.lib hkcdInternal.lib hkCompat.lib hkInternal.lib hkSerialize.lib hkpConstraintSolver.lib hkpDynamics.lib hkpUtilities.lib hkcdCollide.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\GP2\Havok\Lib\win32_vs2010\debug_multithreaded_dll" /LIBPATH:C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll /LIBPATH:C:\Apps\Autodesk\FBX\FbxSdk\2013.1\\lib\vs2010\x86 /LIBPATH:"C:\apps\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib "fbxsdk-2013.1d.lib" xinput.lib hkBase.lib hkGeometryUtilities.lib hkSceneData.lib hkVisualize.lib hkpCollide.lib hkpInternal.lib hkpVehicle.lib hkcdInternal.lib hkCompat.lib hkInternal.lib hkSerialize.lib hkpConstraintSolver.lib hkpDynamics.lib hkpUtilities.lib hkcdCollide.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
          Debug\CameraComponent.obj
          Debug\Cpuclass.obj
          Debug\DirectionalLightComponent.obj
@@ -77,9 +77,38 @@
          Debug\Timer.obj
          Debug\Timerclass.obj
          Debug\Win32Window.obj
-     1>LINK : fatal error LNK1104: cannot open file 'hkBase.lib'
-     1>Done Building Project "C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (build target(s)) -- FAILED.
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\GP2.exe.embed.manifest" /manifest Debug\GP2.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GP2.exe.embed.manifest.res" Debug\GP2_manifest.rc 
+       LinkEmbedManifest:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\GP2\Havok\Lib\win32_vs2010\debug_multithreaded_dll" /LIBPATH:C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll /LIBPATH:C:\Apps\Autodesk\FBX\FbxSdk\2013.1\\lib\vs2010\x86 /LIBPATH:"C:\apps\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib "fbxsdk-2013.1d.lib" xinput.lib hkBase.lib hkGeometryUtilities.lib hkSceneData.lib hkVisualize.lib hkpCollide.lib hkpInternal.lib hkpVehicle.lib hkcdInternal.lib hkCompat.lib hkInternal.lib hkSerialize.lib hkpConstraintSolver.lib hkpDynamics.lib hkpUtilities.lib hkcdCollide.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
+         Debug\CameraComponent.obj
+         Debug\Cpuclass.obj
+         Debug\DirectionalLightComponent.obj
+         Debug\Fpsclass.obj
+         Debug\GameApplication.obj
+         Debug\GameObject.obj
+         Debug\GameObjectManager.obj
+         Debug\Geometry.obj
+         Debug\GeometryComponent.obj
+         Debug\Input.obj
+         Debug\Joypad.obj
+         Debug\Keyboard.obj
+         Debug\LightComponent.obj
+         Debug\main.obj
+         Debug\MaterialComponent.obj
+         Debug\MeshComponent.obj
+         Debug\ModelLoader.obj
+         Debug\Mouse.obj
+         Debug\Timer.obj
+         Debug\Timerclass.obj
+         Debug\Win32Window.obj
+         GP2.vcxproj -> C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\GP2.unsuccessfulbuild".
+         Touching "Debug\GP2.lastbuildstate".
+     1>Done Building Project "C:\Users\bhanna200\Desktop\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:23.24
+Time Elapsed 00:00:26.38
