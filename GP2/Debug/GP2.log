@@ -1,9 +1,9 @@
-﻿Build started 16/11/2012 04:51:31 PM.
+﻿Build started 16/11/2012 05:13:13 PM.
      1>Project "C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\GP2.unsuccessfulbuild".
+         Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Audio.cpp CameraComponent.cpp DirectionalLightComponent.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp SoundClass.cpp Timer.cpp Win32Window.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Havok\hk2011_3_1_r1\Source" /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Audio.cpp CameraComponent.cpp DirectionalLightComponent.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp SoundClass.cpp Timer.cpp Win32Window.cpp
          Win32Window.cpp
      1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(193): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
      1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(194): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
@@ -96,4 +96,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:25.55
+Time Elapsed 00:00:25.31
