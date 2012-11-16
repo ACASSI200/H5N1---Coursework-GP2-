@@ -12,9 +12,11 @@
 #include "DirectionLightComponent.h"
 #include "MeshComponent.h"
 
+
 #include "ModelLoader.h"
 
 #include <vector>
+#include <Common\Base\hkBase.h>
 
 using namespace std;
 

@@ -1,7 +1,7 @@
-﻿Build started 16/11/2012 05:13:13 PM.
+﻿Build started 16/11/2012 06:02:28 PM.
      1>Project "C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug\GP2.unsuccessfulbuild".
        ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Havok\hk2011_3_1_r1\Source" /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Audio.cpp CameraComponent.cpp DirectionalLightComponent.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp SoundClass.cpp Timer.cpp Win32Window.cpp
          Win32Window.cpp
@@ -42,7 +42,7 @@
        ManifestResourceCompile:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GP2.exe.embed.manifest.res" Debug\GP2_manifest.rc 
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\lib\vs2010\x86" /LIBPATH:"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib fmodL_vc.lib "fbxsdk-2013.1d.lib" xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Havok\hk2011_3_1_r1\Lib\win32_vs2010\Debug_Multithreaded_DLL" /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\lib\vs2010\x86" /LIBPATH:"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib fmodL_vc.lib "fbxsdk-2013.1d.lib" hkBase.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
          Debug\Audio.obj
          Debug\CameraComponent.obj
          Debug\DirectionalLightComponent.obj
@@ -67,7 +67,7 @@
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\GP2.exe.embed.manifest" /manifest Debug\GP2.exe.intermediate.manifest
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GP2.exe.embed.manifest.res" Debug\GP2_manifest.rc 
        LinkEmbedManifest:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\lib\vs2010\x86" /LIBPATH:"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib fmodL_vc.lib "fbxsdk-2013.1d.lib" xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Havok\hk2011_3_1_r1\Lib\win32_vs2010\Debug_Multithreaded_DLL" /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\lib\vs2010\x86" /LIBPATH:"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib fmodL_vc.lib "fbxsdk-2013.1d.lib" hkBase.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
          Debug\Audio.obj
          Debug\CameraComponent.obj
          Debug\DirectionalLightComponent.obj
@@ -96,4 +96,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:25.31
+Time Elapsed 00:00:23.83
