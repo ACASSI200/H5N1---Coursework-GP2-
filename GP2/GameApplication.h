@@ -18,6 +18,13 @@
 
 using namespace std;
 
+enum GameState
+{
+	MAINMENU=0,
+	GAME,
+	EXIT,
+};
+
 class CGameApplication
 {
 public:
@@ -26,6 +33,14 @@ public:
 	bool init();
 	void run();
 private:
+
+	void loadGame();
+	void loadMainMenu();
+	void loadExitScreen();
+
+	void updateGame();
+	void updateMenu();
+
 	bool initInput();
 	bool initGame();
 	bool initGraphics();
@@ -49,4 +64,5 @@ private:
 	CGameObjectManager *m_pGameObjectManager;
 
 	CModelLoader modelloader;
+	GameState m_GameState;
 };

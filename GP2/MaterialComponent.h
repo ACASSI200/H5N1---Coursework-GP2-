@@ -55,9 +55,33 @@ public:
 
 	void loadDiffuseTexture(const string& filename);
 
+	void loadSpecularTexture(const string& filename);
+
+	void loadBumpTexture(const string& filename);
+
 	void setTextures()
 	{
+		
+		if (m_pDiffuseTexture!=NULL)
+		{
+			m_pUseDiffuseTextureVariable->SetBool(true);
+		}
+		
 		m_pDiffuseTextureVariable->SetResource(m_pDiffuseTexture);
+
+		if(m_pSpecularTexture!=NULL)
+		{
+			m_pUseSpecularTextureVariable->SetBool(true);
+		}
+
+		m_pSpecularTextureVariable->SetResource(m_pSpecularTexture);
+
+		if(m_pBumpTexture!=NULL)
+		{
+			m_pUseBumpTextureVariable->SetBool(true);
+		}
+
+		m_pBumpMapTextureVariable->SetResource(m_pBumpTexture);
 	};
 	//set the world matrix
 	void setWorldMatrix(float * pMatrix)
@@ -156,6 +180,9 @@ protected:
 	ID3D10EffectMatrixVariable * m_pWorldMatrixVariable;
 	//Textures
 	ID3D10EffectShaderResourceVariable *m_pDiffuseTextureVariable;
+	ID3D10EffectShaderResourceVariable *m_pSpecularTextureVariable;
+	ID3D10EffectShaderResourceVariable *m_pBumpMapTextureVariable;
+
 	//Light
 	ID3D10EffectVectorVariable *m_pAmbientLightColourVariable;
 	ID3D10EffectVectorVariable *m_pDiffuseLightColourVariable;
@@ -167,6 +194,7 @@ protected:
 	ID3D10EffectVectorVariable *m_pDiffuseMaterialVariable;
 	ID3D10EffectVectorVariable *m_pSpecularMaterialVariable;
 	ID3D10EffectScalarVariable *m_pSpecularPowerVariable;
+
 	//Camera
 	ID3D10EffectVectorVariable *m_pCameraPositionVariable;
 
@@ -178,4 +206,12 @@ protected:
 
 	//Textures
 	ID3D10ShaderResourceView *m_pDiffuseTexture;
+	ID3D10EffectScalarVariable *m_pUseDiffuseTextureVariable; 
+
+	ID3D10ShaderResourceView *m_pSpecularTexture;
+	ID3D10EffectScalarVariable *m_pUseSpecularTextureVariable;
+
+	ID3D10ShaderResourceView *m_pBumpTexture;
+	ID3D10EffectScalarVariable *m_pUseBumpTextureVariable;
+
 };

@@ -14,6 +14,7 @@ CGameApplication::CGameApplication(void)
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
 	m_pGameObjectManager=new CGameObjectManager();
+	m_GameState=MAINMENU;
 }
 
 CGameApplication::~CGameApplication(void)
@@ -63,60 +64,29 @@ bool CGameApplication::initGame()
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
 
-	//Create Game Object
-	CGameObject *pTestGameObject=new CGameObject();
-	//Set the name
-	pTestGameObject->setName("Test");
-	//Position
-	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,10.0f);
-	//pTestGameObject->getTransform()->setScale(0.01f,0.01f,0.01f);
-	//create material
-	CMaterialComponent *pMaterial=new CMaterialComponent();
-	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->setEffectFilename("Specular.fx");
-	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
-	pTestGameObject->addComponent(pMaterial);
+	loadMainMenu();
+	
 
-	//Create Mesh
-	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
-	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
-	pMesh->SetRenderingDevice(m_pD3D10Device);
-	pTestGameObject->addComponent(pMesh);
-	//add the game object
-	m_pGameObjectManager->addGameObject(pTestGameObject);
 
-	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-5.0f);
-	pCameraGameObject->setName("Camera");
+	//Create Game Obect 2
 
-	D3D10_VIEWPORT vp;
-	UINT numViewports=1;
-	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
-
-	CCameraComponent *pCamera=new CCameraComponent();
-	pCamera->setUp(0.0f,1.0f,0.0f);
-	pCamera->setLookAt(0.0f,0.0f,0.0f);
-	pCamera->setFOV(D3DX_PI*0.25f);
-	pCamera->setAspectRatio((float)(vp.Width/vp.Height));
-	pCamera->setFarClip(1000.0f);
-	pCamera->setNearClip(0.1f);
-	pCameraGameObject->addComponent(pCamera);
-
-	m_pGameObjectManager->addGameObject(pCameraGameObject);
-
-	CGameObject *pLightGameObject=new CGameObject();
-	pLightGameObject->setName("DirectionalLight");
-
-	CDirectionalLightComponent *pLightComponent=new CDirectionalLightComponent();
-	pLightComponent->setDirection(D3DXVECTOR3(0.0f,0.0f,-1.0f));
-	pLightGameObject->addComponent(pLightComponent);
-
-	m_pGameObjectManager->addGameObject(pLightGameObject);
-
-	m_pGameObjectManager->setMainLight(pLightComponent);
-
-	//init, this must be called after we have created all game objects
-	m_pGameObjectManager->init();
+	//CGameObject *pTestGameObject1=new CGameObject();
+	////Set the name
+	//pTestGameObject1->setName("Test1");
+	////Position
+	//pTestGameObject1->getTransform()->setPosition(5.0f,0.0f,10.0f);
+	////Material
+	//CMaterialComponent *pMaterial1=new CMaterialComponent();
+	//pMaterial1->SetRenderingDevice(m_pD3D10Device);
+	//pMaterial1->setEffectFilename("Specular.fx");
+	//pMaterial1->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
+	//pTestGameObject1->addComponent(pMaterial1);
+	//
+	////Create Mesh 2
+	//CMeshComponent *pMesh1 = modelloader.loadModelFromFile(m_pD3D10Device,"Tank.fbx");
+	//pMesh->SetRenderingDevice(m_pD3D10Device);
+	//pTestGameObject1->addComponent(pMesh1);
+	//m_pGameObjectManager->addGameObject(pTestGameObject1);
 	
 	m_Timer.start();
 	return true;
@@ -205,10 +175,78 @@ void CGameApplication::render()
     m_pSwapChain->Present( 0, 0 );
 }
 
-void CGameApplication::update()
+void CGameApplication::loadGame()
 {
-	m_Timer.update();
+	m_pGameObjectManager->clear();
 
+	//Create Game Object
+	CGameObject *pTestGameObject=new CGameObject();
+	//Set the name
+	pTestGameObject->setName("Test");
+	//Position
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,-0.5f);
+	//pTestGameObject->getTransform()->setScale(0.1f,0.1f,0.1f);
+	//create material
+	CMaterialComponent *pMaterial=new CMaterialComponent();
+	pMaterial->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("DirectionalLight.fx");
+	//pMaterial->loadDiffuseTexture("BoxTest.png");
+	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,-5.0f));
+	pTestGameObject->addComponent(pMaterial);
+
+	//Create Mesh
+	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"BoxTest.fbx");
+	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	pMesh->SetRenderingDevice(m_pD3D10Device);
+	pTestGameObject->addComponent(pMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(pTestGameObject);
+
+
+	CGameObject *pCameraGameObject=new CGameObject();
+	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,20.0f);
+	pCameraGameObject->setName("Camera");
+
+	D3D10_VIEWPORT vp;
+	UINT numViewports=1;
+	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
+
+	CCameraComponent *pCamera=new CCameraComponent();
+	pCamera->setUp(0.0f,1.0f,0.0f);
+	pCamera->setLookAt(0.0f,0.0f,0.0f);
+	pCamera->setFOV(D3DX_PI*0.25f);
+	pCamera->setAspectRatio((float)(vp.Width/vp.Height));
+	pCamera->setFarClip(1000.0f);
+	pCamera->setNearClip(0.1f);
+	pCameraGameObject->addComponent(pCamera);
+
+	m_pGameObjectManager->addGameObject(pCameraGameObject);
+
+	CGameObject *pLightGameObject=new CGameObject();
+	pLightGameObject->setName("DirectionalLight");
+
+	CDirectionalLightComponent *pLightComponent=new CDirectionalLightComponent();
+	pLightComponent->setDirection(D3DXVECTOR3(0.0f,0.0f,-1.0f));
+	pLightGameObject->addComponent(pLightComponent);
+
+	m_pGameObjectManager->addGameObject(pLightGameObject);
+
+	m_pGameObjectManager->setMainLight(pLightComponent);
+
+	//init, this must be called after we have created all game objects
+	m_pGameObjectManager->init();
+}
+
+void CGameApplication::loadMainMenu()
+{
+}
+
+void CGameApplication::loadExitScreen()
+{
+}
+
+void CGameApplication::updateGame()
+{
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
 		//play sound
@@ -233,10 +271,35 @@ void CGameApplication::update()
 		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
 	}
+}
+
+void CGameApplication::updateMenu()
+{
+	if (CInput::getInstance().getKeyboard()->isKeyDown(VK_SPACE))
+	{
+		loadGame();
+	}
+}
+
+void CGameApplication::update()
+{
+	m_Timer.update();
+	switch(m_GameState)
+	{
+	case MAINMENU:
+		{
+			updateMenu();
+			break;
+		}
+	case GAME:
+		{
+			updateGame();
+			break;
+		}
+	}
+
 	m_pGameObjectManager->update(m_Timer.getElapsedTime());
 
-	
-	
 }
 
 bool CGameApplication::initInput()

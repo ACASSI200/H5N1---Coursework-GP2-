@@ -22,6 +22,7 @@ public:
 	CMeshComponent * createCube(ID3D10Device *pDevice,float width, float height, float length);  
 private:
 	CMeshComponent * loadFbxModelFromFile(ID3D10Device *pDevice,const string& filename);
+	
 
 	void computeTangents(Vertex *pVerts,int vertexCount);
 };

@@ -8,6 +8,8 @@ CMaterialComponent::CMaterialComponent()
 	m_pEffect=NULL;
 	m_pVertexLayout=NULL;
 	m_pDiffuseTexture=NULL;
+	m_pSpecularTexture = NULL;
+	m_pBumpTexture = NULL;
 	m_EffectName="";
 	m_TechniqueName="Render";
 	ZeroMemory(&m_TechniqueDesc,sizeof(D3D10_TECHNIQUE_DESC));
@@ -38,6 +40,18 @@ CMaterialComponent::~CMaterialComponent()
 	{
 		m_pEffect->Release();
 		m_pEffect=NULL;
+	}
+
+	if (m_pSpecularTexture)
+	{
+		m_pSpecularTexture->Release();
+		m_pSpecularTexture = NULL;
+	}
+
+	if(m_pBumpTexture)
+	{
+		m_pBumpTexture->Release();
+		m_pBumpTexture = NULL;
 	}
 }
 
@@ -117,6 +131,25 @@ void CMaterialComponent::loadDiffuseTexture(const string& filename)
 	}
 }
 
+void CMaterialComponent::loadSpecularTexture(const string& filename)
+{
+	if (FAILED(D3DX10CreateShaderResourceViewFromFileA(m_pD3D10Device,
+		filename.c_str(), NULL, NULL,&m_pDiffuseTexture , NULL)))
+	{
+		OutputDebugStringA("Can't Load Texture");
+	}
+}
+
+
+void CMaterialComponent::loadBumpTexture(const string& filename)
+{
+	if (FAILED(D3DX10CreateShaderResourceViewFromFileA(m_pD3D10Device,
+		filename.c_str(), NULL, NULL,&m_pDiffuseTexture , NULL)))
+	{
+		OutputDebugStringA("Can't Load Texture");
+	}
+}
+
 //init
 void CMaterialComponent::init()
 {
@@ -141,7 +174,8 @@ void CMaterialComponent::init()
 	m_pViewMatrixVariable=m_pEffect->GetVariableBySemantic("VIEW")->AsMatrix();
 	m_pProjectionMatrixVariable=m_pEffect->GetVariableBySemantic("PROJECTION")->AsMatrix();
 	m_pDiffuseTextureVariable=m_pEffect->GetVariableByName("diffuseMap")->AsShaderResource();
-
+	m_pSpecularTextureVariable = m_pEffect->GetVariableByName("specularMap")->AsShaderResource();
+	m_pBumpMapTextureVariable = m_pEffect->GetVariableByName("bumpMap")->AsShaderResource();
 	//lights
 	m_pAmbientLightColourVariable=m_pEffect->GetVariableByName("ambientLightColour")->AsVector();
 	m_pDiffuseLightColourVariable=m_pEffect->GetVariableByName("diffuseLightColour")->AsVector();
@@ -153,6 +187,12 @@ void CMaterialComponent::init()
 	m_pDiffuseMaterialVariable=m_pEffect->GetVariableByName("diffuseMaterialColour")->AsVector();
 	m_pSpecularMaterialVariable=m_pEffect->GetVariableByName("specularMaterialColour")->AsVector();
 	m_pSpecularPowerVariable=m_pEffect->GetVariableByName("specularPower")->AsScalar();
+
+	m_pUseDiffuseTextureVariable=m_pEffect->GetVariableByName("useDiffuseTexture")->AsScalar();
+
+	m_pUseSpecularTextureVariable=m_pEffect->GetVariableByName("useSpecularTexture")->AsScalar();
+
+	m_pUseBumpTextureVariable = m_pEffect->GetVariableByName("useBumpTexture")->AsScalar();
 
 	//Camera
 	m_pCameraPositionVariable=m_pEffect->GetVariableByName("cameraPosition")->AsVector();

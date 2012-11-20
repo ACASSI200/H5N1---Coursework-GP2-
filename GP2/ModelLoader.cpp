@@ -67,7 +67,6 @@ CMeshComponent *CModelLoader::loadModelFromFile(ID3D10Device *pDevice,const stri
 	return pRenderable;
 }
 
-
 CMeshComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,const string& filename)
 {
 	CMeshComponent * pMeshComponent=new CMeshComponent();
@@ -75,6 +74,7 @@ CMeshComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,const 
 	int noIndices=0;
 	int *pIndices=NULL;
 	Vertex * pVerts=NULL;
+
 
 	FbxManager* lSdkManager = FbxManager::Create();
 	FbxIOSettings *ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
@@ -95,7 +95,6 @@ CMeshComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,const 
     //FbxAxisSystem::DirectX.ConvertScene( lScene );
 
 
-
     INT iUpAxisSign;
 	FbxAxisSystem::EUpVector UpVector = SceneAxisSystem.GetUpVector( iUpAxisSign );
 
@@ -106,10 +105,14 @@ CMeshComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,const 
     lImporter->Destroy();
 
 	FbxNode* lRootNode = lScene->GetRootNode();
+	FbxAMatrix parentTranform = lRootNode->EvaluateGlobalTransform();
+
+
 	FbxMesh * pMesh=NULL;
 	if(lRootNode) {
 		for (int i=0;i<lRootNode->GetChildCount();i++){
 			FbxNode * modelNode=lRootNode->GetChild(i);
+			FbxAMatrix childTranform = modelNode->EvaluateGlobalTransform();
 			for(int i=0;i<modelNode->GetNodeAttributeCount();i++)
 			{
 				FbxNodeAttribute *pAttributeNode=modelNode->GetNodeAttributeByIndex(i);
@@ -126,11 +129,15 @@ CMeshComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,const 
 
 						int noIndices=pMesh->GetPolygonVertexCount();
 						int *pIndices=pMesh->GetPolygonVertices();
-
+						FbxAMatrix Transform =parentTranform*childTranform;
 						Vertex * pVerts=new Vertex[noVerts];
 						for(int i=0;i<noVerts;i++)
 						{
-
+							//verts[i]*=Transform.GetS();
+							//verts[i]*=Transform.GetR();
+							//verts[i]+=Transform.GetT();
+							
+							
 								pVerts[i].Pos.x=verts[i][0];
 								pVerts[i].Pos.y=verts[i][1];
 								pVerts[i].Pos.z=verts[i][2];
@@ -161,15 +168,32 @@ CMeshComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,const 
 									}		
 									fbxUV = fbxLayerUV->GetDirectArray().GetAt(iUVIndex);	
 									pVerts[fbxCornerIndex].TexCoords.x=fbxUV[0];
-									pVerts[fbxCornerIndex].TexCoords.y= 1.0f-fbxUV[1];
+									pVerts[fbxCornerIndex].TexCoords.y= 1-fbxUV[1];
 								}
 							}
 						}
 
+						D3DXMATRIX finalTransform;
+						D3DXMATRIX translation;
+						D3DXMATRIX rotation;
+						D3DXMATRIX scaling;
+
+						D3DXMatrixScaling(&scaling,Transform.GetS()[0],Transform.GetS()[1],Transform.GetS()[2]);
+						D3DXMatrixRotationYawPitchRoll(&rotation,Transform.GetR()[1],Transform.GetR()[0],Transform.GetR()[2]);
+						D3DXMatrixTranslation(&translation,Transform.GetT()[0],Transform.GetT()[1],Transform.GetT()[2]);
+
+						D3DXMatrixMultiply(&finalTransform,&scaling,&rotation);
+						D3DXMatrixMultiply(&finalTransform,&finalTransform,&translation);
 						computeTangents(pVerts,noVerts);
 			
 						for (int i=0;i<noVerts;i++)
 						{
+							D3DXVECTOR4 position;
+							D3DXVECTOR3 originalPosition = pVerts[i].Pos;
+							D3DXVec3Transform(&position,&originalPosition,&finalTransform);
+							pVerts[i].Pos.x = position.x;
+							pVerts[i].Pos.y=position.y;
+							pVerts[i].Pos.z=position.z;
 							pGeom->addVertex(pVerts[i]);
 						}
 						for (int i=0;i<noIndices;i++)
@@ -197,7 +221,6 @@ CMeshComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,const 
 
 	return pMeshComponent;
 }
-
 
 void CModelLoader::computeTangents(Vertex *pVerts,int vertexCount)
 {
