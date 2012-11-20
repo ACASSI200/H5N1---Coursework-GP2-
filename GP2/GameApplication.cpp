@@ -2,22 +2,10 @@
 #include "GameObject.h"
 #include "Input.h"
 #include "Keyboard.h"
+#include <d3d10.h>
+#include <d3dx10.h>
 
-HRESULT D3DX10CreateFont
-	(
-		ID3D10Device* pDevice,	// Pointer to Direct3d device in use
-		INT Height,				// Height of font	
-		UINT Width,				// Width of font
-		UINT Weight,			// Thickness of font
-		UINT MipLevels,			// Number of levels the font has, the higher number the more readable the font is at a distance
-		BOOL Italic,			// Create Italic font
-		UINT CharSet,			// CharSet the font will use can be set to other languages liek Chinese
-		UINT OutputPrecision,	// Helps map font size to windows format 
-		UINT Quality,			// Helps map font size to windows format
-		UINT PitchAndFrame,		// Helps map font size to windows format
-		LPCSTR pFaceName,		// Sets up font to be used, can be Helvitca, Arial, etc
-		ID3DX10Font**ppFont		// Actual out variable, used as a pointer to the ID3DX10f
-	);
+
 
 CGameApplication::CGameApplication(void)
 {
@@ -230,41 +218,14 @@ void CGameApplication::run()
 		{
 			update();
 			render();
-			Frame();
+			
 		}
 	}
 }
 
-bool CGameApplication::Frame()
-{
-	bool result;
 
 
-	// Update the system stats.
-	m_FPSTimer->Frame();
-	m_Fps->Frame();
-	m_Cpu->Frame();	
 
-	return true;
-}
-
-//bool InitFont()
-//{
-//	HRESULT hr = D3DX10CreateFontW
-//		(
-//		35.
-//		0,
-//		FW_BOLD,
-//		1,
-//		FALSE,
-//		DEFAULT_CHARSET,
-//		OUT_DEFAULT_PRECIS,
-//		DEFAULT_QUALITY,
-//		DEFAULT_PITCH | FF_DONTCARE,
-//		L"HELVTICA",
-//		&pFont;
-//		)
-//}
 
 void CGameApplication::render()
 {
@@ -370,6 +331,7 @@ void CGameApplication::update()
 	
 	
 }
+
 
 bool CGameApplication::initInput()
 {

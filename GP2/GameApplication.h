@@ -18,9 +18,12 @@
 #include "Cpuclass.h"
 #include "Timerclass.h"
 
+
 #include <vector>
 
 using namespace std;
+
+
 
 class CGameApplication
 {
