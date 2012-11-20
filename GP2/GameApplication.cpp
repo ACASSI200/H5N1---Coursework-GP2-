@@ -20,7 +20,10 @@ CGameApplication::~CGameApplication(void)
 {
 	if (m_pD3D10Device)
 		m_pD3D10Device->ClearState();
-
+	if(audio){
+		delete audio;
+		audio = NULL;
+	}
 	if (m_pGameObjectManager)
 	{
 		delete m_pGameObjectManager;
@@ -129,7 +132,6 @@ bool CGameApplication::initGame()
 
 	//Create Mesh
 
-
 	CGameObject *pCameraGameObject=new CGameObject();
 	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-5.0f);
 	pCameraGameObject->setName("Camera");
@@ -162,6 +164,10 @@ bool CGameApplication::initGame()
 
 	//init, this must be called after we have created all game objects
 	m_pGameObjectManager->init();
+	audio = new Audio();
+	audio->initSound();
+	audio->loadSound();
+	audio->playSoundtrack();
 	
 	m_Timer.start();
 	return true;
@@ -253,6 +259,7 @@ void CGameApplication::render()
 void CGameApplication::update()
 {
 	m_Timer.update();
+	audio->updateSound();
 
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{

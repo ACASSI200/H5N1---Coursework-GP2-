@@ -11,6 +11,7 @@
 #include "CameraComponent.h"
 #include "DirectionLightComponent.h"
 #include "MeshComponent.h"
+#include "Audio.h"
 
 
 #include "ModelLoader.h"
@@ -46,6 +47,8 @@ private:
 	CWin32Window * m_pWindow;
 
 	CTimer m_Timer;
+
+	Audio *audio;
 	
 	//Get Game Object Manager
 	CGameObjectManager *m_pGameObjectManager;
