@@ -122,6 +122,20 @@ bool CGameApplication::init()
 bool CGameApplication::initGame()
 {
 
+	D3DX10_FONT_DESC fontDesc;
+	fontDesc.Height          = 24;
+    fontDesc.Width           = 0;
+    fontDesc.Weight          = 0;
+    fontDesc.MipLevels       = 1;
+    fontDesc.Italic          = false;
+    fontDesc.CharSet         = DEFAULT_CHARSET;
+    fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+    fontDesc.Quality         = DEFAULT_QUALITY;
+    fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+    wcscpy(fontDesc.FaceName, L"Times New Roman");
+
+	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
+
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	

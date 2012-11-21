@@ -33,7 +33,9 @@
     <None Include="Texture.fx">
       <Filter>Effects</Filter>
     </None>
-    <None Include="font.fx" />
+    <None Include="font.fx">
+      <Filter>Effects</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp">
