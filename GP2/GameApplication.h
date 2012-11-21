@@ -43,6 +43,7 @@ private:
 	ID3D10RenderTargetView * m_pRenderTargetView;
 	ID3D10DepthStencilView * m_pDepthStencelView;
 	ID3D10Texture2D *m_pDepthStencilTexture;
+	CCameraComponent *pCamera;
 
 	CWin32Window * m_pWindow;
 
