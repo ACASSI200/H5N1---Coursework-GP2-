@@ -33,6 +33,7 @@ public:
 	~CGameApplication(void);
 	bool init();
 	void run();
+	
 private:
 
 	void loadGame();
@@ -47,6 +48,7 @@ private:
 	bool initGame();
 	bool initGraphics();
 	bool initWindow();
+	bool loadMenuGraphics();
 
 	void render();
 	void update();
@@ -62,20 +64,6 @@ private:
 	CTimer m_Timer;
 	//Get Game Object Manager
 	CGameObjectManager *m_pGameObjectManager;
-
 	CModelLoader modelloader;
 	GameState m_GameState;
-
-	 INT Height;
-    UINT Width;
-    UINT Weight;
-    UINT MipLevels;
-    BOOL Italic;
-    UINT CharSet;
-    UINT OutputPrecision;
-    UINT Quality;
-    UINT PitchAndFamily;
-    LPCSTR pFaceName;
-    ID3DX10Font** ppFont;
-
 };

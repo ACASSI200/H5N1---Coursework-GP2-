@@ -225,7 +225,6 @@ void CGameApplication::loadGame()
 	Player->addComponent(pPlayerMaterial);
 	//Create Mesh
 	CMeshComponent *PlayerMesh=modelloader.createCube(m_pD3D10Device,2.0f,2.0f,2.0f);
-
 	PlayerMesh->SetRenderingDevice(m_pD3D10Device);
 	Player->addComponent(PlayerMesh);
 	//add the game object
@@ -234,7 +233,11 @@ void CGameApplication::loadGame()
 
 
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
+	float posX = Player->getTransform()->getPosition().x;
+	float posY = Player->getTransform()->getPosition().y;
+	float posZ = Player->getTransform()->getPosition().z;
+	//pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
+	pCameraGameObject->getTransform()->setPosition(posX,posY,posZ);
 	pCameraGameObject->setName("Camera");
 
 	D3D10_VIEWPORT vp;
@@ -298,22 +301,25 @@ void CGameApplication::updateGame()
 		//play sound
 		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
-		pTransform->translate(-0.5f,0.0f,0.f);
+		pTransform->translate(0.5f,0.0f,0.f);
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{
 		//play sound
 		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
-		pTransform->translate(0.5f,0.0f,0.f);
+		pTransform->translate(-0.5f,0.0f,0.f);
 	}
 }
 
+
 void CGameApplication::updateMenu()
 {
+	
 	if (CInput::getInstance().getKeyboard()->isKeyDown(VK_SPACE))
 	{
 		loadGame();
+		
 	}
 }
 
@@ -351,6 +357,7 @@ void CGameApplication::update()
 	m_pGameObjectManager->update(m_Timer.getElapsedTime());
 
 }
+
 
 bool CGameApplication::initInput()
 {
