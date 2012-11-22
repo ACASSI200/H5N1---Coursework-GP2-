@@ -185,9 +185,10 @@ void CGameApplication::render()
 
 void CGameApplication::loadGame()
 {
+
 	m_pGameObjectManager->clear();
-	CInput::getInstance();
 	//Create Game Object
+
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
 	pTestGameObject->setName("Test");
@@ -203,7 +204,7 @@ void CGameApplication::loadGame()
 	pTestGameObject->addComponent(pMaterial);
 
 	//Create Mesh
-	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"BoxTest.fbx");
+	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"newest.fbx");
 	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
 	pMesh->SetRenderingDevice(m_pD3D10Device);
 	pTestGameObject->addComponent(pMesh);
@@ -211,8 +212,30 @@ void CGameApplication::loadGame()
 	m_pGameObjectManager->addGameObject(pTestGameObject);
 
 
+
+	CGameObject *Player=new CGameObject();
+	//Set the name
+	Player->setName("Player");
+	//Position	
+	CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
+	pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
+	pPlayerMaterial->setEffectFilename("DirectionalLight.fx");
+	Player->getTransform()->setPosition(0.0f,0.0f,-0.5f);
+	//Player->getTransform()->setScale(0.5f,0.5f,0.5f);
+	Player->addComponent(pPlayerMaterial);
+	//Create Mesh
+	CMeshComponent *PlayerMesh=modelloader.createCube(m_pD3D10Device,2.0f,2.0f,2.0f);
+
+	pMesh->SetRenderingDevice(m_pD3D10Device);
+	Player->addComponent(PlayerMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(Player);
+
+
+
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,20.0f);
+//	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
+	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
 	pCameraGameObject->setName("Camera");
 
 	D3D10_VIEWPORT vp;
@@ -252,39 +275,38 @@ void CGameApplication::loadMainMenu()
 
 void CGameApplication::loadExitScreen()
 {
-	
-	if (CInput::getInstance().getKeyboard()->isKeyDown(VK_SPACE))
-	{
-	
-	}
-
 }
 
 void CGameApplication::updateGame()
 {
+	
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
 		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-		pTransform->rotate(m_Timer.getElapsedTime(),0.0f,0.0f);
+		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
+		//pTransform->rotate(m_Timer.getElapsedTime(),0.0f,0.0f);
+		pTransform->translate(0.0f,0.0f,-0.2f);
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
 	{
 		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-		pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
+		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
+		//pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
+		pTransform->translate(0.0f,0.0f,0.2f);
 	}
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
 	{
 		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-		pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
+		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
+		//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
+		pTransform->translate(-0.5f,0.0f,0.f);
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{
 		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-		pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
+		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+		pTransform->translate(0.5f,0.0f,0.f);
 	}
 }
 
@@ -306,6 +328,7 @@ void CGameApplication::updateExit()
 
 void CGameApplication::update()
 {
+	updateGame();
 	m_Timer.update();
 	switch(m_GameState)
 	{
@@ -316,7 +339,7 @@ void CGameApplication::update()
 		}
 	case GAME:
 		{
-			updateGame();
+			
 			break;
 		}
 	case EXIT:
