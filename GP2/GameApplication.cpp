@@ -226,7 +226,7 @@ void CGameApplication::loadGame()
 	//Create Mesh
 	CMeshComponent *PlayerMesh=modelloader.createCube(m_pD3D10Device,2.0f,2.0f,2.0f);
 
-	pMesh->SetRenderingDevice(m_pD3D10Device);
+	PlayerMesh->SetRenderingDevice(m_pD3D10Device);
 	Player->addComponent(PlayerMesh);
 	//add the game object
 	m_pGameObjectManager->addGameObject(Player);
@@ -235,8 +235,6 @@ void CGameApplication::loadGame()
 
 	CGameObject *pCameraGameObject=new CGameObject();
 	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
-//	pCameraGameObject->getTransform()->setPosition(Player->getTransform()->getPosition().x+2.0f,
-	//	Player->getTransform()->getPosition().y+2.0f,Player->getTransform()->getPosition().z+2.0f);
 	pCameraGameObject->setName("Camera");
 
 	D3D10_VIEWPORT vp;

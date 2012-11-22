@@ -79,7 +79,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="ambient.fx" />
+    <None Include="diffuse.fx" />
+    <None Include="DirectionalLight.fx" />
+    <None Include="Parallax.fx" />
     <None Include="ScreenSpace.fx" />
+    <None Include="Specular.fx" />
     <None Include="Texture.fx" />
     <None Include="Transform.fx" />
   </ItemGroup>

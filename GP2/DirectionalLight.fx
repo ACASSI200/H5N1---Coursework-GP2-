@@ -114,13 +114,13 @@ float4 PS(PS_INPUT input):SV_TARGET
 	
 	float3 halfVec=normalize(lightDir+input.cameraDirection);
 	float specular=pow(saturate(dot(normal,halfVec)),specularPower);
-	/*
+	
 	return ((ambientMaterialColour*ambientLightColour)+
 	(diffuseColour*diffuseLightColour*diffuse)+
 	(specularColour*specularLightColour*specular));
-	*/
+	
 
-	return diffuseMap.Sample(wrapSampler,input.texCoord);
+	//return diffuseMap.Sample(wrapSampler,input.texCoord);
 }
 
 RasterizerState DisableCulling

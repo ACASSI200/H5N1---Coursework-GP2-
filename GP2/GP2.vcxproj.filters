@@ -45,6 +45,21 @@
     <None Include="Texture.fx">
       <Filter>Effects</Filter>
     </None>
+    <None Include="DirectionalLight.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="ambient.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="diffuse.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="Parallax.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="Specular.fx">
+      <Filter>Effects</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
