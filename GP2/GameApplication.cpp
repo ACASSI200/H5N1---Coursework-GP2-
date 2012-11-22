@@ -1,9 +1,10 @@
 #include "GameApplication.h"
 #include "GameObject.h"
-
+#include <D3DX10core.h>
 
 #include "Input.h"
 #include "Keyboard.h"
+
 
 CGameApplication::CGameApplication(void)
 {
@@ -16,6 +17,7 @@ CGameApplication::CGameApplication(void)
 	m_pGameObjectManager=new CGameObjectManager();
 	m_GameState=MAINMENU;
 }
+
 
 CGameApplication::~CGameApplication(void)
 {
@@ -57,6 +59,12 @@ bool CGameApplication::init()
 		return false;
 	return true;
 }
+
+
+//bool CGameApplication::initText()
+//{
+//	m_font->DrawTextA(NULL,-1,
+//}
 
 bool CGameApplication::initGame()
 {
@@ -239,10 +247,18 @@ void CGameApplication::loadGame()
 
 void CGameApplication::loadMainMenu()
 {
+	
 }
 
 void CGameApplication::loadExitScreen()
 {
+	
+	if (CInput::getInstance().getKeyboard()->isKeyDown(VK_SPACE))
+	{
+		
+		
+	}
+
 }
 
 void CGameApplication::updateGame()
@@ -281,6 +297,14 @@ void CGameApplication::updateMenu()
 	}
 }
 
+void CGameApplication::updateExit()
+{
+	if(CInput::getInstance().getKeyboard()->isKeyDown(VK_BACK))
+	{
+		loadExitScreen();
+	}
+}
+
 void CGameApplication::update()
 {
 	m_Timer.update();
@@ -294,6 +318,12 @@ void CGameApplication::update()
 	case GAME:
 		{
 			updateGame();
+			initInput();
+			break;
+		}
+	case EXIT:
+		{
+			updateExit();
 			break;
 		}
 	}

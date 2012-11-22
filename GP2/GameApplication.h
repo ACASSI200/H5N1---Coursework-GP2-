@@ -3,8 +3,9 @@
 #include "Timer.h"
 #include <D3D10.h>
 #include <D3DX10.h>
-
+#include<D3DX10core.h>
 #include "GameObjectManager.h"
+
 
 #include "MaterialComponent.h"
 #include "TransformComponent.h"
@@ -40,14 +41,16 @@ private:
 
 	void updateGame();
 	void updateMenu();
+	void updateExit();
 
 	bool initInput();
 	bool initGame();
 	bool initGraphics();
-
 	bool initWindow();
+
 	void render();
 	void update();
+	
 private:
 	//Graphics
 	ID3D10Device * m_pD3D10Device;
@@ -55,14 +58,24 @@ private:
 	ID3D10RenderTargetView * m_pRenderTargetView;
 	ID3D10DepthStencilView * m_pDepthStencelView;
 	ID3D10Texture2D *m_pDepthStencilTexture;
-
 	CWin32Window * m_pWindow;
-
 	CTimer m_Timer;
-	
 	//Get Game Object Manager
 	CGameObjectManager *m_pGameObjectManager;
 
 	CModelLoader modelloader;
 	GameState m_GameState;
+
+	 INT Height;
+    UINT Width;
+    UINT Weight;
+    UINT MipLevels;
+    BOOL Italic;
+    UINT CharSet;
+    UINT OutputPrecision;
+    UINT Quality;
+    UINT PitchAndFamily;
+    LPCSTR pFaceName;
+    ID3DX10Font** ppFont;
+
 };
