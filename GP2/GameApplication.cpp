@@ -186,7 +186,7 @@ void CGameApplication::render()
 void CGameApplication::loadGame()
 {
 	m_pGameObjectManager->clear();
-
+	CInput::getInstance();
 	//Create Game Object
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
@@ -255,8 +255,7 @@ void CGameApplication::loadExitScreen()
 	
 	if (CInput::getInstance().getKeyboard()->isKeyDown(VK_SPACE))
 	{
-		
-		
+	
 	}
 
 }
@@ -318,7 +317,6 @@ void CGameApplication::update()
 	case GAME:
 		{
 			updateGame();
-			initInput();
 			break;
 		}
 	case EXIT:
