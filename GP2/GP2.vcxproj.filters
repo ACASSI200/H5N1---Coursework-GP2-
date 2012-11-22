@@ -22,6 +22,12 @@
     <Filter Include="Effects">
       <UniqueIdentifier>{e7e0afe1-4082-46ca-bf80-1af47b3ae17f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{ad92cee5-0a64-45dc-8e1f-ac8efeccafa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUIResources">
+      <UniqueIdentifier>{edfce98e-6d0b-46c7-9baa-4c3aac612688}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScreenSpace.fx">
@@ -35,6 +41,21 @@
     </None>
     <None Include="font.fx">
       <Filter>Effects</Filter>
+    </None>
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\window.rml">
+      <Filter>GUIResources</Filter>
+    </None>
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\cursor.rml">
+      <Filter>GUIResources</Filter>
+    </None>
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\demo.rml">
+      <Filter>GUIResources</Filter>
+    </None>
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\invader.rcss">
+      <Filter>GUIResources</Filter>
+    </None>
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\rkt.rcss">
+      <Filter>GUIResources</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +121,15 @@
     </ClCompile>
     <ClCompile Include="Timerclass.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIManager.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUISystemInterface.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderInterfaceDirectx10.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +207,18 @@
     </ClInclude>
     <ClInclude Include="Timerclass.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3D10Effect.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIManager.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUISystemInterface.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderInterfaceDirectx10.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

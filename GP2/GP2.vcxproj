@@ -39,8 +39,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\libRocket\Include\Rocket\Core\Python;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\libRocket\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -52,13 +52,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\bhanna200\Desktop\hk2011_3_1_r1\Source;C:\hk2011_3_1_r1\Source;$(DXSDK_DIR)\include;$(FBXSDK_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libRocket\Include;C:\Users\bhanna200\Desktop\hk2011_3_1_r1\Source;C:\hk2011_3_1_r1\Source;$(DXSDK_DIR)\include;$(FBXSDK_DIR)\include;C:\libRocket\Include\Rocket;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\bhanna200\Desktop\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;$(FBXSDK_DIR)\lib\vs2010\x86;$(DXSDK_Dir)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d10.lib;d3dx10.lib;fbxsdk-2013.1d.lib;xinput.lib;hkBase.lib;hkGeometryUtilities.lib;hkSceneData.lib;hkVisualize.lib;hkpCollide.lib;hkpInternal.lib;hkpVehicle.lib;hkcdInternal.lib;hkCompat.lib;hkInternal.lib;hkSerialize.lib;hkpConstraintSolver.lib;hkpDynamics.lib;hkpUtilities.lib;hkcdCollide.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ROCKETSDK_DIR)\Lib;C:\libRocket\Include;C:\Users\bhanna200\Desktop\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;$(FBXSDK_DIR)\lib\vs2010\x86;$(DXSDK_Dir)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d10.lib;d3dx10.lib;fbxsdk-2013.1d.lib;xinput.lib;hkBase.lib;hkGeometryUtilities.lib;hkSceneData.lib;hkVisualize.lib;hkpCollide.lib;hkpInternal.lib;hkpVehicle.lib;hkcdInternal.lib;hkCompat.lib;hkInternal.lib;hkSerialize.lib;hkpConstraintSolver.lib;hkpDynamics.lib;hkpUtilities.lib;hkcdCollide.lib;RocketCore_d.lib;RocketDebugger_d.lib;RocketControls_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,6 +79,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\cursor.rml" />
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\demo.rml" />
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\invader.rcss" />
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\rkt.rcss" />
+    <None Include="..\..\..\Documents\GitHub\gp2\GP2\window.rml" />
     <None Include="font.fx" />
     <None Include="ScreenSpace.fx" />
     <None Include="Texture.fx" />
@@ -94,6 +99,8 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="GeometryComponent.cpp" />
+    <ClCompile Include="GUIManager.cpp" />
+    <ClCompile Include="GUISystemInterface.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Joypad.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -103,6 +110,7 @@
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="RenderInterfaceDirectx10.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Timerclass.cpp" />
     <ClCompile Include="Win32Window.cpp" />
@@ -110,6 +118,7 @@
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Cpuclass.h" />
+    <ClInclude Include="D3D10Effect.h" />
     <ClInclude Include="DefaultEffect.h" />
     <ClInclude Include="DirectionLightComponent.h" />
     <ClInclude Include="fbxsdk.h" />
@@ -119,6 +128,8 @@
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GeometryComponent.h" />
+    <ClInclude Include="GUIManager.h" />
+    <ClInclude Include="GUISystemInterface.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Joypad.h" />
@@ -128,6 +139,7 @@
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="RenderInterfaceDirectx10.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Timerclass.h" />
     <ClInclude Include="TransformComponent.h" />
