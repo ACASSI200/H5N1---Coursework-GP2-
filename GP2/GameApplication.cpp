@@ -77,7 +77,7 @@ bool CGameApplication::initGame()
 	pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Environment.fx");
-	pMaterial->loadEnvironmentTexture("Mars.dds");
+	pMaterial->loadEnvironmentTexture("DDS/test.dds");
 	pTestGameObject->addComponent(pMaterial);
 	pTestGameObject->addComponent(pMesh);
 	//add the game object
@@ -268,9 +268,9 @@ void CGameApplication::update()
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
 		//play sound
-		zPos = zPos + (m_Timer.getElapsedTime()*5);
-		CTransformComponent * pTransform= m_pGameObjectManager->findGameObject("Camera")->getTransform();
-		pTransform->setPosition(xPos, yPos, zPos);
+		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
+		pCamera->movePosition(10.0f*m_Timer.getElapsedTime());
+
 		//OutputDebugStringW(L"Working");
 
 		//CTransformComponent * pTransform2=m_pGameObjectManager->findGameObject("Test")->getTransform();
@@ -279,9 +279,8 @@ void CGameApplication::update()
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
 	{
 		//play sound
-		zPos = zPos - (m_Timer.getElapsedTime()*5);
-		CTransformComponent * pTransform= m_pGameObjectManager->findGameObject("Camera")->getTransform();
-		pTransform->setPosition(xPos, yPos, zPos);
+		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
+		pCamera->movePosition(-10.0f*m_Timer.getElapsedTime());
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
@@ -289,9 +288,8 @@ void CGameApplication::update()
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
 	{
 		//play sound
-		xPos = xPos + (m_Timer.getElapsedTime()*5);
-		CTransformComponent * pTransform= m_pGameObjectManager->findGameObject("Camera")->getTransform();
-		pTransform->setPosition(xPos, yPos, zPos);
+		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
+		pCamera->moveDirection(1.0f*m_Timer.getElapsedTime());
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
@@ -299,9 +297,6 @@ void CGameApplication::update()
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{
 		//play sound
-		xPos = xPos - (m_Timer.getElapsedTime()*5);
-		CTransformComponent * pTransform= m_pGameObjectManager->findGameObject("Camera")->getTransform();
-		pTransform->setPosition(xPos, yPos, zPos);
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);

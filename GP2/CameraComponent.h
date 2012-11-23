@@ -10,6 +10,8 @@ public:
 	CCameraComponent();
 	~CCameraComponent();
 
+	void movePosition(float speed);
+	void moveDirection(float speed);
 	void update(float elapsedTime);
 
 	D3DXMATRIX& getView()
