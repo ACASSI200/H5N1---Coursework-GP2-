@@ -269,7 +269,7 @@ void CGameApplication::update()
 	{
 		//play sound
 		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
-		pCamera->movePosition(10.0f*m_Timer.getElapsedTime());
+		pCamera->movePosition(500.0f*m_Timer.getElapsedTime());
 
 		//OutputDebugStringW(L"Working");
 
@@ -280,7 +280,7 @@ void CGameApplication::update()
 	{
 		//play sound
 		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
-		pCamera->movePosition(-10.0f*m_Timer.getElapsedTime());
+		pCamera->movePosition(-500.0f*m_Timer.getElapsedTime());
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
@@ -289,7 +289,7 @@ void CGameApplication::update()
 	{
 		//play sound
 		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
-		pCamera->moveDirection(1.0f*m_Timer.getElapsedTime());
+		pCamera->moveDirection(0.45f*m_Timer.getElapsedTime(), this->m_Timer);
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
@@ -297,6 +297,8 @@ void CGameApplication::update()
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{
 		//play sound
+		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
+		pCamera->moveDirection(-0.45f*m_Timer.getElapsedTime(), this->m_Timer);
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);

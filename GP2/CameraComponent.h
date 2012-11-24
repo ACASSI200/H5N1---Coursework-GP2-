@@ -3,6 +3,9 @@
 #include "IComponent.h"
 #include <D3D10.h>
 #include <D3DX10.h>
+#include "Timer.h"
+
+
 
 class CCameraComponent:public CBaseComponent
 {
@@ -11,8 +14,9 @@ public:
 	~CCameraComponent();
 
 	void movePosition(float speed);
-	void moveDirection(float speed);
+	void moveDirection(float speed, CTimer m_Timer);
 	void update(float elapsedTime);
+	void MyOutputFunction(const char *str, ...);
 
 	D3DXMATRIX& getView()
 	{
