@@ -26,6 +26,7 @@ class CGameApplication
 public:
 	CGameApplication(void);
 	~CGameApplication(void);
+	bool initAudio();
 	bool init();
 	void run();
 private:

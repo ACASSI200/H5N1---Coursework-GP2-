@@ -30,37 +30,6 @@ void CCameraComponent::movePosition(float speed){
 	//this->getParent()->getTransform()->translate(direction.x, 0.0f, direction.z);
 }
 
-void CCameraComponent::moveDirection(float speed, CTimer m_Timer){
-	D3DXVECTOR3 direction;
-	D3DXVECTOR3 newDirection;
-	direction = m_vecLookAt-this->getParent()->getTransform()->getPosition();
-	D3DXVec3Normalize(&direction, &direction);
-	float PI = 3.14159265;
-
-	/*right = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	lookat = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
-
-	D3DXVec3Normalize(&direction,&(lookat - right));
-	D3DXMatrixRotationAxis(&m_pitch, &right, 45.0f);
-	D3DXMatrixRotationAxis(&m_pitch, &lookat, 10.0f);
-	D3DXVec3TransformCoord(&m_vecLookAt,&m_vecLookAt,&m_pitch);
-	D3DXVec3Normalize(&lookat, &lookat);
-	D3DXVec3Normalize(&right, &right);
-	*/
-
-
-	//direction.x =  speed * cos(m_Timer.getElapsedTime());
-	//direction.z = speed * sin(m_Timer.getElapsedTime());
-	//m_vecLookAt.z = direction.z;
-	direction.x *= sin(90*180/PI);
-	direction.z *= cos(90*180/PI);
-	m_vecLookAt.x += direction.x;
-	m_vecLookAt.z += direction.z;
-	MyOutputFunction("xPos - %d",direction.x);
-	MyOutputFunction(", zPos - %d \n",direction.z);
-	this->getParent()->getTransform()->translate(direction.x, 0.0f, direction.z);
-}
-
 CCameraComponent::CCameraComponent()
 {
 	m_vecLookAt=D3DXVECTOR3(0.0f,0.0f,0.0f);
@@ -75,6 +44,8 @@ CCameraComponent::CCameraComponent()
 	m_fFarClip=1000.0f;
 
 	m_strName="CameraComponent";
+	m_fPitch=0.0f;
+	m_fYaw=0.0f;
 }
 
 CCameraComponent::~CCameraComponent()
@@ -83,7 +54,30 @@ CCameraComponent::~CCameraComponent()
 
 void CCameraComponent::update(float elapsedTime)
 {
+	
 	CTransformComponent *pTransform=m_pParent->getTransform();
+
+	float limit = D3DX_PI / 2.0f - 0.01f;
+    m_fPitch = __max(-limit, m_fPitch);
+    m_fPitch = __min(+limit, m_fPitch);
+
+
+	// Keep longitude in same range by wrapping.
+    if (m_fYaw >  D3DX_PI)
+    {
+        m_fYaw -= D3DX_PI * 2.0f;
+    }
+    else if (m_fYaw < -D3DX_PI)
+    {
+        m_fYaw += D3DX_PI * 2.0f;
+    }
+	
+	float r=cosf(m_fPitch);
+	m_vecLookAt.y=sinf(m_fPitch);
+	m_vecLookAt.z = r * cosf(m_fYaw);   
+    m_vecLookAt.x = r * sinf(m_fYaw); 
+	
+	m_vecLookAt+=m_vecLookAt+pTransform->getPosition();
 
 	D3DXMatrixLookAtLH(&m_matView,&pTransform->getPosition(),&m_vecLookAt,&m_vecUp);
 	D3DXMatrixPerspectiveFovLH(&m_matProjection,m_fAspectRatio,m_fFOV,m_fNearClip,m_fFarClip);

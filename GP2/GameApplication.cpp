@@ -4,6 +4,7 @@
 
 #include "Input.h"
 #include "Keyboard.h"
+#include "Mouse.h"
 
 CGameApplication::CGameApplication(void)
 {
@@ -256,21 +257,19 @@ void CGameApplication::render()
     m_pSwapChain->Present( 0, 0 );
 }
 
-float zPos = -5.0f;
-float xPos = 0.0f;
-float yPos = 0.0f;
-
 void CGameApplication::update()
 {
 	m_Timer.update();
 	//audio->updateSound();
 
+	CCameraComponent *pCamera=m_pGameObjectManager->getMainCamera();
+	pCamera->update(m_Timer.getElapsedTime());
+
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
 		//play sound
-		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
-		pCamera->movePosition(500.0f*m_Timer.getElapsedTime());
-
+		
+		pCamera->pitch(1.0f*m_Timer.getElapsedTime());
 		//OutputDebugStringW(L"Working");
 
 		//CTransformComponent * pTransform2=m_pGameObjectManager->findGameObject("Test")->getTransform();
@@ -279,26 +278,38 @@ void CGameApplication::update()
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
 	{
 		//play sound
-		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
-		pCamera->movePosition(-500.0f*m_Timer.getElapsedTime());
-
+		pCamera->pitch(-1.0f*m_Timer.getElapsedTime());
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
 	}
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
 	{
 		//play sound
-		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
-		pCamera->moveDirection(0.45f*m_Timer.getElapsedTime(), this->m_Timer);
-
+		pCamera->yaw(-1.0f*m_Timer.getElapsedTime());
+		
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{
 		//play sound
-		CCameraComponent * pCamera = (CCameraComponent*)m_pGameObjectManager->findGameObject("Camera")->getComponent("CameraComponent");
-		pCamera->moveDirection(-0.45f*m_Timer.getElapsedTime(), this->m_Timer);
+		pCamera->yaw(1.0f*m_Timer.getElapsedTime());
+
+		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+	}
+	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'Q'))
+	{
+		//play sound
+		pCamera->movePosition(5.0f*m_Timer.getElapsedTime());
+
+		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+	}
+	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'E'))
+	{
+		//play sound
+		pCamera->movePosition(-5.0f*m_Timer.getElapsedTime());
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
@@ -314,6 +325,7 @@ bool CGameApplication::initInput()
 	CInput::getInstance().init();
 	return true;
 }
+
 
 
 //initGraphics - initialise the graphics subsystem - BMD
