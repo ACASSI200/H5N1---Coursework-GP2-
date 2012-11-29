@@ -1,7 +1,7 @@
-﻿Build started 29/11/2012 23:13:48.
+﻿Build started 29/11/2012 23:46:35.
      1>Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\GP2.unsuccessfulbuild".
+         Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\libRocket\Include /IC:\Users\bhanna200\Desktop\hk2011_3_1_r1\Source /IC:\hk2011_3_1_r1\Source /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /IC:\libRocket\Include\Rocket /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt CameraComponent.cpp Cpuclass.cpp DirectionalLightComponent.cpp Fpsclass.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp GUIManager.cpp GUISystemInterface.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp RenderInterfaceDirectx10.cpp Timer.cpp Timerclass.cpp Win32Window.cpp
          Win32Window.cpp
@@ -51,7 +51,7 @@
          GameApplication.cpp
      1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(135): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(283) : see declaration of 'wcscpy'
-     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(201): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(203): warning C4305: 'argument' : truncation from 'double' to 'float'
          Generating Code...
          Compiling...
          Fpsclass.cpp
@@ -125,4 +125,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:17.21
+Time Elapsed 00:00:17.48

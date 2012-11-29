@@ -121,7 +121,7 @@ bool CGameApplication::init()
 
 bool CGameApplication::initGame()
 {
-
+//==========================================================================================================================
 	D3DX10_FONT_DESC fontDesc;
 	fontDesc.Height          = 24;
     fontDesc.Width           = 0;
@@ -136,10 +136,12 @@ bool CGameApplication::initGame()
 
 	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
 
+//===========================================================================================================================
+
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
-//===========================================================================================================================
+
 	//Create Game Object
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
@@ -243,6 +245,16 @@ void CGameApplication::run()
 
 void CGameApplication::render()
 {
+	//======================================BH===================================================================================================
+	m_pD3D10Device->OMSetDepthStencilState(0, 0);
+	float blendFactor[] = {0.0f, 0.0f, 0.0f, 0.0f};
+	m_pD3D10Device->OMSetBlendState(0, blendFactor, 0xffffffff);
+    //m_pD3D10Device->IASetInputLayout(mVertexLayout);
+    m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//===========================================================================================================================================
+
+
     // Just clear the backbuffer, colours start at 0.0 to 1.0
 	// Red, Green , Blue, Alpha - BMD
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
@@ -307,6 +319,12 @@ void CGameApplication::render()
 		}
 
 	}
+
+	//=============================================================BH=====================================================================
+	RECT R = {5, 5, 0, 0};
+	mFont->DrawText(0, L"FPS", -1, &R, DT_NOCLIP, BLACK);
+	//====================================================================================================================================
+
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
     m_pSwapChain->Present( 0, 0 );
