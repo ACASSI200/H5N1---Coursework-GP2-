@@ -61,7 +61,6 @@ void CCameraComponent::update(float elapsedTime)
     m_fPitch = __max(-limit, m_fPitch);
     m_fPitch = __min(+limit, m_fPitch);
 
-
 	// Keep longitude in same range by wrapping.
     if (m_fYaw >  D3DX_PI)
     {
@@ -81,6 +80,4 @@ void CCameraComponent::update(float elapsedTime)
 
 	D3DXMatrixLookAtLH(&m_matView,&pTransform->getPosition(),&m_vecLookAt,&m_vecUp);
 	D3DXMatrixPerspectiveFovLH(&m_matProjection,m_fAspectRatio,m_fFOV,m_fNearClip,m_fFarClip);
-
-
 }

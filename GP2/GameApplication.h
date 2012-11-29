@@ -18,8 +18,13 @@
 
 #include <vector>
 #include <Common\Base\hkBase.h>
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <sstream> 
 
 using namespace std;
+const D3DXCOLOR COLOR(0.0f, 0.5f, 0.0f, 1.0f);
 
 class CGameApplication
 {
@@ -29,6 +34,18 @@ public:
 	bool initAudio();
 	bool init();
 	void run();
+
+	LPCSTR convertInt(int number){
+		string Result; 
+		ostringstream convert;   // stream used for the conversion
+
+		convert << number;      // insert the textual representation of 'Number' in the characters in the stream
+
+		Result = convert.str();
+		return Result.c_str();//return a string with the contents of the stream
+	}
+
+
 private:
 	bool initInput();
 	bool initGame();
@@ -37,6 +54,7 @@ private:
 	bool initWindow();
 	void render();
 	void update();
+
 private:
 	//Graphics
 	ID3D10Device * m_pD3D10Device;
@@ -45,6 +63,8 @@ private:
 	ID3D10DepthStencilView * m_pDepthStencelView;
 	ID3D10Texture2D *m_pDepthStencilTexture;
 	CCameraComponent *pCamera;
+	ID3DX10Font* mFont;
+	ID3D10InputLayout* mVertexLayout;
 
 	CWin32Window * m_pWindow;
 

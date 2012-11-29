@@ -63,6 +63,24 @@ bool CGameApplication::init()
 
 bool CGameApplication::initGame()
 {
+
+	//================================================================================================
+	D3DX10_FONT_DESC fontDesc;
+	fontDesc.Height          = 24;
+    fontDesc.Width           = 0;
+    fontDesc.Weight          = 0;
+    fontDesc.MipLevels       = 1;
+    fontDesc.Italic          = false;
+    fontDesc.CharSet         = DEFAULT_CHARSET;
+    fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+    fontDesc.Quality         = DEFAULT_QUALITY;
+    fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+    wcscpy(fontDesc.FaceName, L"Times New Roman");
+
+	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
+
+	//================================================================================================
+
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
@@ -156,7 +174,7 @@ bool CGameApplication::initGame()
 	pLightGameObject->setName("DirectionalLight");
 
 	CDirectionalLightComponent *pLightComponent=new CDirectionalLightComponent();
-	pLightComponent->setDirection(D3DXVECTOR3(0.0f,0.0f,-1.0f));
+	pLightComponent->setDirection(D3DXVECTOR3(0.0f,-5.0f,-1.0f));
 	pLightGameObject->addComponent(pLightComponent);
 
 	m_pGameObjectManager->addGameObject(pLightGameObject);
@@ -170,6 +188,7 @@ bool CGameApplication::initGame()
 	audio->loadSound();
 	//audio->playSoundtrack();
 	
+
 	m_Timer.start();
 	return true;
 }
@@ -188,6 +207,16 @@ void CGameApplication::run()
 
 void CGameApplication::render()
 {
+
+	//======================================BH===================================================================================================
+	m_pD3D10Device->OMSetDepthStencilState(0, 0);
+	float blendFactor[] = {0.0f, 0.0f, 0.0f, 0.0f};
+	m_pD3D10Device->OMSetBlendState(0, blendFactor, 0xffffffff);
+    //m_pD3D10Device->IASetInputLayout(mVertexLayout);
+    m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//===========================================================================================================================================
+
     // Just clear the backbuffer, colours start at 0.0 to 1.0
 	// Red, Green , Blue, Alpha - BMD
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
@@ -250,8 +279,13 @@ void CGameApplication::render()
 				}
 			}
 		}
-
 	}
+
+	//=============================================================BH=====================================================================
+	RECT R = {5, 5, 0, 0};
+	mFont->DrawTextA(NULL,convertInt(305), -1, &R, DT_NOCLIP, COLOR);
+	//====================================================================================================================================
+
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
     m_pSwapChain->Present( 0, 0 );
@@ -263,6 +297,7 @@ void CGameApplication::update()
 	//audio->updateSound();
 
 	CCameraComponent *pCamera=m_pGameObjectManager->getMainCamera();
+
 	pCamera->update(m_Timer.getElapsedTime());
 
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
@@ -314,10 +349,8 @@ void CGameApplication::update()
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
 	}
-	m_pGameObjectManager->update(m_Timer.getElapsedTime());
 
-	
-	
+	m_pGameObjectManager->update(m_Timer.getElapsedTime());
 }
 
 bool CGameApplication::initInput()
