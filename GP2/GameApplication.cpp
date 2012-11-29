@@ -131,7 +131,7 @@ void CGameApplication::render()
 		//and the material
 		CMaterialComponent *pMaterial=static_cast<CMaterialComponent*>((*iter)->getComponent("MaterialComponent"));
 
-		//do we have a matrial
+		//do we have a matrial?
 		if (pMaterial)
 		{
 			CCameraComponent *camera=m_pGameObjectManager->getMainCamera();
