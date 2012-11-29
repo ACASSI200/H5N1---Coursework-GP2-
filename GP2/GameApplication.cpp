@@ -237,7 +237,7 @@ void CGameApplication::loadGame()
 	float posY = Player->getTransform()->getPosition().y;
 	float posZ = Player->getTransform()->getPosition().z;
 	//pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
-	pCameraGameObject->getTransform()->setPosition(posX,posY,posZ);
+	pCameraGameObject->getTransform()->setPosition(posX,posY+0.05,posZ);
 	pCameraGameObject->setName("Camera");
 
 	D3D10_VIEWPORT vp;
