@@ -49,6 +49,7 @@ public:
 class CBaseComponent:public IComponent
 {
 public:
+
 	//Constructor
 	CBaseComponent()
 	{

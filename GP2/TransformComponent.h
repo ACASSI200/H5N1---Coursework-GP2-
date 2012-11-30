@@ -5,6 +5,9 @@
 #include <D3D10.h>
 #include <D3DX10.h>
 #include "BodyComponent.h"
+#include "GameObject.h"
+
+
 
 //Transform component, this represents a transformation
 //Scale, Rotation, Rotation combine to World Matrix
@@ -16,6 +19,7 @@ public:
 	{
 		//Set to default values
 		m_vecPosition=D3DXVECTOR3(0.0f,0.0f,0.0f);
+		
 		m_vecRotation=D3DXVECTOR3(0.0f,0.0f,0.0f);
 		m_vecScale=D3DXVECTOR3(1.0f,1.0f,1.0f);
 		D3DXMatrixIdentity(&m_matTranslate);
@@ -48,11 +52,20 @@ public:
 	void setPosition(float x,float y,float z)
 	{
 		m_vecPosition=D3DXVECTOR3(x,y,z);
+		CBodyComponent *pBody = (CBodyComponent*)getParent()->getComponent("BodyComponent");
+		if (pBody){
+			pBody->getRigidBody()->setPosition(hkVector4(m_vecPosition.x,m_vecPosition.y,m_vecPosition.z));
+		}
 	};
 
 	//set rotation
 	void setRotation(float x,float y,float z)
 	{
+		
+		 CBodyComponent *pBody  = (CBodyComponent*)getParent()->getComponent("BodyComponent");
+		if (pBody){
+			pBody->getRigidBody()->setRotation(hkQuaternion());
+		}
 		m_vecRotation=D3DXVECTOR3(x,y,z);
 		//We are using Quaternion for rotation, no gimble lock
 		D3DXQuaternionRotationYawPitchRoll(&m_quatRotation,m_vecRotation.y,m_vecRotation.x,m_vecRotation.z);
@@ -61,8 +74,14 @@ public:
 
 	void setRotation(float x,float y,float z,float w)
 	{
+		
+		CBodyComponent *pBody = (CBodyComponent*)getParent()->getComponent("BodyComponent");
+		
+		if (pBody){
+			pBody->getRigidBody()->setRotation(hkQuaternion(x,y,z,w));
+		}
 		m_quatRotation=D3DXQUATERNION(x,y,z,w);
-		//D3DXQuaternionRotationYawPitchRoll(&m_quatRotation,x,y,z);
+		D3DXQuaternionRotationYawPitchRoll(&m_quatRotation,x,y,z);
 		//get euler rotation
 	};
 
@@ -124,6 +143,7 @@ private:
 
 	//quaternion
 	D3DXQUATERNION m_quatRotation;
+
 
 	D3DXMATRIX m_matWorld;
 };

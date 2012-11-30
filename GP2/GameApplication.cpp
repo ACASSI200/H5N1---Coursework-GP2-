@@ -319,10 +319,11 @@ void CGameApplication::updateGame()
 	
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
-		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
+		//play 
+		CTransformComponent *pPlayerTransform = m_pGameObjectManager->findGameObject("Player")->getTransform();
+		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
 		//pTransform->rotate(m_Timer.getElapsedTime(),0.0f,0.0f);
-		pTransform->translate(0.0f,0.0f,-0.2f);
+		pPlayerTransform->translate(0.0f,0.0f,-0.2f);
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
 	{
