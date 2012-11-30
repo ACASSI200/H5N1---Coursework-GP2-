@@ -30,7 +30,7 @@ enum GameState
 	EXIT,
 };
 
-class CGameApplication
+class CGameApplication: public hkpContactListener 
 {
 public:
 	CGameApplication(void);

@@ -299,7 +299,7 @@ void CGameApplication::loadGame()
 
 	m_pGameObjectManager->addGameObject(pLightGameObject);
 
-	m_pGameObjectManager->setMainLight(pLightComponent);
+	//m_pGameObjectManager->setMainLight(pLightComponent);
 
 	//init, this must be called after we have created all game objects
 	m_pGameObjectManager->init();
@@ -401,6 +401,7 @@ bool CGameApplication::initPhysics()
 {
 	CPhysics::getInstance().init();
 	//Add the Game Application
+	
 	CPhysics::getInstance().getPhysicsWorld()->addContactListener(this);
 	return true;
 }

@@ -4,6 +4,7 @@
 
 #include <D3D10.h>
 #include <D3DX10.h>
+#include "BodyComponent.h"
 
 //Transform component, this represents a transformation
 //Scale, Rotation, Rotation combine to World Matrix
