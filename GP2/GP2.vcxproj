@@ -93,7 +93,6 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Cpuclass.cpp" />
     <ClCompile Include="DirectionalLightComponent.cpp" />
-    <ClCompile Include="Fpsclass.cpp" />
     <ClCompile Include="GameApplication.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
@@ -123,7 +122,6 @@
     <ClInclude Include="DefaultEffect.h" />
     <ClInclude Include="DirectionLightComponent.h" />
     <ClInclude Include="fbxsdk.h" />
-    <ClInclude Include="FpsClass.h" />
     <ClInclude Include="GameApplication.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />

@@ -1,7 +1,3 @@
-//=======================================================================================
-// GameTimer.cpp by Frank Luna (C) 2008 All Rights Reserved.
-//=======================================================================================
-
 #include "GameTimer.h"
 #include <windows.h>
 
@@ -18,11 +14,6 @@ GameTimer::GameTimer()
 // time when the clock is stopped.
 float GameTimer::getGameTime()const
 {
-	// If we are stopped, do not count the time that has passed since we stopped.
-	//
-	// ----*---------------*------------------------------*------> time
-	//  mBaseTime       mStopTime                      mCurrTime
-
 	if( mStopped )
 	{
 		return (float)((mStopTime - mBaseTime)*mSecondsPerCount);
@@ -30,14 +21,7 @@ float GameTimer::getGameTime()const
 
 	// The distance mCurrTime - mBaseTime includes paused time,
 	// which we do not want to count.  To correct this, we can subtract 
-	// the paused time from mCurrTime:  
-	//
-	//  (mCurrTime - mPausedTime) - mBaseTime 
-	//
-	//                     |<-------d------->|
-	// ----*---------------*-----------------*------------*------> time
-	//  mBaseTime       mStopTime        startTime     mCurrTime
-	
+	// the paused time from mCurrTime:  	
 	else
 	{
 		return (float)(((mCurrTime-mPausedTime)-mBaseTime)*mSecondsPerCount);
@@ -66,11 +50,8 @@ void GameTimer::start()
 	QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
 
 
-	// Accumulate the time elapsed between stop and start pairs.
-	//
-	//                     |<-------d------->|
-	// ----*---------------*-----------------*------------> time
-	//  mBaseTime       mStopTime        startTime     
+	// Accumulate the time elapsed between stop and start.
+	
 
 	if( mStopped )
 	{
@@ -111,10 +92,7 @@ void GameTimer::tick()
 
 	// Prepare for next frame.
 	mPrevTime = mCurrTime;
-
-	// Force nonnegative.  The DXSDK's CDXUTTimer mentions that if the 
-	// processor goes into a power save mode or we get shuffled to another
-	// processor, then mDeltaTime can be negative.
+		
 	if(mDeltaTime < 0.0)
 	{
 		mDeltaTime = 0.0;

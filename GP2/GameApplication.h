@@ -14,7 +14,7 @@
 
 #include "ModelLoader.h"
 
-#include "Fpsclass.h"
+
 #include "Cpuclass.h"
 #include "Timerclass.h"
 #include "GameTimer.h"
@@ -25,6 +25,7 @@
 
 using namespace std;
 const D3DXCOLOR BLACK(0.0f, 0.0f, 0.0f, 1.0f);
+const D3DXCOLOR GREEN(0.0f, 1.0f, 0.0f, 1.0f);
 
 const float INFINITY = FLT_MAX;
 const float PI       = 3.14159265358979323f;
@@ -40,7 +41,11 @@ public:
 	void Shutdown();
 	void run();
 	ID3D10Device* GetDevice();
-	virtual void drawScene(); 
+	virtual void drawScene();
+
+	GameTimer mTimer;
+	std::wstring mFrameStats;
+	std::wstring mMainWndCaption;
 private:
 	bool initInput();
 	bool initGame();
@@ -48,10 +53,7 @@ private:
 	bool initWindow();
 	bool Frame();
 	void render();
-	void update();
-
-
-	
+	void update();	
 
 private:
 	//Graphics
@@ -65,14 +67,9 @@ private:
 
 	CWin32Window * m_pWindow;
 
-	CTimer m_Timer;
-	FpsClass* m_Fps;
+	CTimer m_Timer;	
 	CpuClass* m_Cpu;
-	TimerClass* m_FPSTimer;
 	
-	
-	GameTimer mTimer;
-	std::wstring mFrameStats;
 	
 	
 	//Get Game Object Manager

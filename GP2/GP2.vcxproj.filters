@@ -116,9 +116,6 @@
     <ClCompile Include="MeshComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fpsclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Cpuclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -203,9 +200,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameApplication.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FpsClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Cpuclass.h">

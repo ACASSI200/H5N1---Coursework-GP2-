@@ -15,12 +15,10 @@ CGameApplication::CGameApplication(void)
 	m_pSwapChain=NULL;
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
-	m_pGameObjectManager=new CGameObjectManager();
-	m_Fps = 0;
-	m_Cpu = 0;
-	m_FPSTimer = 0;
-	mFrameStats = L"";
-	
+	m_pGameObjectManager=new CGameObjectManager();	
+	m_Cpu = 0;	
+	mFrameStats = L" ";
+	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
 
 }
 
@@ -52,12 +50,7 @@ CGameApplication::~CGameApplication(void)
 		m_pWindow=NULL;
 	}
 
-	// Release the timer object.
-	if(m_FPSTimer)
-	{
-		delete m_FPSTimer;
-		m_FPSTimer = 0;
-	}
+	
 
 	// Release the cpu object.
 	if(m_Cpu)
@@ -67,12 +60,8 @@ CGameApplication::~CGameApplication(void)
 		m_Cpu = 0;
 	}
 
-	// Release the fps object.
-	if(m_Fps)
-	{
-		delete m_Fps;
-		m_Fps = 0;
-	}
+	
+
 }
 
 bool CGameApplication::init()
@@ -88,14 +77,9 @@ bool CGameApplication::init()
 	if (!initGame())
 		return false;
 	// Create the fps object.
-	m_Fps = new FpsClass;
-	if(!m_Fps)
-	{
-		return false;
-	}
+	
 
-	// Initialize the fps object.
-	m_Fps->Initialize();
+	
 
 	// Create the cpu object.
 	m_Cpu = new CpuClass;
@@ -107,24 +91,13 @@ bool CGameApplication::init()
 	// Initialize the cpu object.
 	m_Cpu->Initialize();
 
-	// Create the timer object.
-	m_FPSTimer = new TimerClass;
-	if(!m_FPSTimer)
-	{
-		return false;
-	}
-
-	// Initialize the timer object.
-	result = m_FPSTimer->Initialize();	
-	return true;
-
 }
 
 
 
 bool CGameApplication::initGame()
 {
-//==========================================================================================================================
+//====================================================BH======================================================================
 	D3DX10_FONT_DESC fontDesc;
 	fontDesc.Height          = 24;
     fontDesc.Width           = 0;
@@ -231,13 +204,14 @@ bool CGameApplication::initGame()
 
 void CGameApplication::run()
 {
+	mTimer.reset();
 	while(m_pWindow->running())
 	{
 		if (! m_pWindow->checkForWindowMessages())
 		{
 			update();
 			render();
-			
+			mTimer.tick();
 		}
 	}
 }
@@ -256,14 +230,7 @@ void CGameApplication::render()
     m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//===========================================================================================================================================
-	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
-
-	////drawScene();
-	////=============================================================BH=====================================================================
-	//RECT R = {5, 5, 0, 0};
-	//mFont->DrawText(0, mFrameStats.c_str(), -1, &R, DT_NOCLIP, BLACK);
-	////====================================================================================================================================
-
+		
     // Just clear the backbuffer, colours start at 0.0 to 1.0
 	// Red, Green , Blue, Alpha - BMD
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
@@ -327,17 +294,11 @@ void CGameApplication::render()
 			}
 		}
 
-	}
-	
-	//drawScene();
-	//=============================================================BH=====================================================================
-	RECT R = {5, 5, 0, 0};
-	mFont->DrawText(0, mFrameStats.c_str(), -1, &R, DT_NOCLIP, BLACK);
-	//====================================================================================================================================
-
-	/*RECT R = {5, 5, 0, 0};
-	mFont->DrawText(0, L"Hello, Direct3D!", -1, &R, DT_NOCLIP, BLACK);*/
-
+	}	
+//=====================================================BH=================================================================================================================
+	RECT R = {10, 10, 0, 0};
+	mFont->DrawText(0, mFrameStats.c_str(), -1, &R, DT_NOCLIP, GREEN);
+//========================================================================================================================================================================
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
     m_pSwapChain->Present( 0, 0 );
@@ -376,6 +337,8 @@ void CGameApplication::update()
 	}
 	m_pGameObjectManager->update(m_Timer.getElapsedTime());
 
+
+//================================================================BH===================================================================================================================
 	// Code computes the average frames per second, and also the 
 	// average time it takes to render one frame.
 
@@ -403,12 +366,13 @@ void CGameApplication::update()
 	
 }
 
+
 void CGameApplication::drawScene()
 {
 	m_pD3D10Device->ClearRenderTargetView(m_pRenderTargetView,mClearColor);
 	m_pD3D10Device->ClearDepthStencilView(m_pDepthStencelView, D3D10_CLEAR_DEPTH|D3D10_CLEAR_STENCIL, 1.0f, 0);
 }
-
+//===================================================================================================================================================================================
 
 bool CGameApplication::initInput()
 {
