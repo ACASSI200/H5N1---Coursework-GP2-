@@ -30,8 +30,6 @@ public:
 	//Update method
 	void update(float elapsedTime)
 	{
-		//We are using Quaternion for rotation, no gimble lock
-		D3DXQuaternionRotationYawPitchRoll(&m_quatRotation,m_vecRotation.y,m_vecRotation.x,m_vecRotation.z);
 		//Build a rotation matrix, we can't use quaternions directly
 		D3DXMatrixRotationQuaternion(&m_matRotation,&m_quatRotation);
 
@@ -55,13 +53,27 @@ public:
 	void setRotation(float x,float y,float z)
 	{
 		m_vecRotation=D3DXVECTOR3(x,y,z);
+		//We are using Quaternion for rotation, no gimble lock
+		D3DXQuaternionRotationYawPitchRoll(&m_quatRotation,m_vecRotation.y,m_vecRotation.x,m_vecRotation.z);
 		
+	};
+
+	void setRotation(float x,float y,float z,float w)
+	{
+		m_quatRotation=D3DXQUATERNION(x,y,z,w);
+		//D3DXQuaternionRotationYawPitchRoll(&m_quatRotation,x,y,z);
+		//get euler rotation
 	};
 
 	//set scale
 	void setScale(float x,float y,float z)
 	{
 		m_vecScale=D3DXVECTOR3(x,y,z);
+	};
+
+	D3DXQUATERNION& getRotation()
+	{
+		return m_quatRotation;
 	};
 
 	D3DXVECTOR3& getPosition()

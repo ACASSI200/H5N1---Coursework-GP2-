@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include <D3DX10core.h>
 
+#include "ModelLoader.h"
 #include "Input.h"
 #include "Keyboard.h"
 
@@ -23,12 +24,15 @@ CGameApplication::~CGameApplication(void)
 {
 	if (m_pD3D10Device)
 		m_pD3D10Device->ClearState();
+		
+	
 
 	if (m_pGameObjectManager)
 	{
 		delete m_pGameObjectManager;
 		m_pGameObjectManager=NULL;
 	}
+	CPhysics::getInstance().destroy();
 
 	if (m_pRenderTargetView)
 		m_pRenderTargetView->Release();
@@ -50,6 +54,8 @@ CGameApplication::~CGameApplication(void)
 bool CGameApplication::init()
 {
 	if (!initWindow())
+		return false;
+	if (!initPhysics())
 		return false;
 	if (!initGraphics())
 		return false;
@@ -188,47 +194,75 @@ void CGameApplication::loadGame()
 
 	m_pGameObjectManager->clear();
 	//Create Game Object
-
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
 	pTestGameObject->setName("Test");
 	//Position
-	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,-0.5f);
+	pTestGameObject->getTransform()->setPosition(0.0f,-5.0f,-0.5f);
 	//pTestGameObject->getTransform()->setScale(0.1f,0.1f,0.1f);
-	//create material
+
+	//create material 
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("DirectionalLight.fx");
 	//pMaterial->loadDiffuseTexture("BoxTest.png");
 	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,-5.0f));
-	pTestGameObject->addComponent(pMaterial);
+	
 
-	//Create Mesh
-	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"newest.fbx");
+	//Create Geometry
+	CModelLoader modelloader;
+	CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"newest.fbx");
 	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
-	pMesh->SetRenderingDevice(m_pD3D10Device);
-	pTestGameObject->addComponent(pMesh);
 	//add the game object
+
+	//create a box collider, this could be any collider
+	CBoxCollider *pBox=new CBoxCollider();
+	//set the size of the box
+	pBox->setExtents(1.0f,1.0f,1.0f);
+	//add collider
+	pTestGameObject->addComponent(pBox);
+
+	//create body
+	CBodyComponent *pBody=new CBodyComponent();
+	pTestGameObject->addComponent(pBody);
+
+	pGeometry->SetRenderingDevice(m_pD3D10Device);	
+	pTestGameObject->addComponent(pMaterial);
+	pTestGameObject->addComponent(pGeometry);
 	m_pGameObjectManager->addGameObject(pTestGameObject);
 
 
+	//===OBJECT 2 ===
 
-	CGameObject *Player=new CGameObject();
-	//Set the name
-	Player->setName("Player");
-	//Position	
-	CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
-	pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
-	pPlayerMaterial->setEffectFilename("DirectionalLight.fx");
-	Player->getTransform()->setPosition(0.0f,0.0f,-0.5f);
-	//Player->getTransform()->setScale(0.5f,0.5f,0.5f);
-	Player->addComponent(pPlayerMaterial);
-	//Create Mesh
-	CMeshComponent *PlayerMesh=modelloader.createCube(m_pD3D10Device,2.0f,2.0f,2.0f);
-	PlayerMesh->SetRenderingDevice(m_pD3D10Device);
-	Player->addComponent(PlayerMesh);
-	//add the game object
-	m_pGameObjectManager->addGameObject(Player);
+	//CGameObject *Player=new CGameObject();
+	////Set the name
+	//Player->setName("Player");
+	////Position	
+	//CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
+	//pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
+	//pPlayerMaterial->setEffectFilename("DirectionalLight.fx");
+	//Player->getTransform()->setPosition(0.0f,0.0f,-0.5f);
+
+	//CBoxCollider *pBox=new CBoxCollider();
+	//pBox->setExtents(2.0f,2.0f,2.0f);
+	//Player->addComponent(pBox);
+
+	//CBodyComponent *pBody=new CBodyComponent();
+	//pBody->setFixed(true);
+	//Player->addComponent(pBody);
+
+	////Player->getTransform()->setScale(0.5f,0.5f,0.5f);
+	//Player->addComponent(pPlayerMaterial);
+	//
+
+	////Create Mesh
+	//CGeometryComponent *pPlayerGeometry=modelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	////CGeometryComponent *PlayerMesh=modelLoader.createCube(m_pD3D10Device,2.0f,2.0f,2.0f);
+	//Player->addComponent(pPlayerGeometry);
+	////add the game object
+	//m_pGameObjectManager->addGameObject(Player);
+
+
 
 
 
@@ -236,8 +270,8 @@ void CGameApplication::loadGame()
 	float posX = Player->getTransform()->getPosition().x;
 	float posY = Player->getTransform()->getPosition().y;
 	float posZ = Player->getTransform()->getPosition().z;
-	//pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
-	pCameraGameObject->getTransform()->setPosition(posX,posY+0.05,posZ);
+	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
+	//pCameraGameObject->getTransform()->setPosition(posX,posY+0.05,posZ);
 	pCameraGameObject->setName("Camera");
 
 	D3D10_VIEWPORT vp;
@@ -335,6 +369,8 @@ void CGameApplication::update()
 {
 	updateGame();
 	m_Timer.update();
+	
+
 	switch(m_GameState)
 	{
 	case MAINMENU:
@@ -358,6 +394,13 @@ void CGameApplication::update()
 
 }
 
+bool CGameApplication::initPhysics()
+{
+	CPhysics::getInstance().init();
+	//Add the Game Application
+	CPhysics::getInstance().getPhysicsWorld()->addContactListener(this);
+	return true;
+}
 
 bool CGameApplication::initInput()
 {

@@ -9,11 +9,15 @@
 
 #include "MaterialComponent.h"
 #include "TransformComponent.h"
+#include "GeometryComponent.h"
 #include "CameraComponent.h"
+
 #include "DirectionLightComponent.h"
 #include "MeshComponent.h"
 
-#include "ModelLoader.h"
+#include "Physics.h"
+#include "BodyComponent.h"
+#include "BoxCollider.h"
 
 #include <vector>
 
@@ -46,6 +50,7 @@ private:
 
 	bool initInput();
 	bool initGame();
+	bool initPhysics();
 	bool initGraphics();
 	bool initWindow();
 	bool loadMenuGraphics();
@@ -64,6 +69,5 @@ private:
 	CTimer m_Timer;
 	//Get Game Object Manager
 	CGameObjectManager *m_pGameObjectManager;
-	CModelLoader modelloader;
 	GameState m_GameState;
 };
