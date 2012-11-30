@@ -59,6 +59,8 @@ bool CGameApplication::init()
 		return false;
 	if (!initGraphics())
 		return false;
+	if (!initPhysics())
+		return false;
 	if (!initInput())
 		return false;
 	if (!initGame())
@@ -80,8 +82,6 @@ bool CGameApplication::initGame()
 
 	loadMainMenu();
 	
-
-
 	//Create Game Obect 2
 
 	//CGameObject *pTestGameObject1=new CGameObject();
@@ -319,10 +319,8 @@ void CGameApplication::updateGame()
 	
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
-		//play 
+		//play sound
 		CTransformComponent *pPlayerTransform = m_pGameObjectManager->findGameObject("Player")->getTransform();
-		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
-		//pTransform->rotate(m_Timer.getElapsedTime(),0.0f,0.0f);
 		pPlayerTransform->translate(0.0f,0.0f,-0.2f);
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
@@ -338,7 +336,7 @@ void CGameApplication::updateGame()
 
 		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
-		pTransform->translate(0.5f,0.0f,0.f);
+		pTransform->translate(2.0f,0.0f,0.0f);
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{

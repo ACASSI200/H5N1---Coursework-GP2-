@@ -54,18 +54,13 @@ public:
 		m_vecPosition=D3DXVECTOR3(x,y,z);
 		CBodyComponent *pBody = (CBodyComponent*)getParent()->getComponent("BodyComponent");
 		if (pBody){
-			pBody->getRigidBody()->setPosition(hkVector4(m_vecPosition.x,m_vecPosition.y,m_vecPosition.z));
+			pBody->getRigidBody()->setPosition(hkVector4(x,y,z));
 		}
 	};
 
 	//set rotation
 	void setRotation(float x,float y,float z)
 	{
-		
-		 CBodyComponent *pBody  = (CBodyComponent*)getParent()->getComponent("BodyComponent");
-		if (pBody){
-			pBody->getRigidBody()->setRotation(hkQuaternion());
-		}
 		m_vecRotation=D3DXVECTOR3(x,y,z);
 		//We are using Quaternion for rotation, no gimble lock
 		D3DXQuaternionRotationYawPitchRoll(&m_quatRotation,m_vecRotation.y,m_vecRotation.x,m_vecRotation.z);
@@ -121,6 +116,11 @@ public:
 		m_vecPosition.x+=x;
 		m_vecPosition.y+=y;
 		m_vecPosition.z+=z;
+
+		CBodyComponent *pBody = (CBodyComponent*)getParent()->getComponent("BodyComponent");
+		if (pBody){
+			pBody->getRigidBody()->setPosition(hkVector4(m_vecPosition.x,m_vecPosition.y,m_vecPosition.z));
+      }
 	};
 
 	//scale
