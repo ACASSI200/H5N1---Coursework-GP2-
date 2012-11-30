@@ -28,7 +28,7 @@ void CGUIManager::destroy()
 	}
 }
 
-void CGUIManager::init(ID3D10Device * pD3D10Device,int width,int height)
+void CGUIManager::init(ID3D10Device *pD3D10Device ,int width,int height)
 {
 	// Install our DirectX render interface into Rocket.
 	m_pD3D10Renderer=new RenderInterfaceDirectX10(pD3D10Device,width,height);

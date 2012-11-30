@@ -4,8 +4,8 @@
 #include "Keyboard.h"
 #include <d3d10.h>
 #include <d3dx10.h>
-
-
+#include <sstream>
+#include <string>
 
 CGameApplication::CGameApplication(void)
 {
@@ -19,6 +19,9 @@ CGameApplication::CGameApplication(void)
 	m_Fps = 0;
 	m_Cpu = 0;
 	m_FPSTimer = 0;
+	mFrameStats = L"";
+	
+
 }
 
 CGameApplication::~CGameApplication(void)
@@ -253,7 +256,13 @@ void CGameApplication::render()
     m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//===========================================================================================================================================
+	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
 
+	////drawScene();
+	////=============================================================BH=====================================================================
+	//RECT R = {5, 5, 0, 0};
+	//mFont->DrawText(0, mFrameStats.c_str(), -1, &R, DT_NOCLIP, BLACK);
+	////====================================================================================================================================
 
     // Just clear the backbuffer, colours start at 0.0 to 1.0
 	// Red, Green , Blue, Alpha - BMD
@@ -319,20 +328,27 @@ void CGameApplication::render()
 		}
 
 	}
-
+	
+	//drawScene();
 	//=============================================================BH=====================================================================
 	RECT R = {5, 5, 0, 0};
-	mFont->DrawText(0, L"FPS", -1, &R, DT_NOCLIP, BLACK);
+	mFont->DrawText(0, mFrameStats.c_str(), -1, &R, DT_NOCLIP, BLACK);
 	//====================================================================================================================================
+
+	/*RECT R = {5, 5, 0, 0};
+	mFont->DrawText(0, L"Hello, Direct3D!", -1, &R, DT_NOCLIP, BLACK);*/
 
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
     m_pSwapChain->Present( 0, 0 );
 }
 
+
 void CGameApplication::update()
 {
 	m_Timer.update();
+
+
 
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
@@ -360,8 +376,37 @@ void CGameApplication::update()
 	}
 	m_pGameObjectManager->update(m_Timer.getElapsedTime());
 
+	// Code computes the average frames per second, and also the 
+	// average time it takes to render one frame.
+
+	static int frameCnt = 0;
+	static float t_base = 0.0f;
+
+	frameCnt++;
+
+	// Compute averages over one second period.
+	if( (mTimer.getGameTime() - t_base) >= 1.0f )
+	{
+		float fps = (float)frameCnt; // fps = frameCnt / 1
+		float mspf = 1000.0f / fps;
+
+		std::wostringstream outs;   
+		outs.precision(6);
+		outs << L"FPS: " << fps << L"\n" 
+			 << "Milliseconds: Per Frame: " << mspf;
+		mFrameStats = outs.str();
+		
+		// Reset for next average.
+		frameCnt = 0;
+		t_base  += 1.0f;
+	}
 	
-	
+}
+
+void CGameApplication::drawScene()
+{
+	m_pD3D10Device->ClearRenderTargetView(m_pRenderTargetView,mClearColor);
+	m_pD3D10Device->ClearDepthStencilView(m_pDepthStencelView, D3D10_CLEAR_DEPTH|D3D10_CLEAR_STENCIL, 1.0f, 0);
 }
 
 

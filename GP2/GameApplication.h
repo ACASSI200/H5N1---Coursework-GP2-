@@ -17,13 +17,19 @@
 #include "Fpsclass.h"
 #include "Cpuclass.h"
 #include "Timerclass.h"
+#include "GameTimer.h"
 
 
 #include <vector>
+#include <string>
 
 using namespace std;
 const D3DXCOLOR BLACK(0.0f, 0.0f, 0.0f, 1.0f);
 
+const float INFINITY = FLT_MAX;
+const float PI       = 3.14159265358979323f;
+const float MATH_EPS = 0.0001f;
+//std::wstring mFrameStats;
 
 class CGameApplication
 {
@@ -33,8 +39,8 @@ public:
 	bool init();
 	void Shutdown();
 	void run();
-
-
+	ID3D10Device* GetDevice();
+	virtual void drawScene(); 
 private:
 	bool initInput();
 	bool initGame();
@@ -44,6 +50,9 @@ private:
 	void render();
 	void update();
 
+
+	
+
 private:
 	//Graphics
 	ID3D10Device * m_pD3D10Device;
@@ -52,6 +61,7 @@ private:
 	ID3D10DepthStencilView * m_pDepthStencelView;
 	ID3D10Texture2D *m_pDepthStencilTexture;
 	ID3DX10Font* mFont;
+	D3DXCOLOR mClearColor;
 
 	CWin32Window * m_pWindow;
 
@@ -59,7 +69,10 @@ private:
 	FpsClass* m_Fps;
 	CpuClass* m_Cpu;
 	TimerClass* m_FPSTimer;
-
+	
+	
+	GameTimer mTimer;
+	std::wstring mFrameStats;
 	
 	
 	//Get Game Object Manager

@@ -28,6 +28,9 @@
     <Filter Include="GUIResources">
       <UniqueIdentifier>{edfce98e-6d0b-46c7-9baa-4c3aac612688}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader Files">
+      <UniqueIdentifier>{d6a3d34f-84ed-4e1d-8d04-046286ac729b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScreenSpace.fx">
@@ -131,6 +134,9 @@
     <ClCompile Include="RenderInterfaceDirectx10.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraComponent.h">
@@ -219,6 +225,9 @@
     </ClInclude>
     <ClInclude Include="RenderInterfaceDirectx10.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
