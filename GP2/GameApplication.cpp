@@ -133,32 +133,25 @@ void CGameApplication::render()
 		//grab the transform
 		CTransformComponent *pTransform=(*iter)->getTransform();
 		//and the geometry
-		CMeshComponent *pMesh=static_cast<CMeshComponent*>((*iter)->getComponent("MeshComponent"));
+		CGeometryComponent *pGeometry=static_cast<CGeometryComponent*>((*iter)->getComponent("GeometryComponent"));
 		//and the material
 		CMaterialComponent *pMaterial=static_cast<CMaterialComponent*>((*iter)->getComponent("MaterialComponent"));
-
 		//do we have a matrial?
+		
+		//if we have a valid geometry
+		if (pGeometry)
+		{
+			//bind the buffer
+			pGeometry->bindBuffers();
+		}
+		//do we have a matrial
 		if (pMaterial)
 		{
-			CCameraComponent *camera=m_pGameObjectManager->getMainCamera();
-
 			//set the matrices
-			pMaterial->setProjectionMatrix((float*)camera->getProjection());
-			pMaterial->setViewMatrix((float*)camera->getView());
+			pMaterial->setProjectionMatrix((float*)m_pGameObjectManager->getMainCamera()->getProjection());
+			pMaterial->setViewMatrix((float*)m_pGameObjectManager->getMainCamera()->getView());
 			pMaterial->setWorldMatrix((float*)pTransform->getWorld());
-			//set light colour
-			pMaterial->setAmbientLightColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
-
-			//get the main light and the camera
-			CDirectionalLightComponent * light=m_pGameObjectManager->getMainLight();
-			pMaterial->setDiffuseLightColour(light->getDiffuseColour());
-			pMaterial->setSpecularLightColour(light->getSpecularColour());
-			pMaterial->setLightDirection(light->getLightDirection());
-			
-			pMaterial->setCameraPosition(camera->getParent()->getTransform()->getPosition());
-
 			pMaterial->setTextures();
-			pMaterial->setMaterial();
 			//bind the vertex layout
 			pMaterial->bindVertexLayout();
 			//loop for the passes in the material
@@ -167,18 +160,10 @@ void CGameApplication::render()
 				//Apply the current pass
 				pMaterial->applyPass(i);
 				//we have a geometry
-				if (pMesh)
+				if (pGeometry)
 				{
-					//Loop through all the subsets in the mesh
-					for (int i=0;i<pMesh->getTotalNumberOfSubsets();i++)
-					{
-						//grab one of the subset
-						CGeometry *pSubset=pMesh->getSubset(i);
-						//bind the buffers contained in the subset
-						pSubset->bindBuffers();
-						//draw
-						m_pD3D10Device->DrawIndexed(pSubset->getNumberOfIndices(),0,0);
-					}
+					//draw from the geometry
+					m_pD3D10Device->DrawIndexed(pGeometry->getNumberOfIndices(),0,0);
 				}
 			}
 		}
@@ -189,6 +174,19 @@ void CGameApplication::render()
     m_pSwapChain->Present( 0, 0 );
 }
 
+void CGameApplication::contactPointCallback (const hkpContactPointEvent &event)
+{
+	//Called when a collision occurs
+	hkpRigidBody *pBody1=event.getBody(0);
+	hkpRigidBody *pBody2=event.getBody(1);
+
+	CGameObject *pGameObject1=(CGameObject*)pBody1->getUserData();
+	CGameObject *pGameObject2=(CGameObject*)pBody2->getUserData();
+
+	//Do something with the game objects
+}
+
+
 void CGameApplication::loadGame()
 {
 
@@ -198,79 +196,82 @@ void CGameApplication::loadGame()
 	//Set the name
 	pTestGameObject->setName("Test");
 	//Position
-	pTestGameObject->getTransform()->setPosition(0.0f,-5.0f,-0.5f);
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,10.0f);
 	//pTestGameObject->getTransform()->setScale(0.1f,0.1f,0.1f);
 
-	//create material 
+	//======CREATE MATERIAL====== 
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->setEffectFilename("DirectionalLight.fx");
+	pMaterial->setEffectFilename("Transform.fx");
 	//pMaterial->loadDiffuseTexture("BoxTest.png");
 	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,-5.0f));
 	
-
-	//Create Geometry
+	//======CREATE GEOMERTY======
 	CModelLoader modelloader;
-	CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"newest.fbx");
-	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"newest.fbx");
+	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
 	//add the game object
 
-	//create a box collider, this could be any collider
+	//======PHYSICS======
+
+	//======CREATE COLLIDER/BODY======
 	CBoxCollider *pBox=new CBoxCollider();
 	//set the size of the box
-	pBox->setExtents(1.0f,1.0f,1.0f);
+	pBox->setExtents(10.0f,10.0f,10.0f);
 	//add collider
 	pTestGameObject->addComponent(pBox);
-
 	//create body
 	CBodyComponent *pBody=new CBodyComponent();
 	pTestGameObject->addComponent(pBody);
 
-	pGeometry->SetRenderingDevice(m_pD3D10Device);	
-	pTestGameObject->addComponent(pMaterial);
+	//======SET THE DEVICE AND ADD TO OBJECT MANAGER======
+	pGeometry->SetRenderingDevice(m_pD3D10Device);
 	pTestGameObject->addComponent(pGeometry);
+	pTestGameObject->addComponent(pMaterial);
+	
 	m_pGameObjectManager->addGameObject(pTestGameObject);
 
 
 	//===OBJECT 2 ===
 
-	//CGameObject *Player=new CGameObject();
-	////Set the name
-	//Player->setName("Player");
-	////Position	
-	//CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
-	//pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
-	//pPlayerMaterial->setEffectFilename("DirectionalLight.fx");
-	//Player->getTransform()->setPosition(0.0f,0.0f,-0.5f);
+	CGameObject *Player=new CGameObject();
+	//Set the name
+	Player->setName("Player");
+	
+	//Material
+	CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
+	pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
+	pPlayerMaterial->setEffectFilename("ScreenSpace.fx");
+	Player->getTransform()->setPosition(5.0f,0.0f,10.0f);
 
-	//CBoxCollider *pBox=new CBoxCollider();
-	//pBox->setExtents(2.0f,2.0f,2.0f);
-	//Player->addComponent(pBox);
-
-	//CBodyComponent *pBody=new CBodyComponent();
-	//pBody->setFixed(true);
-	//Player->addComponent(pBody);
-
-	////Player->getTransform()->setScale(0.5f,0.5f,0.5f);
-	//Player->addComponent(pPlayerMaterial);
-	//
-
-	////Create Mesh
-	//CGeometryComponent *pPlayerGeometry=modelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
-	////CGeometryComponent *PlayerMesh=modelLoader.createCube(m_pD3D10Device,2.0f,2.0f,2.0f);
-	//Player->addComponent(pPlayerGeometry);
-	////add the game object
-	//m_pGameObjectManager->addGameObject(Player);
+	float playerSizeX;
+	float playerSizeY;
+	float playerSizeZ;
+	//Create Mesh
+	CGeometryComponent *pPlayerGeometry=modelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	//CGeometryComponent *PlayerMesh=modelLoader.createCube(m_pD3D10Device,2.0f,2.0f,2.0f);
+	
+	//Physics 
+	CBoxCollider *pPlayerBox=new CBoxCollider();
+	pBox->setExtents(1.0f,1.0f,1.0f);
+	Player->addComponent(pPlayerBox);
+	CBodyComponent *pPlayerBody=new CBodyComponent();
+	pBody->setFixed(true);
+	Player->addComponent(pPlayerBody);
 
 
-
-
-
+	//add the game object
+	pPlayerGeometry->SetRenderingDevice(m_pD3D10Device);
+	Player->addComponent(pPlayerMaterial);
+	Player->addComponent(pPlayerGeometry);
+	m_pGameObjectManager->addGameObject(Player);
+	
+	
 	CGameObject *pCameraGameObject=new CGameObject();
 	float posX = Player->getTransform()->getPosition().x;
 	float posY = Player->getTransform()->getPosition().y;
 	float posZ = Player->getTransform()->getPosition().z;
-	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,10.0f);
+	pCameraGameObject->getTransform()->setPosition(0.0f,-10.0f,-5.0f);
 	//pCameraGameObject->getTransform()->setPosition(posX,posY+0.05,posZ);
 	pCameraGameObject->setName("Camera");
 
@@ -333,6 +334,7 @@ void CGameApplication::updateGame()
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
 	{
 		//play sound
+
 		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
 		pTransform->translate(0.5f,0.0f,0.f);
@@ -340,6 +342,7 @@ void CGameApplication::updateGame()
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{
 		//play sound
+		 
 		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Player")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
 		pTransform->translate(-0.5f,0.0f,0.f);
@@ -369,7 +372,7 @@ void CGameApplication::update()
 {
 	updateGame();
 	m_Timer.update();
-	
+	CPhysics::getInstance().update(m_Timer.getElapsedTime());
 
 	switch(m_GameState)
 	{

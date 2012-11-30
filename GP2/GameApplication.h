@@ -58,6 +58,7 @@ private:
 	void render();
 	void update();
 	
+	void contactPointCallback (const hkpContactPointEvent &event); 
 private:
 	//Graphics
 	ID3D10Device * m_pD3D10Device;
