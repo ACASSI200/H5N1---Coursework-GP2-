@@ -4,6 +4,7 @@
 
 #include "Input.h"
 #include "Keyboard.h"
+#include "Joypad.h"
 #include "Mouse.h"
 
 CGameApplication::CGameApplication(void)
@@ -149,6 +150,40 @@ bool CGameApplication::initGame()
 	//add the game object
 	m_pGameObjectManager->addGameObject(pTestGameObject);
 
+	pTestGameObject=new CGameObject();
+	//Set the name
+	pTestGameObject->setName("Test3");
+	//Position
+	pTestGameObject->getTransform()->setPosition(5.0f,0.0f,10.0f);
+	//create material
+	pMaterial=new CMaterialComponent();
+	pMaterial->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("DirectionalLight.fx");
+	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
+	pMaterial->loadDiffuseTexture("armoredrecon_diff.png");
+	pMaterial->loadSpecularTexture("armoredrecon_spec.png");
+	pTestGameObject->addComponent(pMaterial);
+	pTestGameObject=new CGameObject();
+	//Set the name
+	pTestGameObject->setName("Test2");
+	//Position
+	pTestGameObject->getTransform()->setPosition(5.0f,0.0f,10.0f);
+	//create material
+	pMaterial=new CMaterialComponent();
+	pMaterial->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("DirectionalLight.fx");
+	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
+	pMaterial->loadDiffuseTexture("armoredrecon_diff.png");
+	pMaterial->loadSpecularTexture("armoredrecon_spec.png");
+	pTestGameObject->addComponent(pMaterial);
+
+	//Create Mesh
+	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
+	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	pMesh->SetRenderingDevice(m_pD3D10Device);
+	pTestGameObject->addComponent(pMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(pTestGameObject);
 	//Create Mesh
 
 	CGameObject *pCameraGameObject=new CGameObject();
@@ -205,6 +240,7 @@ void CGameApplication::run()
 	}
 }
 
+float num = 500.0f;
 void CGameApplication::render()
 {
 
@@ -283,7 +319,7 @@ void CGameApplication::render()
 
 	//=============================================================BH=====================================================================
 	RECT R = {5, 5, 0, 0};
-	mFont->DrawTextA(NULL,convertInt(305), -1, &R, DT_NOCLIP, COLOR);
+	mFont->DrawTextA(NULL, convertFloat(m_Timer.FPS(m_Timer.getElapsedTime())).c_str() , -1, &R, DT_NOCLIP, COLOR);
 	//====================================================================================================================================
 
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
@@ -291,10 +327,12 @@ void CGameApplication::render()
     m_pSwapChain->Present( 0, 0 );
 }
 
+
 void CGameApplication::update()
 {
 	m_Timer.update();
 	//audio->updateSound();
+	num -= 0.1f * m_Timer.getElapsedTime();
 
 	CCameraComponent *pCamera=m_pGameObjectManager->getMainCamera();
 

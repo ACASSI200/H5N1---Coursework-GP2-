@@ -9,6 +9,8 @@ CTimer::CTimer()
 	m_fTotalTime=0.0f;
 }
 
+
+
 CTimer::~CTimer()
 {
 
@@ -46,6 +48,29 @@ void CTimer::update()
 	{
 
 	}
+}
+
+
+static const int NUM_FPS_SAMPLES = 30;
+float fpsSamples[NUM_FPS_SAMPLES];
+int currentSample = 0;
+int count = 0;
+float fps = 0;
+
+float CTimer::FPS(float timer){
+	
+	count++;
+	if(count % 180 == 0){
+		fpsSamples[currentSample % NUM_FPS_SAMPLES] = 1.0f / m_fElapsedTime;
+		
+		for (int i = 0; i < NUM_FPS_SAMPLES; i++)
+			fps += fpsSamples[i];
+		fps /= NUM_FPS_SAMPLES;
+
+		return fps;
+	}
+    
+	return fps;
 }
 
 float CTimer::getElapsedTime()

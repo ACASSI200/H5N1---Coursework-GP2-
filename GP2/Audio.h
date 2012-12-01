@@ -26,5 +26,6 @@ public:
 	void playSoundtrack();
 	void playSound1();
 	void playSound2();
+
 };
 

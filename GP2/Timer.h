@@ -13,6 +13,7 @@ public:
 	void reset();
 	float getElapsedTime();
 	float getTotalTime();
+	float FPS(float timer);
 private:
 	__int64 m_LastTime;
 	__int64 m_CurrentTime;

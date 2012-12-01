@@ -1,15 +1,10 @@
-﻿Build started 29/11/2012 08:09:55 PM.
+﻿Build started 01/12/2012 12:00:35 AM.
      1>Project "C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\GP2.unsuccessfulbuild".
+         Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Havok\hk2011_3_1_r1\Source" /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt GameApplication.cpp main.cpp
-         main.cpp
-         GameApplication.cpp
-     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(78): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(283) : see declaration of 'wcscpy'
-     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(165): warning C4305: 'argument' : truncation from 'double' to 'float'
-         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Havok\hk2011_3_1_r1\Source" /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Timer.cpp
+         Timer.cpp
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -47,4 +42,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.01
+Time Elapsed 00:00:01.15

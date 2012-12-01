@@ -18,9 +18,7 @@
 
 #include <vector>
 #include <Common\Base\hkBase.h>
-#include <iostream>
 #include <cstring>
-#include <string>
 #include <sstream> 
 
 using namespace std;
@@ -35,16 +33,11 @@ public:
 	bool init();
 	void run();
 
-	LPCSTR convertInt(int number){
-		string Result; 
-		ostringstream convert;   // stream used for the conversion
-
-		convert << number;      // insert the textual representation of 'Number' in the characters in the stream
-
-		Result = convert.str();
-		return Result.c_str();//return a string with the contents of the stream
+	string convertFloat(float number){
+		std::ostringstream buff;
+		buff<<number;
+		return buff.str();
 	}
-
 
 private:
 	bool initInput();
