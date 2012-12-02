@@ -8,17 +8,10 @@ CMaterialComponent::CMaterialComponent()
 	m_pEffect=NULL;
 	m_pVertexLayout=NULL;
 	m_pDiffuseTexture=NULL;
-	m_pSpecularTexture = NULL;
-	m_pBumpTexture = NULL;
 	m_EffectName="";
 	m_TechniqueName="Render";
 	ZeroMemory(&m_TechniqueDesc,sizeof(D3D10_TECHNIQUE_DESC));
 	m_strName="MaterialComponent";
-
-	m_DiffuseMaterial=D3DXCOLOR(0.8f,0.8f,0.8f,1.0f);
-	m_AmbientMaterial=D3DXCOLOR(0.5f,0.5f,0.5f,1.0f);
-	m_SpecularMaterial=D3DXCOLOR(1.0f,1.0f,1.0f,1.0f);
-	m_SpecularPower=25.0f;
 }
 
 CMaterialComponent::~CMaterialComponent()
@@ -40,18 +33,6 @@ CMaterialComponent::~CMaterialComponent()
 	{
 		m_pEffect->Release();
 		m_pEffect=NULL;
-	}
-
-	if (m_pSpecularTexture)
-	{
-		m_pSpecularTexture->Release();
-		m_pSpecularTexture = NULL;
-	}
-
-	if(m_pBumpTexture)
-	{
-		m_pBumpTexture->Release();
-		m_pBumpTexture = NULL;
 	}
 }
 
@@ -131,25 +112,6 @@ void CMaterialComponent::loadDiffuseTexture(const string& filename)
 	}
 }
 
-void CMaterialComponent::loadSpecularTexture(const string& filename)
-{
-	if (FAILED(D3DX10CreateShaderResourceViewFromFileA(m_pD3D10Device,
-		filename.c_str(), NULL, NULL,&m_pDiffuseTexture , NULL)))
-	{
-		OutputDebugStringA("Can't Load Texture");
-	}
-}
-
-
-void CMaterialComponent::loadBumpTexture(const string& filename)
-{
-	if (FAILED(D3DX10CreateShaderResourceViewFromFileA(m_pD3D10Device,
-		filename.c_str(), NULL, NULL,&m_pDiffuseTexture , NULL)))
-	{
-		OutputDebugStringA("Can't Load Texture");
-	}
-}
-
 //init
 void CMaterialComponent::init()
 {
@@ -173,29 +135,15 @@ void CMaterialComponent::init()
 	m_pWorldMatrixVariable=m_pEffect->GetVariableBySemantic("WORLD")->AsMatrix();
 	m_pViewMatrixVariable=m_pEffect->GetVariableBySemantic("VIEW")->AsMatrix();
 	m_pProjectionMatrixVariable=m_pEffect->GetVariableBySemantic("PROJECTION")->AsMatrix();
-	m_pDiffuseTextureVariable=m_pEffect->GetVariableByName("diffuseMap")->AsShaderResource();
-	m_pSpecularTextureVariable = m_pEffect->GetVariableByName("specularMap")->AsShaderResource();
-	m_pBumpMapTextureVariable = m_pEffect->GetVariableByName("bumpMap")->AsShaderResource();
+	m_pDiffuseTextureVariable=m_pEffect->GetVariableByName("diffuseTexture")->AsShaderResource();
+
 	//lights
-	m_pAmbientLightColourVariable=m_pEffect->GetVariableByName("ambientLightColour")->AsVector();
-	m_pDiffuseLightColourVariable=m_pEffect->GetVariableByName("diffuseLightColour")->AsVector();
-	m_pSpecularLightColourVariable=m_pEffect->GetVariableByName("specularLightColour")->AsVector();
-	m_pLightDirectionVariable=m_pEffect->GetVariableByName("lightDirection")->AsVector();
-
-	//Material
-	m_pAmbientMaterialVariable=m_pEffect->GetVariableByName("ambientMaterialColour")->AsVector();
-	m_pDiffuseMaterialVariable=m_pEffect->GetVariableByName("diffuseMaterialColour")->AsVector();
-	m_pSpecularMaterialVariable=m_pEffect->GetVariableByName("specularMaterialColour")->AsVector();
-	m_pSpecularPowerVariable=m_pEffect->GetVariableByName("specularPower")->AsScalar();
-
-	m_pUseDiffuseTextureVariable=m_pEffect->GetVariableByName("useDiffuseTexture")->AsScalar();
-
-	m_pUseSpecularTextureVariable=m_pEffect->GetVariableByName("useSpecularTexture")->AsScalar();
-
-	m_pUseBumpTextureVariable = m_pEffect->GetVariableByName("useBumpTexture")->AsScalar();
-
-	//Camera
-	m_pCameraPositionVariable=m_pEffect->GetVariableByName("cameraPosition")->AsVector();
+	m_pNumberOfLightsVariable=m_pEffect->GetVariableByName("numberOfLights")->AsScalar();
+	m_pAmbientColourVariable=m_pEffect->GetVariableByName("ambientLightColour")->AsVector();
+	m_pDiffuseLightColoursVariable=m_pEffect->GetVariableByName("diffuseLightColours")->AsVector();
+	m_pSpecularLightColoursVariable=m_pEffect->GetVariableByName("specularLightColours")->AsVector();
+	m_pLightDirectionsVariable=m_pEffect->GetVariableByName("lightDirections")->AsVector();
+	m_pLightPositionsVariable=m_pEffect->GetVariableByName("lightPositions")->AsVector();
 }
 
 //create vertex layout
@@ -217,7 +165,27 @@ void CMaterialComponent::createVertexLayout()
 	}
 }
 
+void CMaterialComponent::setLightPositions(float *pData,UINT stride, UINT count)
+{
+	m_pLightPositionsVariable->SetFloatVectorArray(pData,stride,count);
+}
+	
+void CMaterialComponent::setLightDirections(float *pData,UINT stride, UINT count)
+{
+	m_pLightDirectionsVariable->SetFloatVectorArray(pData,stride,count);
+}
+
+void CMaterialComponent::setDiffuseLightColours(float *pData,UINT stride, UINT count)
+{
+	m_pDiffuseLightColoursVariable->SetFloatVectorArray(pData,stride,count);
+}
+
+void CMaterialComponent::setSpecularLightColours(float *pData,UINT stride, UINT count)
+{
+	m_pSpecularLightColoursVariable->SetFloatVectorArray(pData,stride,count);
+}
+
 void CMaterialComponent::setAmbientLightColour(D3DXCOLOR& colour)
 {
-	m_pAmbientLightColourVariable->SetFloatVector((float*)colour);
+	m_pAmbientColourVariable->SetFloatVector((float*)colour);
 }

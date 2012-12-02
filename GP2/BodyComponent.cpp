@@ -25,26 +25,6 @@ CBodyComponent::~CBodyComponent()
 	}
 }
 
-//Update method, this will be used to update the game objects position and rotation
-void CBodyComponent::update(float elapsedTime)
-{
-	CBaseComponent::update(elapsedTime);
-
-	//Get the transform component
-	CTransformComponent * transform=getParent()->getTransform();
-	//If we have a rigid body
-	if (m_pRigidBody)
-	{
-		//get the current position and rotation of the rigid body
-		hkVector4 pos=m_pRigidBody->getPosition();
-		hkQuaternion rot=m_pRigidBody->getRotation();
-
-		//Set the position and rotation of the transform 
-		transform->setPosition(pos.getComponent(0),pos.getComponent(1),pos.getComponent(2));
-		transform->setRotation(rot.m_vec.getComponent(0),rot.m_vec.getComponent(1),
-			rot.m_vec.getComponent(2),rot.m_vec.getComponent(3));
-	}
-}
 
 //init method
 void CBodyComponent::init()
@@ -77,7 +57,6 @@ void CBodyComponent::init()
 	hkVector4 pos;
 	pos.set(pTransform->getPosition().x,pTransform->getPosition().y,pTransform->getPosition().z);
 	hkQuaternion rot;
-
 	rot.set(pTransform->getRotation().x,pTransform->getRotation().y,pTransform->getRotation().z,pTransform->getRotation().w);
 	m_pRigidBody->setPosition(pos);
 	m_pRigidBody->setRotation(rot);

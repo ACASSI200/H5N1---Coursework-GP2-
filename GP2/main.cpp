@@ -5,7 +5,6 @@
 #endif
 
 #include "GameApplication.h"
-
 //Check to see if we are on windows
 #ifdef WIN32
 int WINAPI WinMain(HINSTANCE hInstance, 
@@ -33,6 +32,8 @@ int main(int argc, char **argv)
 		delete pApp;
 		pApp=NULL;
 	}
+
+
 	return 0;
 }
 

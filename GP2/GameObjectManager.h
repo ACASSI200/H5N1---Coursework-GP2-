@@ -13,8 +13,12 @@ class CCameraComponent;
 class CGameObjectManager
 {
 public:
-	//Constructor
-	CGameObjectManager();
+	//Static Get Instance
+	static CGameObjectManager& getInstance()
+	{
+		static CGameObjectManager instance;
+		return instance;
+	};
 	~CGameObjectManager();
 
 	//add game object
@@ -49,6 +53,11 @@ public:
 	{
 		m_pMainCamera=pCamera;
 	};
+private:
+		//Constructor
+	CGameObjectManager();
+	CGameObjectManager(CGameObjectManager const&){};
+	void operator=(CGameObjectManager const&){}; 
 private:
 	//vector of game objects
 	vector<CGameObject*> m_GameObjects;

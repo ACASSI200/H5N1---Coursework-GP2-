@@ -11,9 +11,6 @@ class CBodyComponent:public CBaseComponent
 public:
 	CBodyComponent();
 	~CBodyComponent();
-
-	//Update
-	void update(float elapsedTime);
 	//Init
 	void init();
 

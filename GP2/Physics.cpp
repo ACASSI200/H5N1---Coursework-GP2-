@@ -90,8 +90,8 @@ void CPhysics::update(float updateTime)
 		//step the physics simulation
 		m_pWorld->stepDeltaTime(PhysicsUpdateTime);
 		//Update visual debugger
-		if (m_bVisualDebug)
-			m_pVisualDebugger->step();
+		//if (m_bVisualDebug)
+		//	m_pVisualDebugger->step();
 	}
 	
 }

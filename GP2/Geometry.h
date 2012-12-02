@@ -1,51 +1,24 @@
 #pragma once
 
-//Header files
-#include "Vertex.h"
+#include "IComponent.h"
 
 #include <D3D10.h>
 #include <D3DX10.h>
 
-#include <vector>
-
-using namespace std;
-
-//Geometry class, this holds a vertex buffer and index buffer
-class CGeometry
+class CGeometry:public CBaseComponent
 {
 public:
-	CGeometry(ID3D10Device *pDevice);
+	CGeometry();
 	~CGeometry();
 
-	void createBuffers();
-
-	void addVertex(Vertex vert);
-	void addIndex(int index);
-
-
-	void bindBuffers();
-
-	int getNumberOfIndices()
+	const string& getName()
 	{
-		return m_Indices.size();
+		return "Geometry";
 	};
-
-	int getNumberOfVertices()
-	{
-		return m_Vertices.size();
-	};
+	void init();
 private:
-	void createVertexBuffer();
-	void createIndexBuffer();
-
-private:
-	//The index and vertex buffer
 	ID3D10Buffer *m_pVertexBuffer;
 	ID3D10Buffer *m_pIndexBuffer;
-	//Vector of the vertices, basically a growable array
-	vector<Vertex> m_Vertices;
-	//Vector of the indices
-	vector<int> m_Indices;
-
-	ID3D10Device * m_pD3D10Device;
+	ID3D10Buffer *m_pInstanceBuffer;
+	ID3D10InputLayout *m_pVertexLayout;
 };
