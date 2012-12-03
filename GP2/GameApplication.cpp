@@ -90,7 +90,7 @@ bool CGameApplication::initGame()
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Texture.fx");
-	pMaterial->loadDiffuseTexture("BoxMap.png");
+	//pMaterial->loadDiffuseTexture("face.png");
 	
 
 	//Audio - Create our Audio Component
@@ -106,8 +106,9 @@ bool CGameApplication::initGame()
 	CModelLoader modelloader;
 	CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
 	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+
 	//CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,20.0f,2.0f,20.0f);
-	int noOfVerts = pGeometry->getNumberOfVertices();
+	//int noOfVerts = pGeometry->getNumberOfVertices();
 	CBoxCollider *pBox=new CBoxCollider();
 	pBox->setExtents(20.0f,2.0f,20.0f);
 	pTestGameObject->addComponent(pBox);
