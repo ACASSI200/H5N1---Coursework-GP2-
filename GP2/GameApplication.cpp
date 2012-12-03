@@ -17,7 +17,9 @@ CGameApplication::CGameApplication(void)
 	m_pDepthStencilTexture=NULL;
 	m_pGameObjectManager=new CGameObjectManager();	
 	m_Cpu = 0;	
+
 	mFrameStats = L" ";
+	
 	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
 
 }
@@ -49,8 +51,6 @@ CGameApplication::~CGameApplication(void)
 		delete m_pWindow;
 		m_pWindow=NULL;
 	}
-
-	
 
 	// Release the cpu object.
 	if(m_Cpu)
@@ -90,6 +90,9 @@ bool CGameApplication::init()
 
 	// Initialize the cpu object.
 	m_Cpu->Initialize();
+	
+	
+	
 
 }
 
@@ -296,9 +299,13 @@ void CGameApplication::render()
 
 	}	
 //=====================================================BH=================================================================================================================
-	RECT R = {10, 10, 0, 0};
-	mFont->DrawText(0, mFrameStats.c_str(), -1, &R, DT_NOCLIP, GREEN);
+	RECT FPS = {10, 10, 0, 0};
+	mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS, DT_NOCLIP, GREEN);
 //========================================================================================================================================================================
+
+
+
+
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
     m_pSwapChain->Present( 0, 0 );
@@ -308,7 +315,7 @@ void CGameApplication::render()
 void CGameApplication::update()
 {
 	m_Timer.update();
-
+	m_Cpu->Frame();
 
 
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
@@ -363,6 +370,14 @@ void CGameApplication::update()
 		frameCnt = 0;
 		t_base  += 1.0f;
 	}
+	return;
+
+	
+
+	
+
+	
+	
 	
 }
 
@@ -373,6 +388,8 @@ void CGameApplication::drawScene()
 	m_pD3D10Device->ClearDepthStencilView(m_pDepthStencelView, D3D10_CLEAR_DEPTH|D3D10_CLEAR_STENCIL, 1.0f, 0);
 }
 //===================================================================================================================================================================================
+
+
 
 bool CGameApplication::initInput()
 {
@@ -537,3 +554,6 @@ bool CGameApplication::initWindow()
 		return false;
 	return true;
 }
+
+
+

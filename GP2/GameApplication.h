@@ -34,6 +34,8 @@ const float MATH_EPS = 0.0001f;
 
 class CGameApplication
 {
+
+
 public:
 	CGameApplication(void);
 	~CGameApplication(void);
@@ -43,9 +45,15 @@ public:
 	ID3D10Device* GetDevice();
 	virtual void drawScene();
 
+	
+
 	GameTimer mTimer;
+	CpuClass mCPUClass;
 	std::wstring mFrameStats;
+	
 	std::wstring mMainWndCaption;
+
+	bool m_canReadCpu;
 private:
 	bool initInput();
 	bool initGame();
@@ -53,7 +61,9 @@ private:
 	bool initWindow();
 	bool Frame();
 	void render();
-	void update();	
+	void update();
+	
+
 
 private:
 	//Graphics
@@ -64,11 +74,14 @@ private:
 	ID3D10Texture2D *m_pDepthStencilTexture;
 	ID3DX10Font* mFont;
 	D3DXCOLOR mClearColor;
+	
 
 	CWin32Window * m_pWindow;
 
 	CTimer m_Timer;	
 	CpuClass* m_Cpu;
+
+	
 	
 	
 	

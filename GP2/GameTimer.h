@@ -7,6 +7,7 @@ class GameTimer
 public:
 	GameTimer();
 
+
 	float getGameTime()const;  // in seconds
 	float getDeltaTime()const; // in seconds
 
