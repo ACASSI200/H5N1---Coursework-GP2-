@@ -61,43 +61,7 @@ bool CGameApplication::init()
 	return true;
 }
 
-//Only used for sample
-void CGameApplication::createBox(float x,float y,float z)
-{
-	//Create Game Object
-	CGameObject *pTestGameObject=new CGameObject();
-	pTestGameObject->getTransform()->setPosition(x,y,z);
-	//Set the name
-	pTestGameObject->setName("TestCube");
-	
-	//create material
-	CMaterialComponent *pMaterial=new CMaterialComponent();
-	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->setEffectFilename("Transform.fx");
 
-	//Create geometry
-	CModelLoader modelloader;
-	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
-	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
-	
-	//create a box collider, this could be any collider
-	CBoxCollider *pBox=new CBoxCollider();
-	//set the size of the box
-	pBox->setExtents(1.0f,1.0f,1.0f);
-	//add collider
-	pTestGameObject->addComponent(pBox);
-
-	//create body
-	CBodyComponent *pBody=new CBodyComponent();
-	pTestGameObject->addComponent(pBody);
-
-	pGeometry->SetRenderingDevice(m_pD3D10Device);
-	//Add component
-	pTestGameObject->addComponent(pMaterial);
-	pTestGameObject->addComponent(pGeometry);
-	//add the game object
-	CGameObjectManager::getInstance().addGameObject(pTestGameObject);
-}
 
 void CGameApplication::contactPointCallback (const hkpContactPointEvent &event)
 {
@@ -125,8 +89,9 @@ bool CGameApplication::initGame()
 	//create material
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->loadDiffuseTexture("face.png");
-	pMaterial->setEffectFilename("Transform.fx");
+	pMaterial->setEffectFilename("Texture.fx");
+	pMaterial->loadDiffuseTexture("BoxMap.png");
+	
 
 	//Audio - Create our Audio Component
 	CAudioSourceComponent *pAudio=new CAudioSourceComponent();
@@ -139,10 +104,10 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader modelloader;
-	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
-	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,100.0f,2.0f,100.0f);
-	
-	//create box
+	CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+	//CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,20.0f,2.0f,20.0f);
+	int noOfVerts = pGeometry->getNumberOfVertices();
 	CBoxCollider *pBox=new CBoxCollider();
 	pBox->setExtents(20.0f,2.0f,20.0f);
 	pTestGameObject->addComponent(pBox);
@@ -158,6 +123,56 @@ bool CGameApplication::initGame()
 	pTestGameObject->addComponent(pGeometry);
 	//add the game object
 	CGameObjectManager::getInstance().addGameObject(pTestGameObject);
+
+
+
+
+
+	CGameObject *pPlayer=new CGameObject();
+	//Set the name
+	pPlayer->setName("Player");
+	//create material
+	CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
+	pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
+	pPlayerMaterial->loadDiffuseTexture("face.png");
+	pPlayerMaterial->setEffectFilename("Texture.fx");
+
+	//Audio - Create our Audio Component
+	CAudioSourceComponent *pPlayerAudio=new CAudioSourceComponent();
+	//Audio - If its a wav file, you should not stream
+	pPlayerAudio->setFilename("gunshot.wav");
+	//Audio - stream set to false
+	pPlayerAudio->setStream(false);
+	//Audio - Add it to the Game Object
+	pPlayer->addComponent(pPlayerAudio);
+
+	//Create geometry
+	CModelLoader Playermodelloader;
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
+	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	pPlayer->getTransform()->setPosition(0.0f,10.0f,0.0f);
+
+	
+	//create box
+	CBoxCollider *pPlayerBox=new CBoxCollider();
+
+	pPlayerBox->setExtents(1.0f,1.0f,1.0f);
+	pPlayer->addComponent(pPlayerBox);
+
+	//create body make it fixed so no gravity effects it
+	CBodyComponent *pPlayerBody=new CBodyComponent();
+	pPlayerBody->setFixed(false);
+
+	
+	pPlayer->addComponent(pPlayerBody);
+
+	pPlayerGeometry->SetRenderingDevice(m_pD3D10Device);
+	//Add component
+	pPlayer->addComponent(pPlayerMaterial);
+	pPlayer->addComponent(pPlayerGeometry);
+	//add the game object
+	CGameObjectManager::getInstance().addGameObject(pPlayer);
+
 
 	CGameObject *pCameraGameObject=new CGameObject();
 	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
@@ -193,14 +208,7 @@ bool CGameApplication::initGame()
 	pCameraGameObject->addComponent(pListener);
 	CGameObjectManager::getInstance().addGameObject(pCameraGameObject);
 	
-	//start position
-	float startY=10.0f;
-	for (int i=0;i<10;i++)
-	{
-		//call create bi=ox
-		createBox(0.0f,(10.0f*i)+startY,0.0f);
-	}
-	//init
+
 	CGameObjectManager::getInstance().init();
 
 	//Audio - play music audio source
@@ -297,12 +305,49 @@ void CGameApplication::update()
 		pCamera->yaw(mouseDeltaX*m_Timer.getElapsedTime());
 		pCamera->pitch(mouseDeltaY*m_Timer.getElapsedTime());
 	}
-
-	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
+	
+	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
 		//play sound
-		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Test")->getTransform();
-		pTransform->rotate(m_Timer.getElapsedTime(),0.0f,0.0f);
+		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
+		pTransform->translate(0.0f,0.0f,0.5f);
+
+	}
+	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
+	{
+		//play sound
+		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
+		pTransform->translate(-0.5f,0.0f,0.0f);
+		
+	}
+		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
+	{
+		//play sound
+		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
+		pTransform->translate(0.0f,0.0f,-0.5f);
+		
+	}
+		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
+	{
+		//play sound
+		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
+		pTransform->translate(0.5f,0.0f,0.0f);
+		
+	}
+	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'Q'))
+	{
+		//play sound
+		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
+		pTransform->translate(0.0f,0.5f,0.0f);
+		
+	}
+		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'E'))
+	{
+		//play sound
+		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
+		pTransform->translate(0.0f,-0.5f,0.0f);
+		
+	
 	}
 	//Audio -  If the left mouse button has been pressed
 	if (CInput::getInstance().getMouse()->getMouseDown(0))

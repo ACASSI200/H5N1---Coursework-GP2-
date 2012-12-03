@@ -224,5 +224,20 @@
       <Filter>Effects</Filter>
     </None>
     <None Include="Texture.fx" />
+    <None Include="ambient.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="diffuse.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="DirectionalLight.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="Parallax.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="Specular.fx">
+      <Filter>Effects</Filter>
+    </None>
   </ItemGroup>
 </Project>

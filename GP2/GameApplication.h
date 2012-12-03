@@ -62,8 +62,6 @@ private:
 	
 	void contactPointCallback (const hkpContactPointEvent &event); 
 
-	//creates a box, only used for sample!!!
-	void createBox(float x,float y,float z);
 protected:
 	//Graphics
 	ID3D10Device * m_pD3D10Device;
