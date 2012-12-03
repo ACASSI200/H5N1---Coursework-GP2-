@@ -106,7 +106,7 @@ bool CGameApplication::initGame()
 	CModelLoader modelloader;
 	CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
 	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
-
+	pTestGameObject->getTransform()->rotate(90.0f,0.0f,0.0f);
 	//CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,20.0f,2.0f,20.0f);
 	//int noOfVerts = pGeometry->getNumberOfVertices();
 	CBoxCollider *pBox=new CBoxCollider();
