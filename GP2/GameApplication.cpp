@@ -128,7 +128,6 @@ bool CGameApplication::initGame()
 	//pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
 	//pTestGameObject->getTransform()->rotate(90.0f,0.0f,0.0f);
 	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,200.0f,2.0f,200.0f);
-	
 	CBoxCollider *pBox=new CBoxCollider();
 	CMeshCollider *pMesh = new CMeshCollider();
 	float verts = pGeometry->getNumberOfVertices();
@@ -157,9 +156,9 @@ bool CGameApplication::initGame()
 	//create material
 	CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
 	pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
-	pPlayerMaterial->loadDiffuseTexture("face.png");
+	
 	pPlayerMaterial->setEffectFilename("Texture.fx");
-
+	pPlayerMaterial->loadDiffuseTexture("face.png");
 	//Audio - Create our Audio Component
 	CAudioSourceComponent *pPlayerAudio=new CAudioSourceComponent();
 	//Audio - If its a wav file, you should not stream
@@ -171,11 +170,10 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader Playermodelloader;
-	CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Tank6_lod1.fbx");
-	//CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
-	pPlayer->getTransform()->setPosition(0.0f,10.0f,0.0f);
+	//CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"arnoredRecon1.fbx");
+	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	pPlayer->getTransform()->setPosition(0.0f,0.0,0.0f);
 
-	
 	//create box
 	CBoxCollider *pPlayerBox=new CBoxCollider();
 
@@ -216,6 +214,8 @@ bool CGameApplication::initGame()
 	pCameraGameObject->addComponent(pCamera);
 	//pCameraGameObject->getTransform()->setPosition(0.0f,2.0f,-50.0f);
 
+	CGameObject *pLightGameObject=new CGameObject();
+	
 	//Audio - Create another audio component for music
 	CAudioSourceComponent *pMusic=new CAudioSourceComponent();
 	//Audio -If it is an mp3 or ogg then set stream to true
@@ -228,6 +228,7 @@ bool CGameApplication::initGame()
 	//Audio - Attach a listener to the camera
 	CAudioListenerComponent *pListener=new CAudioListenerComponent();
 	pCameraGameObject->addComponent(pListener);
+	
 	CGameObjectManager::getInstance().addGameObject(pCameraGameObject);
 	
 

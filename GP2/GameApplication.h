@@ -11,6 +11,8 @@
 #include "GeometryComponent.h"
 #include "TransformComponent.h"
 #include "CameraComponent.h"
+#include "DirectionalLightComponent.h"
+#include "LightComponent.h"
 
 //Audio - Includes
 #include "AudioListenerComponent.h"

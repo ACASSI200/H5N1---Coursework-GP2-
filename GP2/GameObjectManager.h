@@ -9,6 +9,7 @@ using namespace std;
 class CGameObject;
 class CCameraComponent;
 
+
 //Game Object Manager, used to hold all the game objects
 class CGameObjectManager
 {
@@ -49,10 +50,13 @@ public:
 		return m_pMainCamera;
 	};
 
+
 	void setMainCamera(CCameraComponent *pCamera)
 	{
 		m_pMainCamera=pCamera;
 	};
+
+
 private:
 		//Constructor
 	CGameObjectManager();
@@ -65,6 +69,7 @@ private:
 	map<string,CGameObject*> m_GameObjectsMap;
 
 	CCameraComponent *m_pMainCamera;
+
 	vector<CCameraComponent*> m_Cameras;
 
 };

@@ -2,7 +2,7 @@
 #include <fbxsdk.h>
 
 #include "GeometryComponent.h"
-
+#include "MeshComponent.h"
 //might need this for new versions of the SDK
 //#include <fbxsdk/utils/>
 
@@ -68,7 +68,7 @@ CGeometryComponent *CModelLoader::loadModelFromFile(ID3D10Device *pDevice,const 
 
 CGeometryComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,const string& filename)
 {
-	CGeometryComponent * pRenderable=NULL;
+CGeometryComponent * pRenderable=NULL;
 
 	FbxManager* lSdkManager = FbxManager::Create();
 	FbxIOSettings *ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
@@ -200,6 +200,7 @@ CGeometryComponent * CModelLoader::loadFbxModelFromFile(ID3D10Device *pDevice,co
     }
 
 	lSdkManager->Destroy();
+
 
 	
 
