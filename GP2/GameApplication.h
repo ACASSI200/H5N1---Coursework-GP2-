@@ -21,6 +21,7 @@
 #include "Physics.h"
 #include "BodyComponent.h"
 #include "BoxCollider.h"
+#include "MeshCollider.h"
 
 #include <vector>
 

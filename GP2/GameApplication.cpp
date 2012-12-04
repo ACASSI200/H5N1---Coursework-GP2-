@@ -104,13 +104,19 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader modelloader;
-	CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
-	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
-	pTestGameObject->getTransform()->rotate(90.0f,0.0f,0.0f);
-	//CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,20.0f,2.0f,20.0f);
-	//int noOfVerts = pGeometry->getNumberOfVertices();
+	////CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
+	//pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+	//pTestGameObject->getTransform()->rotate(90.0f,0.0f,0.0f);
+	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,200.0f,2.0f,200.0f);
+	
 	CBoxCollider *pBox=new CBoxCollider();
-	pBox->setExtents(20.0f,2.0f,20.0f);
+	CMeshCollider *pMesh = new CMeshCollider();
+	float verts = pGeometry->getNumberOfVertices();
+
+	pBox->setExtents(200.0f,1.0f,200.0f);
+
+
+//	pBox->physicsShape()->isConvex();
 	pTestGameObject->addComponent(pBox);
 
 	//create body make it fixed so no gravity effects it
@@ -124,10 +130,6 @@ bool CGameApplication::initGame()
 	pTestGameObject->addComponent(pGeometry);
 	//add the game object
 	CGameObjectManager::getInstance().addGameObject(pTestGameObject);
-
-
-
-
 
 	CGameObject *pPlayer=new CGameObject();
 	//Set the name
@@ -149,8 +151,8 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader Playermodelloader;
-	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
-	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Tank6_lod1.fbx");
+	//CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
 	pPlayer->getTransform()->setPosition(0.0f,10.0f,0.0f);
 
 	
@@ -163,7 +165,6 @@ bool CGameApplication::initGame()
 	//create body make it fixed so no gravity effects it
 	CBodyComponent *pPlayerBody=new CBodyComponent();
 	pPlayerBody->setFixed(false);
-
 	
 	pPlayer->addComponent(pPlayerBody);
 
@@ -176,7 +177,7 @@ bool CGameApplication::initGame()
 
 
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
 	pCameraGameObject->setName("Camera");
 
 
@@ -193,7 +194,7 @@ bool CGameApplication::initGame()
 	pCamera->setNearClip(0.1f);
 
 	pCameraGameObject->addComponent(pCamera);
-	pCameraGameObject->getTransform()->setPosition(0.0f,2.0f,-50.0f);
+	//pCameraGameObject->getTransform()->setPosition(0.0f,2.0f,-50.0f);
 
 	//Audio - Create another audio component for music
 	CAudioSourceComponent *pMusic=new CAudioSourceComponent();
