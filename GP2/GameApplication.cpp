@@ -137,10 +137,12 @@ bool CGameApplication::initGame()
 	pTestGameObject->setName("Test");
 	//Position
 	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+
 	//create material
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Specular.fx");
+	pMaterial->loadDiffuseTexture("face.png");
 	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
 	pTestGameObject->addComponent(pMaterial);
 
@@ -168,6 +170,8 @@ bool CGameApplication::initGame()
 	cpMaterial->SetRenderingDevice(m_pD3D10Device);
 	cpMaterial->setEffectFilename("Specular.fx");
 	cpMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
+	cpMaterial->loadDiffuseTexture("armoredrecon_diff.png");
+	//cpMaterial->loadSpecularTexture("armoredrecon_spec.png");
 	pCubeGameObject->addComponent(cpMaterial);
 
 	//Create Mesh
