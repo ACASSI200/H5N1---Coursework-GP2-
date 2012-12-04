@@ -1,9 +1,78 @@
-﻿Build started 04/12/2012 21:20:43.
-     1>Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (clean target(s)).
-     1>_PrepareForClean:
-         Deleting file "Debug\GP2.lastbuildstate".
-     1>Done Building Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (clean target(s)).
+﻿Build started 04/12/2012 22:17:20.
+     1>Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\GP2.unsuccessfulbuild".
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\FMOD SoundSystem\FMOD Programmers API Windows\api\inc" /IC:\hk2011_3_1_r1\Source /I\Source /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Audio.cpp CameraComponent.cpp DirectionalLightComponent.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp SoundClass.cpp Timer.cpp Win32Window.cpp
+         Win32Window.cpp
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(193): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(194): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(194): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+         Timer.cpp
+         SoundClass.cpp
+         Mouse.cpp
+         ModelLoader.cpp
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(134): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(135): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(136): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(147): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(147): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(147): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(163): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(164): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+         MeshComponent.cpp
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\meshcomponent.cpp(35): warning C4018: '>' : signed/unsigned mismatch
+         MaterialComponent.cpp
+         main.cpp
+         LightComponent.cpp
+         Keyboard.cpp
+         Joypad.cpp
+         Input.cpp
+         GeometryComponent.cpp
+         Geometry.cpp
+         GameObjectManager.cpp
+         GameObject.cpp
+         GameApplication.cpp
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(80): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(283) : see declaration of 'wcscpy'
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(180): warning C4305: 'argument' : truncation from 'double' to 'float'
+         DirectionalLightComponent.cpp
+         CameraComponent.cpp
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(13): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'vsprintf'
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(42): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(60): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(67): warning C4305: '-=' : truncation from 'double' to 'float'
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(71): warning C4305: '+=' : truncation from 'double' to 'float'
+         Audio.cpp
+         Generating Code...
+       ManifestResourceCompile:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GP2.exe.embed.manifest.res" Debug\GP2_manifest.rc 
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:\Lib\win32_vs2010\Debug_Multithreaded_DLL /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\lib\vs2010\x86" /LIBPATH:"C:\Program Files (x86)\FMOD SoundSystem\FMOD Programmers API Windows\api\lib" /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib fmodL_vc.lib "fbxsdk-2013.1d.lib" hkBase.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
+         Debug\Audio.obj
+         Debug\CameraComponent.obj
+         Debug\DirectionalLightComponent.obj
+         Debug\GameApplication.obj
+         Debug\GameObject.obj
+         Debug\GameObjectManager.obj
+         Debug\Geometry.obj
+         Debug\GeometryComponent.obj
+         Debug\Input.obj
+         Debug\Joypad.obj
+         Debug\Keyboard.obj
+         Debug\LightComponent.obj
+         Debug\main.obj
+         Debug\MaterialComponent.obj
+         Debug\MeshComponent.obj
+         Debug\ModelLoader.obj
+         Debug\Mouse.obj
+         Debug\SoundClass.obj
+         Debug\Timer.obj
+         Debug\Win32Window.obj
+     1>LINK : fatal error LNK1104: cannot open file 'fmodL_vc.lib'
+     1>Done Building Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.02
+Time Elapsed 00:00:13.27

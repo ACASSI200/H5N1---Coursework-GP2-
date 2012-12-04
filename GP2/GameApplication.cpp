@@ -22,10 +22,11 @@ CGameApplication::~CGameApplication(void)
 {
 	if (m_pD3D10Device)
 		m_pD3D10Device->ClearState();
-	if(audio){
+	/*if(audio)
+	{
 		delete audio;
 		audio = NULL;
-	}
+	}*/
 	if (m_pGameObjectManager)
 	{
 		delete m_pGameObjectManager;
@@ -197,9 +198,9 @@ bool CGameApplication::initGame()
 
 	//init, this must be called after we have created all game objects
 	m_pGameObjectManager->init();
-	audio = new Audio();
+	/*audio = new Audio();
 	audio->initSound();
-	audio->loadSound();
+	audio->loadSound();*/
 	//audio->playSoundtrack();
 	
 

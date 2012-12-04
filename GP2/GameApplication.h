@@ -64,7 +64,7 @@ private:
 
 	CTimer m_Timer;
 
-	Audio *audio;
+	/*Audio *audio;*/
 	
 	//Get Game Object Manager
 	CGameObjectManager *m_pGameObjectManager;
