@@ -18,10 +18,17 @@
 #include "Cpuclass.h"
 #include "Timerclass.h"
 #include "GameTimer.h"
-
+#include "GUIManager.h"
 
 #include <vector>
 #include <string>
+
+
+//Physics
+#include "Physics.h"
+#include "BodyComponent.h"
+#include "BoxCollider.h"
+
 
 using namespace std;
 const D3DXCOLOR BLACK(0.0f, 0.0f, 0.0f, 1.0f);
@@ -56,6 +63,7 @@ public:
 	bool m_canReadCpu;
 private:
 	bool initInput();
+	bool initGUI();
 	bool initGame();
 	bool initGraphics();
 	bool initWindow();

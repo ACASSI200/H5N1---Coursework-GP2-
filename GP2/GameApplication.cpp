@@ -74,6 +74,8 @@ bool CGameApplication::init()
 		return false;
 	if (!initInput())
 		return false;
+	/*if (!initGUI())
+		return false;*/
 	if (!initGame())
 		return false;
 	// Create the fps object.
@@ -96,6 +98,14 @@ bool CGameApplication::init()
 
 }
 
+bool CGameApplication::initGUI()
+{
+	D3D10_VIEWPORT vp;
+	UINT numViewports=1;
+	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
+	CGUIManager::getInstance().init(m_pD3D10Device,vp.Width,vp.Height);
+	return true;
+}
 
 
 bool CGameApplication::initGame()
@@ -142,6 +152,8 @@ bool CGameApplication::initGame()
 	//add the game object
 	m_pGameObjectManager->addGameObject(pTestGameObject);
 
+
+		
 	//=========================================================================================================================
 
 	//Create Game Object
@@ -303,7 +315,8 @@ void CGameApplication::render()
 	mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS, DT_NOCLIP, GREEN);
 //========================================================================================================================================================================
 
-
+	//Render GUI Scene
+	//CGUIManager::getInstance().render();
 
 
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
@@ -314,6 +327,7 @@ void CGameApplication::render()
 
 void CGameApplication::update()
 {
+	//CGUIManager::getInstance().update();
 	m_Timer.update();
 	m_Cpu->Frame();
 
