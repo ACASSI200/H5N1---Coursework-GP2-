@@ -67,7 +67,7 @@ bool CGameApplication::initGame()
 
 	//================================================================================================
 	D3DX10_FONT_DESC fontDesc;
-	fontDesc.Height          = 24;
+	fontDesc.Height          = 20;
     fontDesc.Width           = 0;
     fontDesc.Weight          = 0;
     fontDesc.MipLevels       = 1;
@@ -97,8 +97,40 @@ bool CGameApplication::initGame()
 	pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Environment.fx");
-	pMaterial->loadEnvironmentTexture("DDS/test.dds");
+	pMaterial->loadEnvironmentTexture("DDS/SpaceMap.dds");
 	pTestGameObject->addComponent(pMaterial);
+	pTestGameObject->addComponent(pMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(pTestGameObject);
+
+
+	//========================================================================
+	// Game Objects - AC
+	//========================================================================
+
+	//Create Game Object
+	pTestGameObject=new CGameObject();
+	//Set the name
+	pTestGameObject->setName("Planet");
+	//Position
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,1250.0f);
+	pTestGameObject->getTransform()->setRotation(1.7f,0.0f,0.0f);
+	pTestGameObject->getTransform()->setScale(20.0f,21.0f,20.0f);
+	//create material
+	pMaterial=new CMaterialComponent();
+	pMaterial->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("Parallax.fx");
+	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.2f,0.2f,0.2f,1.0f));
+	pMaterial->loadDiffuseTexture("Planet/mat_plan.bmp");
+	//pMaterial->loadSpecularTexture("armoredrecon_spec.png");
+	pMaterial->loadBumpTexture("Planet/mat_planNORMAL.bmp");
+	//pMaterial->loadParallaxTexture("armoredrecon_Height.png");
+	pTestGameObject->addComponent(pMaterial);
+
+	//Create Mesh
+	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"Planet/planet_ice.fbx");
+	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	pMesh->SetRenderingDevice(m_pD3D10Device);
 	pTestGameObject->addComponent(pMesh);
 	//add the game object
 	m_pGameObjectManager->addGameObject(pTestGameObject);
@@ -106,88 +138,35 @@ bool CGameApplication::initGame()
 	//Create Game Object
 	pTestGameObject=new CGameObject();
 	//Set the name
-	pTestGameObject->setName("Test");
+	pTestGameObject->setName("Station");
 	//Position
-	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,10.0f);
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,150.0f);
+	pTestGameObject->getTransform()->setRotation(1.7f,0.5f,0.0f);
 	//create material
 	pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Parallax.fx");
 	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.2f,0.2f,0.2f,1.0f));
-	pMaterial->loadDiffuseTexture("armoredrecon_diff.png");
-	pMaterial->loadSpecularTexture("armoredrecon_spec.png");
-	pMaterial->loadBumpTexture("armoredrecon_N.png");
-	pMaterial->loadParallaxTexture("armoredrecon_Height.png");
+	pMaterial->loadDiffuseTexture("Station/mat_stat.bmp");
+	//pMaterial->loadSpecularTexture("armoredrecon_spec.png");
+	pMaterial->loadBumpTexture("Station/mat_stat NORMAL");
+	//pMaterial->loadParallaxTexture("armoredrecon_Height.png");
 	pTestGameObject->addComponent(pMaterial);
 
 	//Create Mesh
-	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
+	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"Station/station.fbx");
 	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
 	pMesh->SetRenderingDevice(m_pD3D10Device);
 	pTestGameObject->addComponent(pMesh);
 	//add the game object
 	m_pGameObjectManager->addGameObject(pTestGameObject);
 
-	pTestGameObject=new CGameObject();
-	//Set the name
-	pTestGameObject->setName("Test2");
-	//Position
-	pTestGameObject->getTransform()->setPosition(5.0f,0.0f,10.0f);
-	//create material
-	pMaterial=new CMaterialComponent();
-	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->setEffectFilename("DirectionalLight.fx");
-	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
-	pMaterial->loadDiffuseTexture("armoredrecon_diff.png");
-	pMaterial->loadSpecularTexture("armoredrecon_spec.png");
-	pTestGameObject->addComponent(pMaterial);
-
-	//Create Mesh
-	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
-	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
-	pMesh->SetRenderingDevice(m_pD3D10Device);
-	pTestGameObject->addComponent(pMesh);
-	//add the game object
-	m_pGameObjectManager->addGameObject(pTestGameObject);
-
-	pTestGameObject=new CGameObject();
-	//Set the name
-	pTestGameObject->setName("Test3");
-	//Position
-	pTestGameObject->getTransform()->setPosition(5.0f,0.0f,10.0f);
-	//create material
-	pMaterial=new CMaterialComponent();
-	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->setEffectFilename("DirectionalLight.fx");
-	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
-	pMaterial->loadDiffuseTexture("armoredrecon_diff.png");
-	pMaterial->loadSpecularTexture("armoredrecon_spec.png");
-	pTestGameObject->addComponent(pMaterial);
-	pTestGameObject=new CGameObject();
-	//Set the name
-	pTestGameObject->setName("Test2");
-	//Position
-	pTestGameObject->getTransform()->setPosition(5.0f,0.0f,10.0f);
-	//create material
-	pMaterial=new CMaterialComponent();
-	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->setEffectFilename("DirectionalLight.fx");
-	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
-	pMaterial->loadDiffuseTexture("armoredrecon_diff.png");
-	pMaterial->loadSpecularTexture("armoredrecon_spec.png");
-	pTestGameObject->addComponent(pMaterial);
-
-	//Create Mesh
-	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
-	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
-	pMesh->SetRenderingDevice(m_pD3D10Device);
-	pTestGameObject->addComponent(pMesh);
-	//add the game object
-	m_pGameObjectManager->addGameObject(pTestGameObject);
-	//Create Mesh
-
+	//========================================================================
+	// Game Objects - AC
+	//========================================================================
+	
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-5.0f);
+	pCameraGameObject->getTransform()->setPosition(5.0f,0.0f,125.0f);
 	pCameraGameObject->setName("Camera");
 
 	D3D10_VIEWPORT vp;
@@ -209,7 +188,7 @@ bool CGameApplication::initGame()
 	pLightGameObject->setName("DirectionalLight");
 
 	CDirectionalLightComponent *pLightComponent=new CDirectionalLightComponent();
-	pLightComponent->setDirection(D3DXVECTOR3(0.0f,-5.0f,-1.0f));
+	pLightComponent->setDirection(D3DXVECTOR3(0.0f,1.0f,-1.0f));
 	pLightGameObject->addComponent(pLightComponent);
 
 	m_pGameObjectManager->addGameObject(pLightGameObject);
@@ -228,6 +207,7 @@ bool CGameApplication::initGame()
 	return true;
 }
 
+
 void CGameApplication::run()
 {
 	while(m_pWindow->running())
@@ -240,7 +220,6 @@ void CGameApplication::run()
 	}
 }
 
-float num = 500.0f;
 void CGameApplication::render()
 {
 
@@ -318,8 +297,15 @@ void CGameApplication::render()
 	}
 
 	//=============================================================BH=====================================================================
-	RECT R = {5, 5, 0, 0};
-	mFont->DrawTextA(NULL, convertFloat(m_Timer.FPS(m_Timer.getElapsedTime())).c_str() , -1, &R, DT_NOCLIP, COLOR);
+	RECT R1 = {5, 5, 0, 0};
+	RECT R2 = {6, 6, 0, 0};
+	RECT R3 = {5, 22, 0, 0};
+	RECT R4 = {6, 23, 0, 0};
+	mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R1, DT_NOCLIP, WHITE);
+	mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R2, DT_NOCLIP, GREEN);
+
+	mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R3, DT_NOCLIP, WHITE);
+	mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R4, DT_NOCLIP, GREEN);
 	//====================================================================================================================================
 
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
@@ -332,7 +318,6 @@ void CGameApplication::update()
 {
 	m_Timer.update();
 	//audio->updateSound();
-	num -= 0.1f * m_Timer.getElapsedTime();
 
 	CCameraComponent *pCamera=m_pGameObjectManager->getMainCamera();
 
@@ -374,7 +359,7 @@ void CGameApplication::update()
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'Q'))
 	{
 		//play sound
-		pCamera->movePosition(5.0f*m_Timer.getElapsedTime());
+		pCamera->movePosition(50.0f*m_Timer.getElapsedTime());
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
@@ -382,7 +367,7 @@ void CGameApplication::update()
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'E'))
 	{
 		//play sound
-		pCamera->movePosition(-5.0f*m_Timer.getElapsedTime());
+		pCamera->movePosition(-50.0f*m_Timer.getElapsedTime());
 
 		//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 		//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
