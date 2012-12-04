@@ -88,6 +88,7 @@
     <ClCompile Include="GameApplication.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="GeometryComponent.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Joypad.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="GameApplication.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="GameTimer.h" />
     <ClInclude Include="GeometryComponent.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="Input.h" />

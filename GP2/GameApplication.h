@@ -16,23 +16,19 @@
 #include "AudioListenerComponent.h"
 #include "AudioSourceComponent.h"
 #include "AudioSystem.h"
+#include "GameTimer.h"
 
 //Physics
 #include "Physics.h"
 #include "BodyComponent.h"
 #include "BoxCollider.h"
 #include "MeshCollider.h"
-
 #include <vector>
+#include <string>
 
 using namespace std;
 
-enum GameState
-{
-	MAINMENU=0,
-	GAME,
-	EXIT,
-};
+const D3DXCOLOR GREEN(0.0f, 1.0f, 0.0f, 1.0f);
 
 class CGameApplication:public hkpContactListener 
 {
@@ -41,6 +37,11 @@ public:
 	~CGameApplication(void);
 	bool init();
 	void run();
+	GameTimer mTimer;
+	std::wstring mFrameStats;
+	virtual void drawScene();
+	std::wstring mMainWndCaption;
+
 private:
 	bool initInput();
 	bool initGame();
@@ -50,6 +51,7 @@ private:
 	//Init Audio, called by our main init method
 	bool initAudio();
 	bool initWindow();
+	bool Frame();
 	void render();
 	void update();
 
@@ -70,10 +72,12 @@ protected:
 	ID3D10RenderTargetView * m_pRenderTargetView;
 	ID3D10DepthStencilView * m_pDepthStencelView;
 	ID3D10Texture2D *m_pDepthStencilTexture;
+	ID3DX10Font* mFont;
+	D3DXCOLOR mClearColor;
 
 	CWin32Window * m_pWindow;
 
 	CTimer m_Timer;
 
-	GameState m_GameState;
+	
 };

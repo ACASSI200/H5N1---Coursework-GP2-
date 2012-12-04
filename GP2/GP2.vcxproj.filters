@@ -126,6 +126,9 @@
     <ClCompile Include="LightComponent.cpp">
       <Filter>Components\Lights</Filter>
     </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>Timer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32Window.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="DirectionalLightComponent.h">
       <Filter>Components\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer.h">
+      <Filter>Timer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

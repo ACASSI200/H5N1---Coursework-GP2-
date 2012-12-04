@@ -5,6 +5,8 @@
 #include "Input.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include <string>
+#include <sstream>
 
 CGameApplication::CGameApplication(void)
 {
@@ -14,6 +16,9 @@ CGameApplication::CGameApplication(void)
 	m_pSwapChain=NULL;
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
+	mFrameStats = L" ";
+	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+
 }
 
 CGameApplication::~CGameApplication(void)
@@ -77,6 +82,21 @@ void CGameApplication::contactPointCallback (const hkpContactPointEvent &event)
 
 bool CGameApplication::initGame()
 {
+
+	D3DX10_FONT_DESC fontDesc;
+	fontDesc.Height          = 24;
+    fontDesc.Width           = 0;
+    fontDesc.Weight          = 0;
+    fontDesc.MipLevels       = 1;
+    fontDesc.Italic          = false;
+    fontDesc.CharSet         = DEFAULT_CHARSET;
+    fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+    fontDesc.Quality         = DEFAULT_QUALITY;
+    fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+    wcscpy(fontDesc.FaceName, L"Times New Roman");
+
+	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
+
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
@@ -223,18 +243,26 @@ bool CGameApplication::initGame()
 
 void CGameApplication::run()
 {
+	mTimer.reset();
 	while(m_pWindow->running())
 	{
 		if (! m_pWindow->checkForWindowMessages())
 		{
 			update();
 			render();
+			mTimer.tick();
 		}
 	}
 }
 
 void CGameApplication::render()
 {
+	m_pD3D10Device->OMSetDepthStencilState(0, 0);
+	float blendFactor[] = {0.0f, 0.0f, 0.0f, 0.0f};
+	m_pD3D10Device->OMSetBlendState(0, blendFactor, 0xffffffff);
+    //m_pD3D10Device->IASetInputLayout(mVertexLayout);
+    m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
     // Just clear the backbuffer, colours start at 0.0 to 1.0
 	// Red, Green , Blue, Alpha - BMD
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
@@ -284,6 +312,8 @@ void CGameApplication::render()
 		}
 
 	}
+	RECT FPS = {10, 10, 0, 0};
+	mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS, DT_NOCLIP, GREEN);
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
     m_pSwapChain->Present( 0, 0 );
@@ -292,7 +322,6 @@ void CGameApplication::render()
 void CGameApplication::update()
 {
 	m_Timer.update();
-
 	CPhysics::getInstance().update(m_Timer.getElapsedTime());
 	//Audio - Update the audio system, this must be called to update streams and listener position
 	CAudioSystem::getInstance().update();
@@ -360,6 +389,29 @@ void CGameApplication::update()
 		pAudio->play();
 	}
 
+	static int frameCnt = 0;
+	static float t_base = 0.0f;
+
+	frameCnt++;
+
+	// Compute averages over one second period.
+	if( (mTimer.getGameTime() - t_base) >= 1.0f )
+	{
+		float fps = (float)frameCnt; // fps = frameCnt / 1
+		float mspf = 1000.0f / fps;
+
+		std::wostringstream outs;   
+		outs.precision(6);
+		outs << L"FPS: " << fps << L"\n" 
+			 << "Milliseconds: Per Frame: " << mspf;
+		mFrameStats = outs.str();
+		
+		// Reset for next average.
+		frameCnt = 0;
+		t_base  += 1.0f;
+	}
+	
+	
 	CGameObjectManager::getInstance().update(m_Timer.getElapsedTime());
 }
 
@@ -370,6 +422,12 @@ bool CGameApplication::initPhysics()
 	CPhysics::getInstance().getPhysicsWorld()->addContactListener(this);
 	return true;
 }
+
+void CGameApplication::drawScene()
+{
+	m_pD3D10Device->ClearRenderTargetView(m_pRenderTargetView,mClearColor);
+	m_pD3D10Device->ClearDepthStencilView(m_pDepthStencelView, D3D10_CLEAR_DEPTH|D3D10_CLEAR_STENCIL, 1.0f, 0);
+}
 bool CGameApplication::initInput()
 {
 	CInput::getInstance().init();
@@ -379,6 +437,8 @@ bool CGameApplication::initAudio()
 {
 	CAudioSystem::getInstance().init();
 	return true;
+	//return;
+
 }
 
 //initGraphics - initialise the graphics subsystem - BMD
@@ -533,7 +593,7 @@ bool CGameApplication::initGraphics()
 bool CGameApplication::initWindow()
 {
 	m_pWindow=new CWin32Window();
-	if (!m_pWindow->init(TEXT("Lab 1 - Triangle"),800,640,false))
+	if (!m_pWindow->init(TEXT("Lab 1 - AwesomeGame"),800,640,false))
 		return false;
 	return true;
 }
