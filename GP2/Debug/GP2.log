@@ -1,14 +1,68 @@
-﻿Build started 03/12/2012 17:22:41.
+﻿Build started 04/12/2012 11:07:26.
      1>Project "C:\Users\Brian0635\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Touching "Debug\GP2.unsuccessfulbuild".
+     1>PrepareForBuild:
+         Creating directory "C:\Users\Brian0635\Documents\GitHub\H5N1---Coursework-GP2-\Debug\".
+       InitializeBuildStatus:
+         Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\libRocket\Include /IC:\Users\bhanna200\Desktop\hk2011_3_1_r1\Source /IC:\hk2011_3_1_r1\Source /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /IC:\libRocket\Include\Rocket /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt GameApplication.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\libRocket\Include /IC:\Users\bhanna200\Desktop\hk2011_3_1_r1\Source /IC:\hk2011_3_1_r1\Source /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /IC:\libRocket\Include\Rocket /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt CameraComponent.cpp Cpuclass.cpp DirectionalLightComponent.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp GameTimer.cpp Geometry.cpp GeometryComponent.cpp GUIManager.cpp GUISystemInterface.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp RenderInterfaceDirectx10.cpp Timer.cpp Timerclass.cpp Win32Window.cpp
+         Win32Window.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(193): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(194): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(194): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+         Timerclass.cpp
+         Timer.cpp
+         RenderInterfaceDirectx10.cpp
+         Mouse.cpp
+         ModelLoader.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(142): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(143): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(144): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(155): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(155): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(155): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(171): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(172): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(182): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(182): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(182): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(183): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(183): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(183): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(184): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(184): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(184): warning C4244: 'argument' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'FLOAT', possible loss of data
+         MeshComponent.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\meshcomponent.cpp(35): warning C4018: '>' : signed/unsigned mismatch
+         MaterialComponent.cpp
+         main.cpp
+         LightComponent.cpp
+         Keyboard.cpp
+         Joypad.cpp
+         Input.cpp
+         GUISystemInterface.cpp
+         GUIManager.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(34): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(34): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(106): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(106): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+         GeometryComponent.cpp
+         Geometry.cpp
+         GameTimer.cpp
+         GameObjectManager.cpp
+         GameObject.cpp
+         Generating Code...
+         Compiling...
          GameApplication.cpp
      1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(69): warning C4101: 'result' : unreferenced local variable
      1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(114): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(283) : see declaration of 'wcscpy'
      1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(182): warning C4305: 'argument' : truncation from 'double' to 'float'
+         DirectionalLightComponent.cpp
+         Cpuclass.cpp
+         CameraComponent.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(14): warning C4305: '=' : truncation from 'double' to 'float'
+         Generating Code...
      1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(97): warning C4715: 'CGameApplication::init' : not all control paths return a value
        ManifestResourceCompile:
          c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GP2.exe.embed.manifest.res" Debug\GP2_manifest.rc 
@@ -75,4 +129,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.96
+Time Elapsed 00:00:17.82
