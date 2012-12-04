@@ -194,9 +194,22 @@ bool CGameApplication::initGame()
 	CGameObjectManager::getInstance().addGameObject(pPlayer);
 
 
+	float playerX = pPlayer->getTransform()->getPosition().x;
+	float playerY = pPlayer->getTransform()->getPosition().y;
+	float playerZ = pPlayer->getTransform()->getPosition().z;
+
+	CGameObject *PlayerCam = new CGameObject();
+	PlayerCam->getTransform()->setPosition(playerX,playerY,playerZ);
+	PlayerCam->setName("PlayerCam");
+	CCameraComponent *PlayerCamComp = new CCameraComponent();
+	PlayerCamComp->setUp(0.0f,1.0f,0.0f);
+	PlayerCam->addComponent(PlayerCamComp);
+
+
 	CGameObject *pCameraGameObject=new CGameObject();
 	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
 	pCameraGameObject->setName("Camera");
+	
 
 
 	D3D10_VIEWPORT vp;
@@ -210,12 +223,9 @@ bool CGameApplication::initGame()
 	pCamera->setAspectRatio((float)(vp.Width/vp.Height));
 	pCamera->setFarClip(1000.0f);
 	pCamera->setNearClip(0.1f);
-
 	pCameraGameObject->addComponent(pCamera);
 	//pCameraGameObject->getTransform()->setPosition(0.0f,2.0f,-50.0f);
-
 	CGameObject *pLightGameObject=new CGameObject();
-	
 	//Audio - Create another audio component for music
 	CAudioSourceComponent *pMusic=new CAudioSourceComponent();
 	//Audio -If it is an mp3 or ogg then set stream to true
@@ -224,7 +234,6 @@ bool CGameApplication::initGame()
 	pMusic->setStream(true);
 	//Audio - Add to camera, don't call play until init has been called
 	pCameraGameObject->addComponent(pMusic);
-
 	//Audio - Attach a listener to the camera
 	CAudioListenerComponent *pListener=new CAudioListenerComponent();
 	pCameraGameObject->addComponent(pListener);
@@ -412,6 +421,8 @@ void CGameApplication::update()
 		t_base  += 1.0f;
 	}
 	
+
+
 	
 	CGameObjectManager::getInstance().update(m_Timer.getElapsedTime());
 }
