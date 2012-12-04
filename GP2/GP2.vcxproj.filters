@@ -34,9 +34,6 @@
     <Filter Include="Components">
       <UniqueIdentifier>{9f075630-a7f5-4282-ac70-712a3c6fcf60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Physics">
-      <UniqueIdentifier>{9a562b4d-fd7c-4fce-b083-0abf31da73da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{35d9c605-269f-4665-bbba-2631bb31b7bb}</UniqueIdentifier>
     </Filter>
@@ -131,29 +128,11 @@
     <ClCompile Include="GameTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCollider.cpp">
-      <Filter>Components\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="BodyComponent.cpp">
-      <Filter>Components\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="MeshComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Physics.cpp">
       <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshCollider.cpp">
-      <Filter>Components\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>Components\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>Components\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="CapsuleCollider.cpp">
-      <Filter>Components\Physics</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
       <Filter>Components</Filter>
@@ -237,24 +216,6 @@
     </ClInclude>
     <ClInclude Include="Physics.h">
       <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCollider.h">
-      <Filter>Components\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="BodyComponent.h">
-      <Filter>Components\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>Components\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="CapsuleCollider.h">
-      <Filter>Components\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshCollider.h">
-      <Filter>Components\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>Components\Physics</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
       <Filter>Components</Filter>
