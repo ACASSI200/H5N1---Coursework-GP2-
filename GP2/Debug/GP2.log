@@ -1,19 +1,9 @@
-﻿Build started 04/12/2012 21:01:27.
-     1>Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Touching "Debug\GP2.unsuccessfulbuild".
-       ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I\Source /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I\inc /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Audio.cpp GameApplication.cpp main.cpp
-         main.cpp
-     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.h(20): fatal error C1083: Cannot open include file: 'Common\Base\hkBase.h': No such file or directory
-         GameApplication.cpp
-     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.h(20): fatal error C1083: Cannot open include file: 'Common\Base\hkBase.h': No such file or directory
-         Audio.cpp
-     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\audio.cpp(25): error C2664: 'FMOD::System::playSound' : cannot convert parameter 1 from 'FMOD::Sound *' to 'FMOD_CHANNELINDEX'
-                 There is no context in which this conversion is possible
-         Generating Code...
-     1>Done Building Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (build target(s)) -- FAILED.
+﻿Build started 04/12/2012 21:20:43.
+     1>Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (clean target(s)).
+     1>_PrepareForClean:
+         Deleting file "Debug\GP2.lastbuildstate".
+     1>Done Building Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (clean target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:02.22
+Time Elapsed 00:00:00.02

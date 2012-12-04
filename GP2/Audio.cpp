@@ -21,9 +21,9 @@ void Audio::loadSound(){
 
 }
 
-void Audio::playSoundtrack(){
-	result = fmodSystem->playSound(soundtrack, FMOD_DEFAULT, false, &channel);
-}
+//void Audio::playSoundtrack(){
+//	result = fmodSystem->playSound(soundtrack, FMOD_DEFAULT, false, &channel);
+//}
 
 //void Audio::playSound1(){
 //	result = fmodSystem->playSound(sound1, FMOD_DEFAULT, false, &channel);
