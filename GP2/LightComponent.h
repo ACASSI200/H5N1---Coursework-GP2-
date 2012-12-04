@@ -1,9 +1,17 @@
 #pragma once
 
-#include <D3D10.h>
-#include <D3DX10.h>
-
 #include "IComponent.h"
+
+#include <d3d10.h>
+#include <d3dx10.h>
+
+enum LightType
+{
+	None=0,
+	Direction,
+	Point,
+	Spot,
+};
 
 class CLightComponent:public CBaseComponent
 {
@@ -11,14 +19,27 @@ public:
 	CLightComponent();
 	virtual ~CLightComponent();
 
-	void setDiffuseColour(D3DXCOLOR& colour);
-	void setSpecularColour(D3DXCOLOR& colour);
+	void setDiffuseColour(float r,float g,float b,float a)
+	{
+		m_DiffuseColour=D3DXCOLOR(r,g,b,a);
+	};
+	void setSpecularColour(float r,float g,float b,float a)
+	{
+		m_SpecularColour=D3DXCOLOR(r,g,b,a);
+	};
 
-	D3DXCOLOR& getDiffuseColour();
-	D3DXCOLOR& getSpecularColour();
+	void setLightType(LightType lightType)
+	{
+		m_LightType=lightType;
+	};
 
-private:
+	LightType getLightType()
+	{
+		return m_LightType;
+	};
+
+protected:
 	D3DXCOLOR m_DiffuseColour;
 	D3DXCOLOR m_SpecularColour;
-
+	LightType m_LightType;
 };

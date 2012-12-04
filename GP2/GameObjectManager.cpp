@@ -1,6 +1,9 @@
 #include "GameObjectManager.h"
 #include "GameObject.h"
 #include "CameraComponent.h"
+#include "Physics.h"
+#include "BodyComponent.h"
+#include "BaseCollider.h"
 
 CGameObjectManager::CGameObjectManager()
 {
@@ -10,6 +13,11 @@ CGameObjectManager::~CGameObjectManager()
 {
 	//call clear
 	clear();
+}
+
+void CGameObjectManager::removeGameObject(CGameObject *pObject)
+{
+
 }
 
 //add game object
@@ -26,7 +34,6 @@ void CGameObjectManager::addGameObject(CGameObject * pObject)
 		m_pMainCamera=pCamera;
 		m_Cameras.push_back(pCamera);
 	}
-
 }
 
 //get beginning of vector
@@ -74,6 +81,10 @@ void CGameObjectManager::init()
 	for(m_GameObjectIter=m_GameObjects.begin();m_GameObjectIter!=m_GameObjects.end();m_GameObjectIter++)
 	{
 		(*m_GameObjectIter)->init();
+		//any physic components?
+		CBodyComponent *pBody=(CBodyComponent*)(*m_GameObjectIter)->getComponent("BodyComponent");
+		if (pBody)
+			CPhysics::getInstance().getPhysicsWorld()->addEntity(pBody->getRigidBody());
 	}
 }
 

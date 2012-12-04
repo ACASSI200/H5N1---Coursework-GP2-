@@ -77,28 +77,13 @@ public:
 		m_pViewMatrixVariable->SetMatrix(pMatrix);
 	};
 
+	//lights
+	void setLightPositions(float *pData,UINT stride, UINT count);
+	void setLightDirections(float *pData,UINT stride,UINT count);
+	void setDiffuseLightColours(float *pData,UINT stride,UINT count);
+	void setSpecularLightColours(float *pData,UINT stride,UINT count);
+
 	void setAmbientLightColour(D3DXCOLOR& colour);
-
-	void setAmbientMaterialColour(D3DXCOLOR& colour)
-	{
-		m_AmbientMaterial=colour;
-	}
-
-	void setDiffuseMaterialColour(D3DXCOLOR& colour)
-	{
-		m_DiffuseMaterial=colour;
-	}
-
-	void setSpecularMaterialColour(D3DXCOLOR& colour)
-	{
-		m_SpecularMaterial=colour;
-	}
-
-	void setSpecularPower(float power)
-	{
-		m_SpecularPower=power;
-	}
-
 
 	//bind the vertex layout
 	void bindVertexLayout()
@@ -106,33 +91,6 @@ public:
 		m_pD3D10Device->IASetInputLayout(m_pVertexLayout);
 	};
 
-	void setMaterial()
-	{
-		m_pAmbientMaterialVariable->SetFloatVector((float*)m_AmbientMaterial);
-		m_pDiffuseMaterialVariable->SetFloatVector((float*)m_DiffuseMaterial);
-		m_pSpecularMaterialVariable->SetFloatVector((float*)m_SpecularMaterial);
-		m_pSpecularPowerVariable->SetFloat(m_SpecularPower);
-	};
-
-	void setLightDirection(D3DXVECTOR3& lightDir)
-	{
-		m_pLightDirectionVariable->SetFloatVector((float*)lightDir);
-	};
-
-	void setDiffuseLightColour(D3DXCOLOR& colour)
-	{
-		m_pDiffuseLightColourVariable->SetFloatVector((float*)&colour);
-	};
-
-	void setSpecularLightColour(D3DXCOLOR& colour)
-	{
-		m_pSpecularLightColourVariable->SetFloatVector((float*)&colour);
-	};
-
-	void setCameraPosition(D3DXVECTOR3& pos)
-	{
-		m_pCameraPositionVariable->SetFloatVector((float*)&pos);
-	};
 
 protected:
 	//effect variables
@@ -154,27 +112,17 @@ protected:
 	ID3D10EffectMatrixVariable * m_pViewMatrixVariable;
 	ID3D10EffectMatrixVariable * m_pProjectionMatrixVariable;
 	ID3D10EffectMatrixVariable * m_pWorldMatrixVariable;
-	//Textures
 	ID3D10EffectShaderResourceVariable *m_pDiffuseTextureVariable;
-	//Light
-	ID3D10EffectVectorVariable *m_pAmbientLightColourVariable;
-	ID3D10EffectVectorVariable *m_pDiffuseLightColourVariable;
-	ID3D10EffectVectorVariable *m_pSpecularLightColourVariable;
-	//Direction
-	ID3D10EffectVectorVariable *m_pLightDirectionVariable;
-	//Material
-	ID3D10EffectVectorVariable *m_pAmbientMaterialVariable;
-	ID3D10EffectVectorVariable *m_pDiffuseMaterialVariable;
-	ID3D10EffectVectorVariable *m_pSpecularMaterialVariable;
-	ID3D10EffectScalarVariable *m_pSpecularPowerVariable;
-	//Camera
-	ID3D10EffectVectorVariable *m_pCameraPositionVariable;
 
-	//Material colours
-	D3DXCOLOR m_AmbientMaterial;
-	D3DXCOLOR m_DiffuseMaterial;
-	D3DXCOLOR m_SpecularMaterial;
-	float m_SpecularPower;
+	//Colour variables
+	ID3D10EffectVectorVariable *m_pAmbientColourVariable;
+	ID3D10EffectVectorVariable *m_pDiffuseLightColoursVariable;
+	ID3D10EffectVectorVariable *m_pSpecularLightColoursVariable;
+	ID3D10EffectVectorVariable *m_pLightDirectionsVariable;
+	ID3D10EffectVectorVariable *m_pLightPositionsVariable;
+	ID3D10EffectScalarVariable *m_pNumberOfLightsVariable;
+	//Color
+	D3DXCOLOR m_AmbientColour;
 
 	//Textures
 	ID3D10ShaderResourceView *m_pDiffuseTexture;

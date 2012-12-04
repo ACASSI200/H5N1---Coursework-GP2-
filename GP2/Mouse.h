@@ -23,4 +23,7 @@ private:
 	float m_fMouseAbsX;
 	float m_fMouseAbsY;
 	float m_fMouseWheel;
+
+	bool m_bMouseMovedY;
+	bool m_bMouseMovedX;
 };

@@ -8,6 +8,8 @@ CMouse::CMouse()
 	m_fMouseAbsY=0.0f;
 	m_fMouseDeltaX=0.0f;
 	m_fMouseDeltaY=0.0f;
+	m_bMouseMovedY=false;
+	m_bMouseMovedX=false;
 	ZeroMemory(&m_bMouseButtons,sizeof(m_bMouseButtons));
 }
 
@@ -28,6 +30,9 @@ void CMouse::setMouseMove(float x,float y)
 	m_fMouseDeltaY=y;
 	m_fMouseAbsX+=m_fMouseDeltaX;
 	m_fMouseAbsY+=m_fMouseDeltaY;
+	m_bMouseMovedY=true;
+	m_bMouseMovedX=true;
+
 }
 
 bool CMouse::getMouseDown(int index)
@@ -42,12 +47,24 @@ bool CMouse::getMouseUp(int index)
 
 float CMouse::getRelativeMouseX()
 {
-	return m_fMouseDeltaX;
+	float mouseX=m_fMouseDeltaX;
+	if (m_bMouseMovedX)
+	{
+		m_bMouseMovedX=false;
+		m_fMouseDeltaX=0.0f;
+	}
+	return mouseX;
 }
 
 float CMouse::getRelativeMouseY()
 {
-	return m_fMouseDeltaY;
+	float mouseY=m_fMouseDeltaY;
+	if (m_bMouseMovedY)
+	{
+		m_bMouseMovedY=false;
+		m_fMouseDeltaY=0.0f;
+	}
+	return mouseY;
 }
 
 float CMouse::getAbsoluteMouseX()

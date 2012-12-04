@@ -1,24 +1,56 @@
-﻿Build started 04/12/2012 13:31:39.
+﻿Build started 04/12/2012 13:52:36.
      1>Project "C:\Users\Brian0635\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Touching "Debug\GP2.unsuccessfulbuild".
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\libRocket\Include /IC:\Users\bhanna200\Desktop\hk2011_3_1_r1\Source /IC:\hk2011_3_1_r1\Source /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /IC:\libRocket\Include\Rocket /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt BodyComponent.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\hk2011_3_1_r1\source /I\inc /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt AudioListenerComponent.cpp AudioSourceComponent.cpp AudioSystem.cpp BaseCollider.cpp BodyComponent.cpp BoxCollider.cpp CameraComponent.cpp CapsuleCollider.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshCollider.cpp ModelLoader.cpp Mouse.cpp Physics.cpp SphereCollider.cpp Timer.cpp Win32Window.cpp
+         Win32Window.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(26): warning C4996: 'vsnprintf': This function or variable may be unsafe. Consider using vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(354) : see declaration of 'vsnprintf'
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(221): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(222): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(222): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+         Timer.cpp
+         SphereCollider.cpp
+         Physics.cpp
+         Mouse.cpp
+         ModelLoader.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(139): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(140): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\modelloader.cpp(141): warning C4244: '=' : conversion from 'fbxsdk_2013_1::FbxDouble' to 'float', possible loss of data
+         MeshCollider.cpp
+         MaterialComponent.cpp
+         main.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.h(6): fatal error C1083: Cannot open include file: 'fmod.hpp': No such file or directory
+         LightComponent.cpp
+         Keyboard.cpp
+         Joypad.cpp
+         Input.cpp
+         GeometryComponent.cpp
+         GameObjectManager.cpp
+         GameObject.cpp
+         GameApplication.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.h(6): fatal error C1083: Cannot open include file: 'fmod.hpp': No such file or directory
+         CapsuleCollider.cpp
+         CameraComponent.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(14): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(34): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(41): warning C4305: '-=' : truncation from 'double' to 'float'
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\cameracomponent.cpp(45): warning C4305: '+=' : truncation from 'double' to 'float'
+         BoxCollider.cpp
+         Generating Code...
+         Compiling...
          BodyComponent.cpp
-     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\bodycomponent.cpp(60): error C2039: 'getRotation' : is not a member of 'CTransformComponent'
-                 c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\transformcomponent.h(10) : see declaration of 'CTransformComponent'
-     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\bodycomponent.cpp(60): error C2228: left of '.x' must have class/struct/union
-     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\bodycomponent.cpp(60): error C2039: 'getRotation' : is not a member of 'CTransformComponent'
-                 c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\transformcomponent.h(10) : see declaration of 'CTransformComponent'
-     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\bodycomponent.cpp(60): error C2228: left of '.y' must have class/struct/union
-     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\bodycomponent.cpp(60): error C2039: 'getRotation' : is not a member of 'CTransformComponent'
-                 c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\transformcomponent.h(10) : see declaration of 'CTransformComponent'
-     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\bodycomponent.cpp(60): error C2228: left of '.z' must have class/struct/union
-     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\bodycomponent.cpp(60): error C2039: 'getRotation' : is not a member of 'CTransformComponent'
-                 c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\transformcomponent.h(10) : see declaration of 'CTransformComponent'
-     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\bodycomponent.cpp(60): error C2228: left of '.w' must have class/struct/union
+         BaseCollider.cpp
+         AudioSystem.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\audiosystem.h(1): fatal error C1083: Cannot open include file: 'fmod.hpp': No such file or directory
+         AudioSourceComponent.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\audiosourcecomponent.h(5): fatal error C1083: Cannot open include file: 'fmod.hpp': No such file or directory
+         AudioListenerComponent.cpp
+     1>c:\users\brian0635\documents\github\h5n1---coursework-gp2-\gp2\audiolistenercomponent.h(7): fatal error C1083: Cannot open include file: 'fmod.hpp': No such file or directory
+         Generating Code...
      1>Done Building Project "C:\Users\Brian0635\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" (build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:01.63
+Time Elapsed 00:00:23.24

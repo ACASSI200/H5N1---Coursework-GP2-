@@ -1,11 +1,10 @@
 #include "GameApplication.h"
 #include "GameObject.h"
+
+#include "ModelLoader.h"
 #include "Input.h"
 #include "Keyboard.h"
-#include <d3d10.h>
-#include <d3dx10.h>
-#include <sstream>
-#include <string>
+#include "Mouse.h"
 
 CGameApplication::CGameApplication(void)
 {
@@ -15,13 +14,6 @@ CGameApplication::CGameApplication(void)
 	m_pSwapChain=NULL;
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
-	m_pGameObjectManager=new CGameObjectManager();	
-	m_Cpu = 0;	
-
-	mFrameStats = L" ";
-	
-	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
-
 }
 
 CGameApplication::~CGameApplication(void)
@@ -29,12 +21,10 @@ CGameApplication::~CGameApplication(void)
 	if (m_pD3D10Device)
 		m_pD3D10Device->ClearState();
 
-	if (m_pGameObjectManager)
-	{
-		delete m_pGameObjectManager;
-		m_pGameObjectManager=NULL;
-	}
+	CGameObjectManager::getInstance().clear();
 
+	CPhysics::getInstance().destroy();
+	
 	if (m_pRenderTargetView)
 		m_pRenderTargetView->Release();
 	if (m_pDepthStencelView)
@@ -45,88 +35,84 @@ CGameApplication::~CGameApplication(void)
 		m_pSwapChain->Release();
 	if (m_pD3D10Device)
 		m_pD3D10Device->Release();
-
 	if (m_pWindow)
 	{
 		delete m_pWindow;
 		m_pWindow=NULL;
 	}
 
-	// Release the cpu object.
-	if(m_Cpu)
-	{
-		m_Cpu->Shutdown();
-		delete m_Cpu;
-		m_Cpu = 0;
-	}
-
 	
-
 }
 
 bool CGameApplication::init()
 {
-	bool result;
-
 	if (!initWindow())
 		return false;
 	if (!initGraphics())
 		return false;
 	if (!initInput())
 		return false;
-	/*if (!initGUI())
-		return false;*/
+	if (!initAudio())
+		return false;
+	if (!initPhysics())
+		return false;
 	if (!initGame())
 		return false;
-	// Create the fps object.
-	
-
-	
-
-	// Create the cpu object.
-	m_Cpu = new CpuClass;
-	if(!m_Cpu)
-	{
-		return false;
-	}
-
-	// Initialize the cpu object.
-	m_Cpu->Initialize();
-	
-	
-	
-
-}
-
-bool CGameApplication::initGUI()
-{
-	D3D10_VIEWPORT vp;
-	UINT numViewports=1;
-	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
-	CGUIManager::getInstance().init(m_pD3D10Device,vp.Width,vp.Height);
 	return true;
 }
 
+//Only used for sample
+void CGameApplication::createBox(float x,float y,float z)
+{
+	//Create Game Object
+	CGameObject *pTestGameObject=new CGameObject();
+	pTestGameObject->getTransform()->setPosition(x,y,z);
+	//Set the name
+	pTestGameObject->setName("TestCube");
+	
+	//create material
+	CMaterialComponent *pMaterial=new CMaterialComponent();
+	pMaterial->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("Transform.fx");
+
+	//Create geometry
+	CModelLoader modelloader;
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
+	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	
+	//create a box collider, this could be any collider
+	CBoxCollider *pBox=new CBoxCollider();
+	//set the size of the box
+	pBox->setExtents(1.0f,1.0f,1.0f);
+	//add collider
+	pTestGameObject->addComponent(pBox);
+
+	//create body
+	CBodyComponent *pBody=new CBodyComponent();
+	pTestGameObject->addComponent(pBody);
+
+	pGeometry->SetRenderingDevice(m_pD3D10Device);
+	//Add component
+	pTestGameObject->addComponent(pMaterial);
+	pTestGameObject->addComponent(pGeometry);
+	//add the game object
+	CGameObjectManager::getInstance().addGameObject(pTestGameObject);
+}
+
+void CGameApplication::contactPointCallback (const hkpContactPointEvent &event)
+{
+	//Called when a collision occurs
+	hkpRigidBody *pBody1=event.getBody(0);
+	hkpRigidBody *pBody2=event.getBody(1);
+
+	CGameObject *pGameObject1=(CGameObject*)pBody1->getUserData();
+	CGameObject *pGameObject2=(CGameObject*)pBody2->getUserData();
+
+	//Do something with the game objects
+}
 
 bool CGameApplication::initGame()
 {
-//====================================================BH======================================================================
-	D3DX10_FONT_DESC fontDesc;
-	fontDesc.Height          = 24;
-    fontDesc.Width           = 0;
-    fontDesc.Weight          = 0;
-    fontDesc.MipLevels       = 1;
-    fontDesc.Italic          = false;
-    fontDesc.CharSet         = DEFAULT_CHARSET;
-    fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
-    fontDesc.Quality         = DEFAULT_QUALITY;
-    fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-    wcscpy(fontDesc.FaceName, L"Times New Roman");
-
-	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
-
-//===========================================================================================================================
-
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
     //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
     m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
@@ -135,54 +121,48 @@ bool CGameApplication::initGame()
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
 	pTestGameObject->setName("Test");
-	//Position
-	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+	
 	//create material
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->setEffectFilename("Specular.fx");
-	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
+	pMaterial->loadDiffuseTexture("face.png");
+	pMaterial->setEffectFilename("Transform.fx");
+
+	//Audio - Create our Audio Component
+	CAudioSourceComponent *pAudio=new CAudioSourceComponent();
+	//Audio - If its a wav file, you should not stream
+	pAudio->setFilename("gunshot.wav");
+	//Audio - stream set to false
+	pAudio->setStream(false);
+	//Audio - Add it to the Game Object
+	pTestGameObject->addComponent(pAudio);
+
+	//Create geometry
+	CModelLoader modelloader;
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
+	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,100.0f,2.0f,100.0f);
+	
+	//create box
+	CBoxCollider *pBox=new CBoxCollider();
+	pBox->setExtents(20.0f,2.0f,20.0f);
+	pTestGameObject->addComponent(pBox);
+
+	//create body make it fixed so no gravity effects it
+	CBodyComponent *pBody=new CBodyComponent();
+	pBody->setFixed(true);
+	pTestGameObject->addComponent(pBody);
+
+	pGeometry->SetRenderingDevice(m_pD3D10Device);
+	//Add component
 	pTestGameObject->addComponent(pMaterial);
-
-	//Create Mesh
-	CMeshComponent *pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"AnotherTest.fbx");
-	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
-	pMesh->SetRenderingDevice(m_pD3D10Device);
-	pTestGameObject->addComponent(pMesh);
+	pTestGameObject->addComponent(pGeometry);
 	//add the game object
-	m_pGameObjectManager->addGameObject(pTestGameObject);
-
-
-		
-	//=========================================================================================================================
-
-	//Create Game Object
-	CGameObject *pCubeGameObject=new CGameObject();
-	//Set the name
-	pCubeGameObject->setName("armoredrecon");
-	//Position
-	pCubeGameObject->getTransform()->setPosition(3.0f,3.0f,3.0f);
-
-	//create material
-	CMaterialComponent *cpMaterial=new CMaterialComponent();
-	cpMaterial->SetRenderingDevice(m_pD3D10Device);
-	cpMaterial->setEffectFilename("Specular.fx");
-	cpMaterial->setAmbientMaterialColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
-	pCubeGameObject->addComponent(cpMaterial);
-
-	//Create Mesh
-	CMeshComponent *cpMesh=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
-	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
-	cpMesh->SetRenderingDevice(m_pD3D10Device);
-	pCubeGameObject->addComponent(cpMesh);
-	//add the game object
-	m_pGameObjectManager->addGameObject(pCubeGameObject);
-
-	//========================================================================================================================
+	CGameObjectManager::getInstance().addGameObject(pTestGameObject);
 
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,10.0f,-20.0f);
+	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
 	pCameraGameObject->setName("Camera");
+
 
 	D3D10_VIEWPORT vp;
 	UINT numViewports=1;
@@ -193,59 +173,58 @@ bool CGameApplication::initGame()
 	pCamera->setLookAt(0.0f,0.0f,0.0f);
 	pCamera->setFOV(D3DX_PI*0.25f);
 	pCamera->setAspectRatio((float)(vp.Width/vp.Height));
-	pCamera->setFarClip(10000.0f);
+	pCamera->setFarClip(1000.0f);
 	pCamera->setNearClip(0.1f);
+
 	pCameraGameObject->addComponent(pCamera);
+	pCameraGameObject->getTransform()->setPosition(0.0f,2.0f,-50.0f);
 
-	m_pGameObjectManager->addGameObject(pCameraGameObject);
+	//Audio - Create another audio component for music
+	CAudioSourceComponent *pMusic=new CAudioSourceComponent();
+	//Audio -If it is an mp3 or ogg then set stream to true
+	pMusic->setFilename("Music.ogg");
+	//Audio - stream to true
+	pMusic->setStream(true);
+	//Audio - Add to camera, don't call play until init has been called
+	pCameraGameObject->addComponent(pMusic);
 
-	CGameObject *pLightGameObject=new CGameObject();
-	pLightGameObject->setName("DirectionalLight");
+	//Audio - Attach a listener to the camera
+	CAudioListenerComponent *pListener=new CAudioListenerComponent();
+	pCameraGameObject->addComponent(pListener);
+	CGameObjectManager::getInstance().addGameObject(pCameraGameObject);
+	
+	//start position
+	float startY=10.0f;
+	for (int i=0;i<10;i++)
+	{
+		//call create bi=ox
+		createBox(0.0f,(10.0f*i)+startY,0.0f);
+	}
+	//init
+	CGameObjectManager::getInstance().init();
 
-	CDirectionalLightComponent *pLightComponent=new CDirectionalLightComponent();
-	pLightComponent->setDirection(D3DXVECTOR3(0.0f,0.0f,-1.0f));
-	pLightGameObject->addComponent(pLightComponent);
-
-	m_pGameObjectManager->addGameObject(pLightGameObject);
-
-	m_pGameObjectManager->setMainLight(pLightComponent);
-
-	//init, this must be called after we have created all game objects
-	m_pGameObjectManager->init();
+	//Audio - play music audio source
+	pMusic->play();
 	
 	m_Timer.start();
+
 	return true;
 }
 
 void CGameApplication::run()
 {
-	mTimer.reset();
 	while(m_pWindow->running())
 	{
 		if (! m_pWindow->checkForWindowMessages())
 		{
 			update();
 			render();
-			mTimer.tick();
 		}
 	}
 }
 
-
-
-
-
 void CGameApplication::render()
 {
-	//======================================BH===================================================================================================
-	m_pD3D10Device->OMSetDepthStencilState(0, 0);
-	float blendFactor[] = {0.0f, 0.0f, 0.0f, 0.0f};
-	m_pD3D10Device->OMSetBlendState(0, blendFactor, 0xffffffff);
-    //m_pD3D10Device->IASetInputLayout(mVertexLayout);
-    m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	//===========================================================================================================================================
-		
     // Just clear the backbuffer, colours start at 0.0 to 1.0
 	// Red, Green , Blue, Alpha - BMD
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
@@ -254,37 +233,30 @@ void CGameApplication::render()
     m_pD3D10Device->ClearRenderTargetView( m_pRenderTargetView, ClearColor );
 	m_pD3D10Device->ClearDepthStencilView(m_pDepthStencelView,D3D10_CLEAR_DEPTH,1.0f,0);
 	//We need to iterate through all the Game Objects in the managers
-	for(vector<CGameObject*>::iterator iter=m_pGameObjectManager->getBegining();iter!=m_pGameObjectManager->getEnd();iter++)
+	for(vector<CGameObject*>::iterator iter=CGameObjectManager::getInstance().getBegining();
+		iter!=CGameObjectManager::getInstance().getEnd();iter++)
 	{
 		//grab the transform
 		CTransformComponent *pTransform=(*iter)->getTransform();
 		//and the geometry
-		CMeshComponent *pMesh=static_cast<CMeshComponent*>((*iter)->getComponent("MeshComponent"));
+		CGeometryComponent *pGeometry=static_cast<CGeometryComponent*>((*iter)->getComponent("GeometryComponent"));
 		//and the material
 		CMaterialComponent *pMaterial=static_cast<CMaterialComponent*>((*iter)->getComponent("MaterialComponent"));
 
+		//if we have a valid geometry
+		if (pGeometry)
+		{
+			//bind the buffer
+			pGeometry->bindBuffers();
+		}
 		//do we have a matrial
 		if (pMaterial)
 		{
-			CCameraComponent *camera=m_pGameObjectManager->getMainCamera();
-
 			//set the matrices
-			pMaterial->setProjectionMatrix((float*)camera->getProjection());
-			pMaterial->setViewMatrix((float*)camera->getView());
+			pMaterial->setProjectionMatrix((float*)CGameObjectManager::getInstance().getMainCamera()->getProjection());
+			pMaterial->setViewMatrix((float*)CGameObjectManager::getInstance().getMainCamera()->getView());
 			pMaterial->setWorldMatrix((float*)pTransform->getWorld());
-			//set light colour
-			pMaterial->setAmbientLightColour(D3DXCOLOR(0.5f,0.5f,0.5f,1.0f));
-
-			//get the main light and the camera
-			CDirectionalLightComponent * light=m_pGameObjectManager->getMainLight();
-			pMaterial->setDiffuseLightColour(light->getDiffuseColour());
-			pMaterial->setSpecularLightColour(light->getSpecularColour());
-			pMaterial->setLightDirection(light->getLightDirection());
-			
-			pMaterial->setCameraPosition(camera->getParent()->getTransform()->getPosition());
-
 			pMaterial->setTextures();
-			pMaterial->setMaterial();
 			//bind the vertex layout
 			pMaterial->bindVertexLayout();
 			//loop for the passes in the material
@@ -293,124 +265,74 @@ void CGameApplication::render()
 				//Apply the current pass
 				pMaterial->applyPass(i);
 				//we have a geometry
-				if (pMesh)
+				if (pGeometry)
 				{
-					//Loop through all the subsets in the mesh
-					for (int i=0;i<pMesh->getTotalNumberOfSubsets();i++)
-					{
-						//grab one of the subset
-						CGeometry *pSubset=pMesh->getSubset(i);
-						//bind the buffers contained in the subset
-						pSubset->bindBuffers();
-						//draw
-						m_pD3D10Device->DrawIndexed(pSubset->getNumberOfIndices(),0,0);
-					}
+					//draw from the geometry
+					m_pD3D10Device->DrawIndexed(pGeometry->getNumberOfIndices(),0,0);
 				}
 			}
 		}
 
-	}	
-//=====================================================BH=================================================================================================================
-	RECT FPS = {10, 10, 0, 0};
-	mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS, DT_NOCLIP, GREEN);
-//========================================================================================================================================================================
-
-	//Render GUI Scene
-	//CGUIManager::getInstance().render();
-
-
+	}
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
     m_pSwapChain->Present( 0, 0 );
 }
 
-
 void CGameApplication::update()
 {
-	//CGUIManager::getInstance().update();
 	m_Timer.update();
-	m_Cpu->Frame();
 
+	CPhysics::getInstance().update(m_Timer.getElapsedTime());
+	//Audio - Update the audio system, this must be called to update streams and listener position
+	CAudioSystem::getInstance().update();
 
-	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
+	CCameraComponent *pCamera=CGameObjectManager::getInstance().getMainCamera();
+	if (pCamera)
 	{
-		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-		pTransform->rotate(m_Timer.getElapsedTime(),0.0f,0.0f);
+		//Fine on track pads but not on mices
+		float mouseDeltaX=CInput::getInstance().getMouse()->getRelativeMouseX();
+		float mouseDeltaY=CInput::getInstance().getMouse()->getRelativeMouseY();
+
+		pCamera->yaw(mouseDeltaX*m_Timer.getElapsedTime());
+		pCamera->pitch(mouseDeltaY*m_Timer.getElapsedTime());
 	}
-	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
-	{
-		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-		pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
-	}
+
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
 	{
 		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-		pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
+		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Test")->getTransform();
+		pTransform->rotate(m_Timer.getElapsedTime(),0.0f,0.0f);
 	}
-	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
+	//Audio -  If the left mouse button has been pressed
+	if (CInput::getInstance().getMouse()->getMouseDown(0))
 	{
-		//play sound
-		CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-		pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+		//Audio - grab the audio component
+		CAudioSourceComponent * pAudio=(CAudioSourceComponent *)CGameObjectManager::getInstance().findGameObject("Test")->getComponent("AudioSourceComponent");
+		//Audio - call play
+		pAudio->play();
 	}
-	m_pGameObjectManager->update(m_Timer.getElapsedTime());
 
-
-//================================================================BH===================================================================================================================
-	// Code computes the average frames per second, and also the 
-	// average time it takes to render one frame.
-
-	static int frameCnt = 0;
-	static float t_base = 0.0f;
-
-	frameCnt++;
-
-	// Compute averages over one second period.
-	if( (mTimer.getGameTime() - t_base) >= 1.0f )
-	{
-		float fps = (float)frameCnt; // fps = frameCnt / 1
-		float mspf = 1000.0f / fps;
-
-		std::wostringstream outs;   
-		outs.precision(6);
-		outs << L"FPS: " << fps << L"\n" 
-			 << "Milliseconds: Per Frame: " << mspf;
-		mFrameStats = outs.str();
-		
-		// Reset for next average.
-		frameCnt = 0;
-		t_base  += 1.0f;
-	}
-	return;
-
-	
-
-	
-
-	
-	
-	
+	CGameObjectManager::getInstance().update(m_Timer.getElapsedTime());
 }
 
-
-void CGameApplication::drawScene()
+bool CGameApplication::initPhysics()
 {
-	m_pD3D10Device->ClearRenderTargetView(m_pRenderTargetView,mClearColor);
-	m_pD3D10Device->ClearDepthStencilView(m_pDepthStencelView, D3D10_CLEAR_DEPTH|D3D10_CLEAR_STENCIL, 1.0f, 0);
+	CPhysics::getInstance().init();
+	//Add the Game Application
+	CPhysics::getInstance().getPhysicsWorld()->addContactListener(this);
+	return true;
 }
-//===================================================================================================================================================================================
-
-
-
 bool CGameApplication::initInput()
 {
 	CInput::getInstance().init();
 	return true;
 }
-
+bool CGameApplication::initAudio()
+{
+	CAudioSystem::getInstance().init();
+	return true;
+}
 
 //initGraphics - initialise the graphics subsystem - BMD
 bool CGameApplication::initGraphics()
@@ -564,10 +486,7 @@ bool CGameApplication::initGraphics()
 bool CGameApplication::initWindow()
 {
 	m_pWindow=new CWin32Window();
-	if (!m_pWindow->init(TEXT("Games Programming"),800,640,false))
+	if (!m_pWindow->init(TEXT("Lab 1 - Triangle"),800,640,false))
 		return false;
 	return true;
 }
-
-
-

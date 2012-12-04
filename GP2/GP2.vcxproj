@@ -39,8 +39,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\libRocket\Include\Rocket\Core\Python;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\libRocket\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -52,13 +50,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\libRocket\Include;C:\Users\bhanna200\Desktop\hk2011_3_1_r1\Source;C:\hk2011_3_1_r1\Source;$(DXSDK_DIR)\include;$(FBXSDK_DIR)\include;C:\libRocket\Include\Rocket;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(HAVOKSDK_DIR)\source;$(FMODSDK_DIR)\inc;$(FBXSDK_DIR)\include;$(DXSDK_DIR)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ROCKETSDK_DIR)\Lib;C:\libRocket\Include;C:\Users\bhanna200\Desktop\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;$(FBXSDK_DIR)\lib\vs2010\x86;$(DXSDK_Dir)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d10.lib;d3dx10.lib;fbxsdk-2013.1d.lib;xinput.lib;hkBase.lib;hkGeometryUtilities.lib;hkSceneData.lib;hkVisualize.lib;hkpCollide.lib;hkpInternal.lib;hkpVehicle.lib;hkcdInternal.lib;hkCompat.lib;hkInternal.lib;hkSerialize.lib;hkpConstraintSolver.lib;hkpDynamics.lib;hkpUtilities.lib;hkcdCollide.lib;RocketCore_d.lib;RocketDebugger_d.lib;RocketControls_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(HAVOKSDK_DIR)\Lib\win32_vs2010\debug_multithreaded_dll;$(FMODSDK_DIR)\lib;$(FBXSDK_DIR)\lib\vs2010\x86;$(DXSDK_DIR)\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d10.lib;d3dx10.lib;xinput.lib;fbxsdk-2013.1d.lib;fmodex_vc.lib;hkBase.lib;hkCompat.lib;hkSceneData.lib;hkSerialize.lib;hkVisualize.lib;hkInternal.lib;hkGeometryUtilities.lib;hkcdInternal.lib;hkcdCollide.lib;hkpCollide.lib;hkpConstraintSolver.lib;hkpDynamics.lib;hkpInternal.lib;hkpUtilities.lib;hkpVehicle.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,32 +77,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\..\..\Documents\GitHub\gp2\GP2\cursor.rml" />
-    <None Include="..\..\..\Documents\GitHub\gp2\GP2\demo.rml" />
-    <None Include="..\..\..\Documents\GitHub\gp2\GP2\invader.rcss" />
-    <None Include="..\..\..\Documents\GitHub\gp2\GP2\rkt.rcss" />
-    <None Include="..\..\..\Documents\GitHub\gp2\GP2\window.rml" />
-    <None Include="font.fx" />
-    <None Include="ScreenSpace.fx" />
-    <None Include="Texture.fx" />
-    <None Include="Transform.fx" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="AudioListenerComponent.cpp" />
+    <ClCompile Include="AudioSourceComponent.cpp" />
+    <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="BodyComponent.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
-    <ClCompile Include="Cpuclass.cpp" />
-    <ClCompile Include="DirectionalLightComponent.cpp" />
     <ClCompile Include="GameApplication.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
-    <ClCompile Include="GameTimer.cpp" />
-    <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="GeometryComponent.cpp" />
-    <ClCompile Include="GUIManager.cpp" />
-    <ClCompile Include="GUISystemInterface.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Joypad.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -112,35 +96,28 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaterialComponent.cpp" />
     <ClCompile Include="MeshCollider.cpp" />
-    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="RenderInterfaceDirectx10.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Timerclass.cpp" />
     <ClCompile Include="Win32Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioListenerComponent.h" />
+    <ClInclude Include="AudioSourceComponent.h" />
+    <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="BodyComponent.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CapsuleCollider.h" />
-    <ClInclude Include="Cpuclass.h" />
-    <ClInclude Include="D3D10Effect.h" />
     <ClInclude Include="DefaultEffect.h" />
-    <ClInclude Include="DirectionLightComponent.h" />
-    <ClInclude Include="fbxsdk.h" />
+    <ClInclude Include="DirectionalLightComponent.h" />
     <ClInclude Include="GameApplication.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
-    <ClInclude Include="GameTimer.h" />
-    <ClInclude Include="Geometry.h" />
     <ClInclude Include="GeometryComponent.h" />
-    <ClInclude Include="GUIManager.h" />
-    <ClInclude Include="GUISystemInterface.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Joypad.h" />
@@ -148,17 +125,19 @@
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MaterialComponent.h" />
     <ClInclude Include="MeshCollider.h" />
-    <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Physics.h" />
-    <ClInclude Include="RenderInterfaceDirectx10.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="Timerclass.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Win32Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ScreenSpace.fx" />
+    <None Include="Texture.fx" />
+    <None Include="Transform.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

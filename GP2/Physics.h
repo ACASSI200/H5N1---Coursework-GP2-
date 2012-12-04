@@ -74,3 +74,4 @@ private:
 	hkVisualDebugger* m_pVisualDebugger;
 	hkpPhysicsContext* m_pContext;
 };
+

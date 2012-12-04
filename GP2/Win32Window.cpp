@@ -2,6 +2,31 @@
 #include "Input.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include <math.h>
+
+#include <stdio.h>
+
+#ifdef _DEBUG
+#define XTRACE XTrace
+#else
+#define XTRACE
+#endif
+
+void XTrace0(LPCTSTR lpszText)
+{
+   ::OutputDebugString(lpszText);
+}
+
+void XTrace(LPCSTR lpszFormat, ...)
+{
+    va_list args;
+    va_start(args, lpszFormat);
+    int nBuf;
+    char szBuffer[512]; // get rid of this hard-coded buffer
+	nBuf = vsnprintf(szBuffer, 511, lpszFormat, args);
+    ::OutputDebugStringA(szBuffer);
+    va_end(args);
+}
 
 CWin32Window * g_pWindow=NULL;
 
@@ -172,7 +197,7 @@ LRESULT CALLBACK CWin32Window::wndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 				CInput::getInstance().getKeyboard()->setKeyUp((int)wParam);
 				break;
 			}
-			case WM_INPUT: 
+		case WM_INPUT: 
 			{
 				UINT dwSize = 40;
 				static BYTE lpb[40];
@@ -186,22 +211,30 @@ LRESULT CALLBACK CWin32Window::wndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 				{
 					int xPosRelative = raw->data.mouse.lLastX;
 					int yPosRelative = raw->data.mouse.lLastY;
+					//float magnitude=sqrtf(xPosRelative*xPosRelative + yPosRelative*yPosRelative);
+					//float xPosNormalized=xPosRelative/magnitude;
+					//float yPosNormalized=yPosRelative/magnitude;
+					//XTrace("Mouse X %f Mouse Y %f\n",xPosNormalized,yPosNormalized);
 					int mouseOneButtonDown=raw->data.mouse.ulButtons&RI_MOUSE_BUTTON_1_DOWN;
 					int mouseTwoButtonDown=raw->data.mouse.ulButtons&RI_MOUSE_BUTTON_2_DOWN;
 					int mouseThreeButtonDown=raw->data.mouse.ulButtons&RI_MOUSE_BUTTON_3_DOWN;
-
 					CInput::getInstance().getMouse()->setMouseButtonsDown((bool)mouseOneButtonDown,
 						(bool)mouseTwoButtonDown,(bool)mouseThreeButtonDown);
 
 					CInput::getInstance().getMouse()->setMouseMove((float)xPosRelative,(float)yPosRelative);
+
 				} 
+				
 				break;
 			}
 
 			//if no message has been handled by us, just let windows handle it
 			// http://msdn.microsoft.com/en-us/library/ms633572%28v=vs.85%29.aspx - BMD
 			default:
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+			{	
+				//CInput::getInstance().getMouse()->setMouseMove(0.0f,0.0f);
+				return DefWindowProc(hWnd, uMsg, wParam, lParam);
+			}
 	}
 	return 0;
 }
