@@ -1,18 +1,24 @@
-﻿Build started 05/12/2012 02:49:05 PM.
+﻿Build started 05/12/2012 04:49:11 PM.
      1>Project "C:\Users\Dregron\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Havok\hk2011_3_1_r1\Source" /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I"C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc" /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt GameApplication.cpp
          GameApplication.cpp
-     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(79): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(87): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(283) : see declaration of 'wcscpy'
-     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(170): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(170): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(170): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(258): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(402): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(177): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(177): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(177): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(267): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(427): warning C4996: 'vsprintf': This function or variable may be unsafe. Consider using vsprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : see declaration of 'vsprintf'
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(507): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(283) : see declaration of 'wcscpy'
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(526): warning C4244: '=' : conversion from 'LONG' to 'float', possible loss of data
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(527): warning C4244: '=' : conversion from 'LONG' to 'float', possible loss of data
+     1>c:\users\dregron\documents\github\h5n1---coursework-gp2-\gp2\gameapplication.cpp(545): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(283) : see declaration of 'wcscpy'
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -50,4 +56,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.51
+Time Elapsed 00:00:02.38

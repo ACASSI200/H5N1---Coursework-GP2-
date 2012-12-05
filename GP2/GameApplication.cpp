@@ -7,6 +7,9 @@
 #include "Joypad.h"
 #include "Mouse.h"
 
+int cameraView = 0;
+float oldPitch = 0, oldYaw = 0;
+
 CGameApplication::CGameApplication(void)
 {
 	m_pWindow=NULL;
@@ -61,25 +64,29 @@ bool CGameApplication::init()
 		return false;
 	return true;
 }
+POINT cursorPos;
+float x = 0;
+float y = 0;
 
 bool CGameApplication::initGame()
 {
+	
+    
 
 	//================================================================================================
 	D3DX10_FONT_DESC fontDesc;
-	fontDesc.Height          = 20;
-    fontDesc.Width           = 0;
-    fontDesc.Weight          = 0;
-    fontDesc.MipLevels       = 1;
-    fontDesc.Italic          = false;
-    fontDesc.CharSet         = DEFAULT_CHARSET;
-    fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
-    fontDesc.Quality         = DEFAULT_QUALITY;
-    fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-    wcscpy(fontDesc.FaceName, L"Times New Roman");
+	fontDesc.Height          = 42;
+	fontDesc.Width           = 0;
+	fontDesc.Weight          = 0;
+	fontDesc.MipLevels       = 1;
+	fontDesc.Italic          = false;
+	fontDesc.CharSet         = DEFAULT_CHARSET;
+	fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fontDesc.Quality         = DEFAULT_QUALITY;
+	fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+	wcscpy(fontDesc.FaceName, L"Times New Roman");
 
 	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
-
 	//================================================================================================
 
     // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
@@ -245,7 +252,7 @@ bool CGameApplication::initGame()
 	//========================================================================
 	
 	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(5.0f,0.0f,125.0f);
+	pCameraGameObject->getTransform()->setPosition(413.0f,80.0f,109.0f);
 	pCameraGameObject->setName("Camera_1");
 
 	D3D10_VIEWPORT vp;
@@ -253,6 +260,8 @@ bool CGameApplication::initGame()
 	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
 
 	pCamera=new CCameraComponent();
+	pCamera->setYaw(11.2f);
+	pCamera->setPitch(-0.2f);
 	pCamera->setUp(0.0f,1.0f,0.0f);
 	pCamera->setLookAt(0.0f,0.0f,0.0f);
 	pCamera->setFOV(D3DX_PI*0.25f);
@@ -376,15 +385,31 @@ void CGameApplication::render()
 	}
 
 	//=============================================================BH=====================================================================
-	RECT R1 = {5, 5, 0, 0};
-	RECT R2 = {6, 6, 0, 0};
-	RECT R3 = {5, 22, 0, 0};
-	RECT R4 = {6, 23, 0, 0};
-	mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R1, DT_NOCLIP, WHITE);
-	mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R2, DT_NOCLIP, GREEN);
+	switch(cameraView){
+		case 1:
+			{
+				RECT R1 = {5, 5, 0, 0};
+				RECT R2 = {6, 6, 0, 0};
+				RECT R3 = {5, 22, 0, 0};
+				RECT R4 = {6, 23, 0, 0};
+				mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R1, DT_NOCLIP, WHITE);
+				mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R2, DT_NOCLIP, GREEN);
 
-	mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R3, DT_NOCLIP, WHITE);
-	mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R4, DT_NOCLIP, GREEN);
+				mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R3, DT_NOCLIP, WHITE);
+				mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R4, DT_NOCLIP, GREEN);
+			}
+			break;
+		case 0:
+			{
+				RECT R1 = {200, 300, 0, 0};
+				mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R1, DT_NOCLIP, BLACK);
+				RECT R3 = {199, 299, 0, 0};
+				mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R3, DT_NOCLIP, BLACK);
+				RECT R2 = {201, 301, 0, 0};
+				mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R2, DT_NOCLIP, WHITE);
+			}
+			break;
+	}
 	//====================================================================================================================================
 
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
@@ -404,9 +429,7 @@ void CGameApplication::MyOutputFunction(const char *str, ...)
   OutputDebugStringA(buf);
 }
 
-int cameraView = 0;
-float oldPitch = 0, oldYaw = 0;
-D3DXVECTOR3 oldPos;
+
 void CGameApplication::update()
 {
 	m_Timer.update();
@@ -416,7 +439,7 @@ void CGameApplication::update()
 	pCamera->update(m_Timer.getElapsedTime());
 
 	switch(cameraView){
-		case 0:
+		case 1:
 			{
 				
 
@@ -468,27 +491,70 @@ void CGameApplication::update()
 
 					//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
 					//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
-				}else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'C'))
+				}else if (CInput::getInstance().getKeyboard()->isKeyDown(VK_ESCAPE))
 				{
-					oldPos = pCamera->getParent()->getTransform()->getPosition();
+					//================================================================================================
+					D3DX10_FONT_DESC fontDesc;
+					fontDesc.Height          = 42;
+					fontDesc.Width           = 0;
+					fontDesc.Weight          = 0;
+					fontDesc.MipLevels       = 1;
+					fontDesc.Italic          = false;
+					fontDesc.CharSet         = DEFAULT_CHARSET;
+					fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+					fontDesc.Quality         = DEFAULT_QUALITY;
+					fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+					wcscpy(fontDesc.FaceName, L"Times New Roman");
+
+					D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
+					//================================================================================================
+
 					pCamera->getParent()->getTransform()->setPosition(413.0f,80.0f,109.0f);
 					oldPitch = pCamera->getPitch();
 					oldYaw = pCamera->getYaw();
 					pCamera->setYaw(11.2f);
 					pCamera->setPitch(-0.2f);
-					cameraView = 1;
+					cameraView = 0;
 				}
 
 			}	
 			break;
-		case 1:
+		case 0:
 			{
-				if (CInput::getInstance().getKeyboard()->isKeyDown((int)'C'))
+				
+				GetCursorPos(&cursorPos);
+				x = cursorPos.x; 
+				y = cursorPos.y;
+				
+				if(CInput::getInstance().getMouse()->getMouseDown(0)){
+					if(y > 330 && y < 365 && x > 210 && x < 625){
+								//================================================================================================
+								D3DX10_FONT_DESC fontDesc;
+								fontDesc.Height          = 22;
+								fontDesc.Width           = 0;
+								fontDesc.Weight          = 0;
+								fontDesc.MipLevels       = 1;
+								fontDesc.Italic          = false;
+								fontDesc.CharSet         = DEFAULT_CHARSET;
+								fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+								fontDesc.Quality         = DEFAULT_QUALITY;
+								fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+								wcscpy(fontDesc.FaceName, L"Times New Roman");
+
+								D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
+								//================================================================================================
+
+								pCamera->getParent()->getTransform()->setPosition(5.0f,0.0f,125.0f);
+								pCamera->setYaw(oldYaw);
+								pCamera->setPitch(oldPitch);
+								cameraView = 1;
+					}
+				}
+
+				//Enter
+				if (CInput::getInstance().getKeyboard()->isKeyDown(0x0D))
 				{
-					pCamera->getParent()->getTransform()->getPosition() = oldPos;
-					pCamera->setYaw(oldYaw);
-					pCamera->setPitch(oldPitch);
-					cameraView = 0;
+						
 				}
 			}
 			break;

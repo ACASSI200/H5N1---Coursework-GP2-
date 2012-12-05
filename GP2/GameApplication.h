@@ -21,7 +21,8 @@
 #include <sstream> 
 
 using namespace std;
-const D3DXCOLOR WHITE(0.5f, 1.0f, 0.5f, 1.0f);
+const D3DXCOLOR WHITE(1.0f, 1.0f, 1.0f, 1.0f);
+const D3DXCOLOR BLACK(0.0f, 0.0f, 0.0f, 1.0f);
 const D3DXCOLOR GREEN(0.0f, 0.5f, 0.0f, 1.0f);
 
 class CGameApplication
