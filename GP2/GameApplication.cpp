@@ -16,6 +16,7 @@ CGameApplication::CGameApplication(void)
 	m_pSwapChain=NULL;
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
+	playerHealth = 100;
 	
 	mFrameStats = L" ";
 	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
@@ -66,19 +67,58 @@ bool CGameApplication::init()
 		return false;
 	return true;
 }
+void CGameApplication::createBox(float x,float y,float z)
+{
+	//Create Game Object
+	CGameObject *EnemyObject=new CGameObject();
+	EnemyObject->getTransform()->setPosition(x,y,z);
+	//Set the name
+	EnemyObject->setName("TestCube");
+	
+	//create material
+	CMaterialComponent *EnemyMaterial=new CMaterialComponent();
+	EnemyMaterial->SetRenderingDevice(m_pD3D10Device);
+	EnemyMaterial->setEffectFilename("Texture.fx");
+
+	//Create geometry
+	CModelLoader modelloader;
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
+	CGeometryComponent *EnemyGeom=modelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	
+	//create a box collider, this could be any collider
+	CBoxCollider *EnemBox=new CBoxCollider();
+	//set the size of the box
+	EnemBox->setExtents(1.0f,1.0f,1.0f);
+	//add collider
+	EnemyObject->addComponent(EnemBox);
+
+	//create body
+	CBodyComponent *pBody=new CBodyComponent();
+	EnemyObject->addComponent(pBody);
+
+	EnemyGeom->SetRenderingDevice(m_pD3D10Device);
+	//Add component
+	EnemyObject->addComponent(EnemyMaterial);
+	EnemyObject->addComponent(EnemyGeom);
+	//add the game object
+	CGameObjectManager::getInstance().addGameObject(EnemyObject);
+}
 
 
 
 void CGameApplication::contactPointCallback (const hkpContactPointEvent &event)
 {
 	//Called when a collision occurs
-	hkpRigidBody *pBody1=event.getBody(0);
+	hkpRigidBody *pBody1=event.getBody(1);
 	hkpRigidBody *pBody2=event.getBody(1);
+
 
 	CGameObject *pGameObject1=(CGameObject*)pBody1->getUserData();
 	CGameObject *pGameObject2=(CGameObject*)pBody2->getUserData();
-
+	//CGameObject *pGameObject3=(CGameObject*)pBody3->getUserData();
 	//Do something with the game objects
+
+	//playerHealth --;
 }
 
 bool CGameApplication::initGame()
@@ -181,7 +221,7 @@ bool CGameApplication::initGame()
 	CModelLoader Playermodelloader;
 	//CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"arnoredRecon1.fbx");
 	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
-	pPlayer->getTransform()->setPosition(0.0f,0.0,0.0f);
+	pPlayer->getTransform()->setPosition(10.0f,20.0f,0.0f);
 
 	//create box
 	CBoxCollider *pPlayerBox=new CBoxCollider();
@@ -201,29 +241,19 @@ bool CGameApplication::initGame()
 	pPlayer->addComponent(pPlayerGeometry);
 	//add the game object
 	CGameObjectManager::getInstance().addGameObject(pPlayer);
-	//===============================================================
-	
-	//===============================================================
-	//						CAMERA VARIABLES
-	//===============================================================
+	//=========================================================
 
+	//=========================================================
+	//					ENEMY
+	//=========================================================
 
-	
-
-	//===============================================================
-	//						DEBUG CAM
-	//===============================================================
-		
-	//===============================================================
-
-	//===============================================================
-	//						PLAYER CAM 				
-	//===============================================================
-
-
-		
-	
-	//=============================================================
+	float startY=10.0f;
+	for (int i=0;i<10;i++)
+	{
+		//call create bi=ox
+		createBox(0.0f,(10.0f*i)+startY,0.0f);
+	}
+	//=========================================================
 
 	CGameObjectManager::getInstance().init();
 
@@ -467,6 +497,10 @@ void CGameApplication::update()
 		pAudio->play();
 	}
 
+	float playerPosX = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().x;
+	float playerPosY = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().y;
+	float playerPosZ = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().z;
+
 	static int frameCnt = 0;
 	static float t_base = 0.0f;
 
@@ -480,7 +514,7 @@ void CGameApplication::update()
 
 		std::wostringstream outs;   
 		outs.precision(6);
-		outs << L"FPS: " << fps << L"\n" 
+		outs << L"Health: " << playerHealth << L"\n" 
 			 << "Milliseconds: Per Frame: " << mspf;
 		mFrameStats = outs.str();
 		
@@ -488,9 +522,6 @@ void CGameApplication::update()
 		frameCnt = 0;
 		t_base  += 1.0f;
 	}
-	
-
-
 	
 	CGameObjectManager::getInstance().update(m_Timer.getElapsedTime());
 }

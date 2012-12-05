@@ -40,6 +40,7 @@ const D3DXCOLOR GREEN(0.0f, 1.0f, 0.0f, 1.0f);
 class CGameApplication:public hkpContactListener 
 {
 public:
+	void createBox(float x,float y,float z);
 	CGameApplication(void);
 	~CGameApplication(void);
 	bool init();
@@ -51,7 +52,7 @@ public:
 	string userText;
 	void DebugCam();
 	void PlayerCam();
-
+	float playerHealth;
 private:
 	bool initInput();
 	bool initGame();
