@@ -25,6 +25,12 @@
     <Filter Include="Audio">
       <UniqueIdentifier>{dcf5ac4c-7f01-420f-b9ad-e8966a19b6f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{2177bcaf-bd87-4018-98fe-81c1566bc275}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUIScripts">
+      <UniqueIdentifier>{8f6b8404-a0aa-49c6-a281-9381f6359118}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp">
@@ -89,6 +95,15 @@
     </ClCompile>
     <ClCompile Include="GameTimer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIManager.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUISystemInterface.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderInterfaceDirectx10.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +179,18 @@
     <ClInclude Include="GameTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D3D10Effect.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIManager.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUISystemInterface.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderInterfaceDirectx10.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ambient.fx">
@@ -195,6 +222,21 @@
     </None>
     <None Include="Transform.fx">
       <Filter>Effects</Filter>
+    </None>
+    <None Include="cursor.rml">
+      <Filter>GUIScripts</Filter>
+    </None>
+    <None Include="window.rml">
+      <Filter>GUIScripts</Filter>
+    </None>
+    <None Include="demo.rml">
+      <Filter>GUIScripts</Filter>
+    </None>
+    <None Include="invader.rcss">
+      <Filter>GUIScripts</Filter>
+    </None>
+    <None Include="rkt.rcss">
+      <Filter>GUIScripts</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 
 
 #include "ModelLoader.h"
+#include "GUIManager.h"
 #include "GameTimer.h"
 
 

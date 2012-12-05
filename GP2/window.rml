@@ -1,0 +1,16 @@
+<template name="window" content="content">
+<head>
+	<link type="text/rcss" href="rkt.rcss"/>
+	<link type="text/rcss" href="invader.rcss"/>
+</head>
+<body class="window">
+	<div id="title_bar">
+			<span id="title">Hello</span>
+	</div>
+	<div id="window">
+		<div id="content">
+      Hello
+		</div>
+	</div>
+</body>
+</template>
