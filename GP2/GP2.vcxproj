@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\libRocket\Include;C:\hk2011_3_1_r1\Source;$(DXSDK_DIR)\include;$(FMODSDK_DIR)\inc;$(FBXSDK_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\Lib;C:\libRocket\Include;C:\hk2011_3_1_r1\Source;$(DXSDK_DIR)\include;$(FMODSDK_DIR)\inc;$(FBXSDK_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,11 +142,8 @@
     <None Include="diffuse.fx" />
     <None Include="DirectionalLight.fx" />
     <None Include="Environment.fx" />
-    <None Include="GameGUI.rml" />
     <None Include="invader.rcss" />
-    <None Include="mainMenu.rml" />
     <None Include="Parallax.fx" />
-    <None Include="PauseGUI.rml" />
     <None Include="rkt.rcss" />
     <None Include="ScreenSpace.fx" />
     <None Include="Specular.fx" />

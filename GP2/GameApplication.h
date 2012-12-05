@@ -29,13 +29,15 @@ using namespace std;
 const D3DXCOLOR WHITE(0.5f, 1.0f, 0.5f, 1.0f);
 const D3DXCOLOR GREEN(0.0f, 0.5f, 0.0f, 1.0f);
 
+//Game States
 enum GameState
-	{
-		MAINMENU,
-		GAME,
-		PAUSE,
-		EXIT
-	};
+{
+	MAINMENU,
+	GAMEPLAYING,
+	PAUSE,
+	EXIT
+};
+
 
 
 class CGameApplication
@@ -71,6 +73,7 @@ private:
 
 	void updateMainGame();
 	void updateMainMenu();
+	void updatePauseGUI();
 
 private:
 	//Graphics
@@ -98,7 +101,8 @@ private:
 	Rocket::Core::ElementDocument *m_pMainMenu;
 	Rocket::Core::ElementDocument *m_pGameGUI;
 	Rocket::Core::ElementDocument *m_pPauseGUI;
-
+	
 	GameState m_GameState;
-	//Need one for every screen
+	
+
 };

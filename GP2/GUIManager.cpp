@@ -13,11 +13,11 @@ CGUIManager::~CGUIManager()
 
 void CGUIManager::destroy()	
 {
-		vector<Rocket::Core::ElementDocument*>::iterator iter;
-		iter=m_GUIScreens.begin();
-		while(iter!=m_GUIScreens.end())
-		{
-			if ((*iter))
+	vector<Rocket::Core::ElementDocument*>::iterator iter;
+	iter=m_GUIScreens.begin();
+	while(iter!=m_GUIScreens.end())
+	{
+		if ((*iter))
 		{
 			(*iter)->RemoveReference();
 
@@ -27,9 +27,8 @@ void CGUIManager::destroy()
 		{
 			iter++;
 		}
-}
+	}
 
-	
 	m_GUIScreens.clear();
 
 	m_pContext->RemoveReference();
@@ -57,11 +56,14 @@ void CGUIManager::init(ID3D10Device * pD3D10Device,int width,int height)
 	Rocket::Core::SetSystemInterface(m_pSystemInterface);
 
 	Rocket::Core::Initialise();
+	
+	
 
 	Rocket::Core::FontDatabase::LoadFontFace("Delicious-Roman.otf");
 	Rocket::Core::FontDatabase::LoadFontFace("Delicious-Bold.otf");
 	Rocket::Core::FontDatabase::LoadFontFace("Delicious-Italic.otf");
 	Rocket::Core::FontDatabase::LoadFontFace("Delicious-BoldItalic.otf");
+	// Create the main Rocket context and set it on the shell's input layer.
 	m_pContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(width, height));
 	if (m_pContext == NULL)
 	{
@@ -69,11 +71,11 @@ void CGUIManager::init(ID3D10Device * pD3D10Device,int width,int height)
 		return;
 	}
 	Rocket::Controls::Initialise();
-	Rocket::Debugger::Initialise(m_pContext);
-	Rocket::Debugger::SetVisible(false);
+	//Rocket::Debugger::Initialise(m_pContext);
+	//Rocket::Debugger::SetVisible(true);
 
-	//// Load and show the tutorial document.
-	//Rocket::Core::ElementDocument* document = m_pContext->LoadDocument("GameGUI.rml");
+	// //Load and show the tutorial document.
+	//Rocket::Core::ElementDocument* document = m_pContext->LoadDocument("mainMenu.rml");
 	//if (document != NULL)
 	//{
 	//	document->Show();
@@ -81,19 +83,22 @@ void CGUIManager::init(ID3D10Device * pD3D10Device,int width,int height)
 	//}
 }
 
-	Rocket::Core::ElementDocument* CGUIManager::loadGUI(const string& name)
-	{
-		// Load and show the tutorial document.
-		Rocket::Core::ElementDocument* document = m_pContext->LoadDocument(name.c_str());
-		m_GUIScreens.push_back(document);
-		return document;
-	}
+Rocket::Core::ElementDocument* CGUIManager::loadGUI(const string& name)
+{
+	// Load and show the tutorial document.
+	Rocket::Core::ElementDocument* document = m_pContext->LoadDocument(name.c_str());
+	m_GUIScreens.push_back(document);
+	return document;
+}
 
 void CGUIManager::update()
 {
 	m_pContext->Update();
 	updateMouse();
 	updateKeyboard();
+
+
+	//CInput::getInstance().getMouse()->
 }
 
 void CGUIManager::updateMouse()
