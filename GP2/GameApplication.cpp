@@ -16,6 +16,9 @@ CGameApplication::CGameApplication(void)
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
 	m_pGameObjectManager=new CGameObjectManager();
+
+	mFrameStats = L" ";
+	mClearColor = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
 }
 
 CGameApplication::~CGameApplication(void)
@@ -210,12 +213,14 @@ bool CGameApplication::initGame()
 
 void CGameApplication::run()
 {
+	mTimer.reset();
 	while(m_pWindow->running())
 	{
 		if (! m_pWindow->checkForWindowMessages())
 		{
 			update();
 			render();
+			mTimer.tick();
 		}
 	}
 }
@@ -308,6 +313,12 @@ void CGameApplication::render()
 	mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R4, DT_NOCLIP, GREEN);
 	//====================================================================================================================================
 
+	RECT FPS = {10, 550, 0, 0};
+    mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS, DT_NOCLIP, GREEN);
+//========================================================================================================================================================================
+
+
+
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
     m_pSwapChain->Present( 0, 0 );
@@ -374,6 +385,35 @@ void CGameApplication::update()
 	}
 
 	m_pGameObjectManager->update(m_Timer.getElapsedTime());
+
+	//================================================================BH===================================================================================================================
+	// Code computes the average frames per second, and also the
+	// average time it takes to render one frame.
+
+	static int frameCnt = 0;
+	static float t_base = 0.0f;
+
+	frameCnt++;
+
+	// Compute averages over one second period.
+	if( (mTimer.getGameTime() - t_base) >= 1.0f )
+	{
+		float fps = (float)frameCnt; // fps = frameCnt / 1
+		float mspf = 1000.0f / fps;
+
+		std::wostringstream outs;
+		outs.precision(6);
+		outs << L"FPS: " << fps << L"\n"
+		<< "Milliseconds: Per Frame: " << mspf;
+		mFrameStats = outs.str();
+
+		// Reset for next average.
+		frameCnt = 0;
+		t_base += 1.0f;
+	}
+	return;
+
+
 }
 
 bool CGameApplication::initInput()

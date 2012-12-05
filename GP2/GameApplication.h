@@ -15,6 +15,8 @@
 
 
 #include "ModelLoader.h"
+#include "GameTimer.h"
+
 
 #include <vector>
 #include <Common\Base\hkBase.h>
@@ -34,11 +36,15 @@ public:
 	bool init();
 	void run();
 
-	string convertFloat(float number){
+	string convertFloat(float number)
+	{
 		std::ostringstream buff;
 		buff<<number;
 		return buff.str();
 	}
+
+		GameTimer mTimer;
+		std::wstring mFrameStats;
 
 private:
 	bool initInput();
@@ -59,6 +65,7 @@ private:
 	CCameraComponent *pCamera;
 	ID3DX10Font* mFont;
 	ID3D10InputLayout* mVertexLayout;
+	D3DXCOLOR mClearColor;
 
 	CWin32Window * m_pWindow;
 
