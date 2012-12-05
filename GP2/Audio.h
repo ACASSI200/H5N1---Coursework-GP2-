@@ -24,7 +24,7 @@ public:
 	void loadSound();
 
 	void playSoundtrack();
-	void playSound1();
+	void EnterGame();
 	void playSound2();
 
 };

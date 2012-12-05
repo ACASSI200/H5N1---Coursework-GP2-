@@ -288,7 +288,7 @@ bool CGameApplication::initGame()
 	audio = new Audio();
 	audio->initSound();
 	audio->loadSound();
-	//audio->playSoundtrack();
+	audio->playSoundtrack();
 	
 
 	m_Timer.start();
@@ -433,7 +433,7 @@ void CGameApplication::MyOutputFunction(const char *str, ...)
 void CGameApplication::update()
 {
 	m_Timer.update();
-	//audio->updateSound();
+	audio->updateSound();
 	CCameraComponent *pCamera=m_pGameObjectManager->getMainCamera();
 
 	pCamera->update(m_Timer.getElapsedTime());
@@ -441,8 +441,6 @@ void CGameApplication::update()
 	switch(cameraView){
 		case 1:
 			{
-				
-
 				if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 				{
 					//play sound
@@ -528,6 +526,8 @@ void CGameApplication::update()
 				
 				if(CInput::getInstance().getMouse()->getMouseDown(0)){
 					if(y > 330 && y < 365 && x > 210 && x < 625){
+
+						audio->EnterGame();
 								//================================================================================================
 								D3DX10_FONT_DESC fontDesc;
 								fontDesc.Height          = 22;
