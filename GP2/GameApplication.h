@@ -25,8 +25,17 @@
 #include <sstream> 
 
 using namespace std;
+
 const D3DXCOLOR WHITE(0.5f, 1.0f, 0.5f, 1.0f);
 const D3DXCOLOR GREEN(0.0f, 0.5f, 0.0f, 1.0f);
+
+enum GameState
+	{
+		MAINMENU,
+		GAME,
+		PAUSE,
+		EXIT
+	};
 
 
 class CGameApplication
@@ -52,11 +61,16 @@ private:
 	bool initInput();
 	bool initGame();
 	bool initGraphics();
-	bool initWindow();
-	
+	bool initGUI();
+	bool initWindow();	
 	void render();
 	void update();
 	
+	void initMainGame();
+	void initMainMenu();
+
+	void updateMainGame();
+	void updateMainMenu();
 
 private:
 	//Graphics
@@ -81,5 +95,10 @@ private:
 
 	CModelLoader modelloader;
 
-	
+	Rocket::Core::ElementDocument *m_pMainMenu;
+	Rocket::Core::ElementDocument *m_pGameGUI;
+	Rocket::Core::ElementDocument *m_pPauseGUI;
+
+	GameState m_GameState;
+	//Need one for every screen
 };

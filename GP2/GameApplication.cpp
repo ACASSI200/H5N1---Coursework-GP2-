@@ -16,7 +16,7 @@ m_pSwapChain=NULL;
 m_pDepthStencelView=NULL;
 m_pDepthStencilTexture=NULL;
 m_pGameObjectManager=new CGameObjectManager();
-
+m_GameState=MAINMENU;
 mFrameStats = L" ";
 mClearColor = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
 }
@@ -25,7 +25,11 @@ CGameApplication::~CGameApplication(void)
 {
 if (m_pD3D10Device)
 m_pD3D10Device->ClearState();
-if(audio){
+
+CGUIManager::getInstance().destroy();
+
+if(audio)
+{
 delete audio;
 audio = NULL;
 }
@@ -60,15 +64,35 @@ if (!initGraphics())
 return false;
 if (!initInput())
 return false;
+if(!initGUI())
+return false;
 if (!initGame())
 return false;
 return true;
 }
+//==========================================BH==========================================================
+bool CGameApplication::initGUI()
+{
+D3D10_VIEWPORT vp;
+UINT numViewports=1;
+m_pD3D10Device->RSGetViewports(&numViewports,&vp);
+CGUIManager::getInstance().init(m_pD3D10Device,vp.Width,vp.Height);
+return true;
+}
+//======================================================================================================
+
+void CGameApplication::initMainGame()
+{
+	//to do code here
+}
+
+
+
 
 bool CGameApplication::initGame()
 {
 
-//================================================================================================
+//======================================================================================================
 D3DX10_FONT_DESC fontDesc;
 fontDesc.Height = 20;
     fontDesc.Width = 0;
