@@ -37,6 +37,15 @@ public:
 	{
 		m_fFOV=fov;
 	};
+	void setName(const string& name)
+	{
+		str_Name=name;
+	};
+	const string& getName()
+	{
+		return str_Name;
+	};
+
 
 	void setAspectRatio(float aspectRatio)
 	{
@@ -72,6 +81,7 @@ public:
 	{
 		m_fPitch+=p;
 	};
+
 private:
 	D3DXMATRIX m_matView;
 	D3DXMATRIX m_matProjection;
@@ -86,4 +96,5 @@ private:
 
 	float m_fYaw;
 	float m_fPitch;
+	string str_Name;
 };
