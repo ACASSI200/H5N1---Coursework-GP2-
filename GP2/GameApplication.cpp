@@ -19,7 +19,7 @@ CGameApplication::CGameApplication(void)
 	b_UsePlayerCam = false;
 	mFrameStats = L" ";
 	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
-	m_camState = DEBUG;
+	
 }
 
 CGameApplication::~CGameApplication(void)
@@ -30,7 +30,7 @@ CGameApplication::~CGameApplication(void)
 	CGameObjectManager::getInstance().clear();
 
 	CPhysics::getInstance().destroy();
-	
+
 	if (m_pRenderTargetView)
 		m_pRenderTargetView->Release();
 	if (m_pDepthStencelView)
@@ -47,7 +47,7 @@ CGameApplication::~CGameApplication(void)
 		m_pWindow=NULL;
 	}
 
-	
+
 }
 
 bool CGameApplication::init()
@@ -109,13 +109,13 @@ bool CGameApplication::initGame()
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
 	pTestGameObject->setName("Test");
-	
+
 	//create material
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Texture.fx");
 	//pMaterial->loadDiffuseTexture("face.png");
-	
+
 
 	//Audio - Create our Audio Component
 	CAudioSourceComponent *pAudio=new CAudioSourceComponent();
@@ -154,7 +154,7 @@ bool CGameApplication::initGame()
 	//add the game object
 	CGameObjectManager::getInstance().addGameObject(pTestGameObject);
 	//===============================================================
-	
+
 
 	//===============================================================
 	//							PLAYER OBJECT
@@ -165,7 +165,7 @@ bool CGameApplication::initGame()
 	//create material
 	CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
 	pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
-	
+
 	pPlayerMaterial->setEffectFilename("Texture.fx");
 	pPlayerMaterial->loadDiffuseTexture("face.png");
 	//Audio - Create our Audio Component
@@ -181,7 +181,7 @@ bool CGameApplication::initGame()
 	CModelLoader Playermodelloader;
 	//CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"arnoredRecon1.fbx");
 	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
-	pPlayer->getTransform()->setPosition(0.0f,20,0.0f);
+	pPlayer->getTransform()->setPosition(0.0f,0.0,0.0f);
 
 	//create box
 	CBoxCollider *pPlayerBox=new CBoxCollider();
@@ -192,7 +192,7 @@ bool CGameApplication::initGame()
 	//create body make it fixed so no gravity effects it
 	CBodyComponent *pPlayerBody=new CBodyComponent();
 	pPlayerBody->setFixed(false);
-	
+
 	pPlayer->addComponent(pPlayerBody);
 
 	pPlayerGeometry->SetRenderingDevice(m_pD3D10Device);
@@ -203,34 +203,26 @@ bool CGameApplication::initGame()
 
 	CGameObjectManager::getInstance().addGameObject(pPlayer);
 	//===============================================================
-	
+
 	//===============================================================
 	//						CAMERA VARIABLES
 	//===============================================================
-	
+	float playerX = pPlayer->getTransform()->getPosition().x;
+	float playerY = pPlayer->getTransform()->getPosition().y;
+	float playerZ = pPlayer->getTransform()->getPosition().z;
+
+	CGameObject *pCameraGameObject=new CGameObject();
+	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
+	pCameraGameObject->setName("Camera");
+
+	D3D10_VIEWPORT vp;
+	UINT numViewports=1;
+	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
+	CAudioSourceComponent *pMusic=new CAudioSourceComponent();
 
 	//===============================================================
-	//						PLAYER CAM 				
+	//						DEBUG CAM
 	//===============================================================
-
-	//=============================================================
-
-	CGameObjectManager::getInstance().init();
-	m_Timer.start();
-
-	return true;
-}
-void CGameApplication::loadDebugCam()
-{
-			D3D10_VIEWPORT vp;
-			UINT numViewports=1;
-			m_pD3D10Device->RSGetViewports(&numViewports,&vp);
-			CGameObject *pCameraGameObject=new CGameObject();
-			CAudioSourceComponent *pMusic=new CAudioSourceComponent();
-			pMusic->setFilename("Music.ogg");
-			pMusic->setStream(true);
-			pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
-			pCameraGameObject->setName("Camera");
 			CCameraComponent *pCamera=new CCameraComponent();
 			pCamera->setUp(0.0f,1.0f,0.0f);
 			pCamera->setLookAt(0.0f,0.0f,0.0f);
@@ -238,43 +230,59 @@ void CGameApplication::loadDebugCam()
 			pCamera->setAspectRatio((float)(vp.Width/vp.Height));
 			pCamera->setFarClip(1000.0f);
 			pCamera->setNearClip(0.1f);
-			pCameraGameObject->addComponent(pCamera);;
-			pCameraGameObject->addComponent(pMusic);
+			pCameraGameObject->addComponent(pCamera);
+			//pCameraGameObject->getTransform()->setPosition(0.0f,2.0f,-50.0f);
 			CGameObject *pLightGameObject=new CGameObject();
+			//Audio - Create another audio component for music
+			//Audio -If it is an mp3 or ogg then set stream to true
+			pMusic->setFilename("Music.ogg");
+			//Audio - stream to true
+			pMusic->setStream(true);
+			//Audio - Add to camera, don't call play until init has been called
+			pCameraGameObject->addComponent(pMusic);
+			//Audio - Attach a listener to the camera
 			CAudioListenerComponent *pListener=new CAudioListenerComponent();
 			pCameraGameObject->addComponent(pListener);	
 			CGameObjectManager::getInstance().addGameObject(pCameraGameObject);
-}
-void CGameApplication::loadPlayerCam()
-{
-			float playerX = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().x;
-			float playerY = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().y;
-			float playerZ = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().z;
-			D3D10_VIEWPORT vp;
-			UINT numViewports=1;
-			m_pD3D10Device->RSGetViewports(&numViewports,&vp);
-			CAudioSourceComponent *pMusic=new CAudioSourceComponent();
+	//===============================================================
+
+	//===============================================================
+	//						PLAYER CAM 				
+	//===============================================================
+
+	if(b_UsePlayerCam == true)
+	{
+
 			CGameObject *pPlayerCam = new CGameObject();
 			pPlayerCam->getTransform()->setPosition(playerX+5.0f,playerY+5.0f,playerZ);
 			pPlayerCam->setName("PlayerCam");
 			CCameraComponent *pPlayerCamComp = new CCameraComponent();
+
 			pPlayerCamComp->setUp(0.0f,1.0f,0.0f);
-			pPlayerCamComp->setLookAt(0.0f,0.0f,0.0f);
-			pMusic->setFilename("Music.ogg");
-			pMusic->setStream(true);
+			//pPlayerCamComp->setLookAt(0.0f,0.0f,0.0f);
 			pPlayerCamComp->setFOV(D3DX_PI*0.25f);
 			pPlayerCamComp->setAspectRatio((float)(vp.Width/vp.Height));
 			pPlayerCamComp->setFarClip(500.0f);
 			pPlayerCamComp->setNearClip(0.1f);
 			CAudioListenerComponent *pPlayerListner=new CAudioListenerComponent();
-			pPlayerCam->addComponent(pMusic);
 			pPlayerCam->addComponent(pPlayerCamComp);
 			pPlayerCam->addComponent(pPlayerListner);
+
+			pCamera->disable();
+			CGameObjectManager::getInstance().removeGameObject(pCameraGameObject);
 			CGameObjectManager::getInstance().addGameObject(pPlayerCam);
-			pMusic->play();
+	}
+	//=============================================================
+
+	CGameObjectManager::getInstance().init();
+
+	//Audio - play music audio source
+	pMusic->play();
+
+	m_Timer.start();
+
+	return true;
 }
-
-
 
 void CGameApplication::run()
 {
@@ -356,26 +364,10 @@ void CGameApplication::render()
 
 void CGameApplication::update()
 {
-
-
 	m_Timer.update();
 	CPhysics::getInstance().update(m_Timer.getElapsedTime());
 	//Audio - Update the audio system, this must be called to update streams and listener position
 	CAudioSystem::getInstance().update();
-
-	switch (m_camState)
-	{
-		case DEBUG:
-		{
-			loadDebugCam();
-			break;
-		}
-		case PLAYER:
-		{
-			loadPlayerCam();
-			break;
-		}
-	}
 
 	CCameraComponent *pCamera=CGameObjectManager::getInstance().getMainCamera();
 	if (pCamera)
@@ -387,7 +379,7 @@ void CGameApplication::update()
 		pCamera->yaw(mouseDeltaX*m_Timer.getElapsedTime());
 		pCamera->pitch(mouseDeltaY*m_Timer.getElapsedTime());
 	}
-	
+
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
 		//play sound
@@ -400,28 +392,28 @@ void CGameApplication::update()
 		//play sound
 		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
 		pTransform->translate(-0.5f,0.0f,0.0f);
-		
+
 	}
 		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
 	{
 		//play sound
 		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
 		pTransform->translate(0.0f,0.0f,-0.5f);
-		
+
 	}
 		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{
 		//play sound
 		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
 		pTransform->translate(0.5f,0.0f,0.0f);
-		
+
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'Q'))
 	{
 		//play sound
 		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
 		pTransform->translate(0.0f,0.5f,0.0f);
-		
+
 	}
 		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'E'))
 	{
@@ -431,11 +423,7 @@ void CGameApplication::update()
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'P'))
 	{
-		m_camState  = PLAYER;
-	}
-	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'L'))
-	{
-		m_camState  = DEBUG;
+		b_UsePlayerCam==true;
 	}
 
 	//Audio -  If the left mouse button has been pressed
@@ -463,15 +451,15 @@ void CGameApplication::update()
 		outs << L"FPS: " << fps << L"\n" 
 			 << "Milliseconds: Per Frame: " << mspf;
 		mFrameStats = outs.str();
-		
+
 		// Reset for next average.
 		frameCnt = 0;
 		t_base  += 1.0f;
 	}
-	
 
 
-	
+
+
 	CGameObjectManager::getInstance().update(m_Timer.getElapsedTime());
 }
 
@@ -556,7 +544,7 @@ bool CGameApplication::initGraphics()
 	//Refresh rate of the buffer in the swap chain - BMD
     sd.BufferDesc.RefreshRate.Numerator = 60;
     sd.BufferDesc.RefreshRate.Denominator = 1;
-	
+
 	//NB. You should get use to seeing patterns like this when programming with D3D10 
 	//where we use a description object which is then used in the creation of a D3D10 resource 
 	//like swap chains. Also in a real application we would check to see if some of the above
@@ -620,7 +608,7 @@ bool CGameApplication::initGraphics()
 		NULL, //The description of the view, in this case NULL - BMD
 		&m_pRenderTargetView ))) // the memory address of a pointer to D3D10 Render Target - BMD
 	{
-		
+
 		pBackBuffer->Release();
 		return  false;
 	}

@@ -75,7 +75,7 @@ private:
 	void updateMenu();
 	void updateExit();
 	bool loadMenuGraphics()*/;
-	
+
 	void contactPointCallback (const hkpContactPointEvent &event); 
 
 protected:
@@ -92,5 +92,5 @@ protected:
 	CTimer m_Timer;
 
 	eCameraState m_camState;
-	
+
 };

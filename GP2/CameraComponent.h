@@ -25,7 +25,7 @@ public:
 
 	void setLookAt(float x,float y,float z)
 	{
-		//m_vecLookAt=D3DXVECTOR3(x,y,z);
+		m_vecLookAt=D3DXVECTOR3(x,y,z);
 	};
 
 	void setUp(float x,float y,float z)
