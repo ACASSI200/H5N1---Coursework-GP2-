@@ -181,7 +181,7 @@ bool CGameApplication::initGame()
 	CModelLoader Playermodelloader;
 	//CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"arnoredRecon1.fbx");
 	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
-	pPlayer->getTransform()->setPosition(0.0f,0.0,0.0f);
+	pPlayer->getTransform()->setPosition(0.0f,20.0f,0.0f);
 
 	//create box
 	CBoxCollider *pPlayerBox=new CBoxCollider();
