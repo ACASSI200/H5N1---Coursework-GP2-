@@ -32,6 +32,7 @@ public:
 	bool initAudio();
 	bool init();
 	void run();
+	void MyOutputFunction(const char *str, ...);
 
 	string convertFloat(float number){
 		std::ostringstream buff;

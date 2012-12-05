@@ -3,17 +3,6 @@
 #include "GameObject.h"
 #include <stdio.h>
 
-void CCameraComponent::MyOutputFunction(const char *str, ...)
-{
-
-  char buf[2048];
-
-  va_list ptr;
-  va_start(ptr,str);
-  vsprintf(buf,str,ptr);
-
-  OutputDebugStringA(buf);
-}
 
 void CCameraComponent::movePosition(float speed){
 	D3DXVECTOR3 direction;

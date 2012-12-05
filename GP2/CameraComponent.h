@@ -14,7 +14,7 @@ public:
 
 	void movePosition(float speed);
 	void update(float elapsedTime);
-	void MyOutputFunction(const char *str, ...);
+	
 
 	D3DXMATRIX& getView()
 	{
@@ -75,6 +75,14 @@ public:
 	{
 		m_fPitch+=p;
 	};
+
+	float getYaw(){
+		return m_fYaw;
+	}
+
+	float getPitch(){
+		return m_fPitch;
+	}
 
 private:
 	D3DXMATRIX m_matView;
