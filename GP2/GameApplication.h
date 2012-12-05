@@ -28,6 +28,7 @@ using namespace std;
 const D3DXCOLOR WHITE(0.5f, 1.0f, 0.5f, 1.0f);
 const D3DXCOLOR GREEN(0.0f, 0.5f, 0.0f, 1.0f);
 
+
 class CGameApplication
 {
 public:
@@ -51,10 +52,11 @@ private:
 	bool initInput();
 	bool initGame();
 	bool initGraphics();
-
 	bool initWindow();
+	
 	void render();
 	void update();
+	
 
 private:
 	//Graphics
@@ -78,4 +80,6 @@ private:
 	CGameObjectManager *m_pGameObjectManager;
 
 	CModelLoader modelloader;
+
+	
 };

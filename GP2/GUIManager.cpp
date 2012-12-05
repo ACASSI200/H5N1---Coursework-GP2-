@@ -50,17 +50,25 @@ void CGUIManager::init(ID3D10Device * pD3D10Device,int width,int height)
 		return;
 	}
 	Rocket::Controls::Initialise();
-	Rocket::Debugger::Initialise(m_pContext);
-	Rocket::Debugger::SetVisible(false);
+	//Rocket::Debugger::Initialise(m_pContext);
+	//Rocket::Debugger::SetVisible(false);
 
-	// Load and show the tutorial document.
-	Rocket::Core::ElementDocument* document = m_pContext->LoadDocument("window.rml");
-	if (document != NULL)
-	{
-		document->Show();
-		document->RemoveReference();
-	}
+	//// Load and show the tutorial document.
+	//Rocket::Core::ElementDocument* document = m_pContext->LoadDocument("window.rml");
+	//if (document != NULL)
+	//{
+	//	document->Show();
+	//	document->RemoveReference();
+	//}
 }
+
+	Rocket::Core::ElementDocument* CGUIManager::loadGUI(const string& name)
+	{
+		// Load and show the tutorial document.
+		Rocket::Core::ElementDocument* document = m_pContext->LoadDocument(name.c_str());
+		m_GUIScreens.push_back(document);
+		return document;
+	}
 
 void CGUIManager::update()
 {

@@ -1,4 +1,4 @@
-﻿Build started 05/12/2012 01:48:48.
+﻿Build started 05/12/2012 02:44:47.
      1>Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Touching "Debug\GP2.unsuccessfulbuild".
@@ -33,8 +33,8 @@
          GUIManager.cpp
      1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(34): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
      1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(34): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(101): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(101): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(109): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\guimanager.cpp(109): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
          GeometryComponent.cpp
          Geometry.cpp
          GameTimer.cpp
@@ -119,4 +119,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:18.00
+Time Elapsed 00:00:18.88
