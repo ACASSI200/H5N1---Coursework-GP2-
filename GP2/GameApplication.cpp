@@ -16,10 +16,10 @@ CGameApplication::CGameApplication(void)
 	m_pSwapChain=NULL;
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
-	b_UsePlayerCam = false;
+	
 	mFrameStats = L" ";
 	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
-	m_camState = debug;
+	m_camState = DEBUG;
 }
 
 CGameApplication::~CGameApplication(void)
@@ -200,29 +200,66 @@ bool CGameApplication::initGame()
 	pPlayer->addComponent(pPlayerMaterial);
 	pPlayer->addComponent(pPlayerGeometry);
 	//add the game object
-
 	CGameObjectManager::getInstance().addGameObject(pPlayer);
 	//===============================================================
 	
 	//===============================================================
 	//						CAMERA VARIABLES
 	//===============================================================
-	float playerX = pPlayer->getTransform()->getPosition().x;
-	float playerY = pPlayer->getTransform()->getPosition().y;
-	float playerZ = pPlayer->getTransform()->getPosition().z;
 
-	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
-	pCameraGameObject->setName("Camera");
+
 	
-	D3D10_VIEWPORT vp;
-	UINT numViewports=1;
-	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
-	CAudioSourceComponent *pMusic=new CAudioSourceComponent();
 
 	//===============================================================
 	//						DEBUG CAM
 	//===============================================================
+		
+	//===============================================================
+
+	//===============================================================
+	//						PLAYER CAM 				
+	//===============================================================
+
+
+		
+	
+	//=============================================================
+
+	CGameObjectManager::getInstance().init();
+
+	//Audio - play music audio source
+	//pMusic->play();
+	
+	m_Timer.start();
+
+	return true;
+}
+
+void CGameApplication::run()
+{
+	mTimer.reset();
+	while(m_pWindow->running())
+	{
+		if (! m_pWindow->checkForWindowMessages())
+		{
+			update();
+			render();
+			mTimer.tick();
+		}
+	}
+}
+
+void CGameApplication::DebugCam()
+{
+
+			D3D10_VIEWPORT vp;
+			UINT numViewports=1;
+			m_pD3D10Device->RSGetViewports(&numViewports,&vp);
+
+			CAudioSourceComponent *pMusic=new CAudioSourceComponent();
+			CGameObject *pCameraGameObject=new CGameObject();
+			pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
+			pCameraGameObject->setName("Camera");
 			CCameraComponent *pCamera=new CCameraComponent();
 			pCamera->setUp(0.0f,1.0f,0.0f);
 			pCamera->setLookAt(0.0f,0.0f,0.0f);
@@ -244,15 +281,19 @@ bool CGameApplication::initGame()
 			CAudioListenerComponent *pListener=new CAudioListenerComponent();
 			pCameraGameObject->addComponent(pListener);	
 			CGameObjectManager::getInstance().addGameObject(pCameraGameObject);
-	//===============================================================
 
-	//===============================================================
-	//						PLAYER CAM 				
-	//===============================================================
 
-	if(b_UsePlayerCam == true)
-	{
-			
+
+}
+
+void CGameApplication::PlayerCam()
+{
+			D3D10_VIEWPORT vp;
+			UINT numViewports=1;
+			m_pD3D10Device->RSGetViewports(&numViewports,&vp);
+			float playerX = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().x;
+			float playerY =  CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().y;
+			float playerZ = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().z;
 			CGameObject *pPlayerCam = new CGameObject();
 			pPlayerCam->getTransform()->setPosition(playerX+5.0f,playerY+5.0f,playerZ);
 			pPlayerCam->setName("PlayerCam");
@@ -267,35 +308,8 @@ bool CGameApplication::initGame()
 			CAudioListenerComponent *pPlayerListner=new CAudioListenerComponent();
 			pPlayerCam->addComponent(pPlayerCamComp);
 			pPlayerCam->addComponent(pPlayerListner);
-
-			pCamera->disable();
-			CGameObjectManager::getInstance().removeGameObject(pCameraGameObject);
 			CGameObjectManager::getInstance().addGameObject(pPlayerCam);
-	}
-	//=============================================================
 
-	CGameObjectManager::getInstance().init();
-
-	//Audio - play music audio source
-	pMusic->play();
-	
-	m_Timer.start();
-
-	return true;
-}
-
-void CGameApplication::run()
-{
-	mTimer.reset();
-	while(m_pWindow->running())
-	{
-		if (! m_pWindow->checkForWindowMessages())
-		{
-			update();
-			render();
-			mTimer.tick();
-		}
-	}
 }
 
 void CGameApplication::render()
@@ -364,6 +378,20 @@ void CGameApplication::render()
 
 void CGameApplication::update()
 {
+	switch( m_camState)
+	{
+	case DEBUG:
+		{
+			DebugCam();
+			break;
+		}
+	case PLAYER:
+		{
+			PlayerCam();
+			break;
+		}
+	}
+
 	m_Timer.update();
 	CPhysics::getInstance().update(m_Timer.getElapsedTime());
 	//Audio - Update the audio system, this must be called to update streams and listener position
@@ -423,7 +451,11 @@ void CGameApplication::update()
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'P'))
 	{
-		b_UsePlayerCam==true;
+		m_camState = PLAYER;
+	}
+	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'O'))
+	{
+		m_camState = DEBUG;
 	}
 
 	//Audio -  If the left mouse button has been pressed

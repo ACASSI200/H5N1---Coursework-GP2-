@@ -31,8 +31,8 @@
 using namespace std;
 
 enum eCameraState{
-	player=0,
-	debug,
+	DEBUG=0,
+	PLAYER,
 };
 
 const D3DXCOLOR GREEN(0.0f, 1.0f, 0.0f, 1.0f);
@@ -43,13 +43,14 @@ public:
 	CGameApplication(void);
 	~CGameApplication(void);
 	bool init();
-	bool b_UsePlayerCam;
 	void run();
 	GameTimer mTimer;
 	std::wstring mFrameStats;
 	virtual void drawScene();
 	std::wstring mMainWndCaption;
 	string userText;
+	void DebugCam();
+	void PlayerCam();
 
 private:
 	bool initInput();
