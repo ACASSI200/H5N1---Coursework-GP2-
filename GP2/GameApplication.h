@@ -8,6 +8,7 @@
 
 #include "MaterialComponent.h"
 #include "TransformComponent.h"
+#include "GeometryComponent.h"
 #include "CameraComponent.h"
 #include "DirectionLightComponent.h"
 #include "MeshComponent.h"
@@ -22,7 +23,13 @@
 #include <vector>
 #include <Common\Base\hkBase.h>
 #include <cstring>
-#include <sstream> 
+#include <sstream>
+
+//Physics
+#include "Physics.h"
+#include "BodyComponent.h"
+#include "BoxCollider.h"
+
 
 using namespace std;
 
@@ -40,7 +47,7 @@ enum GameState
 
 
 
-class CGameApplication
+class CGameApplication:public hkpContactListener 
 {
 public:
 	CGameApplication(void);
@@ -63,17 +70,15 @@ private:
 	bool initInput();
 	bool initGame();
 	bool initGraphics();
+	bool initPhysics();
 	bool initGUI();
 	bool initWindow();	
 	void render();
 	void update();
 	
-	void initMainGame();
-	void initMainMenu();
+	void contactPointCallback (const hkpContactPointEvent &event);
 
-	void updateMainGame();
-	void updateMainMenu();
-	void updatePauseGUI();
+
 
 private:
 	//Graphics

@@ -80,7 +80,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="BaseCollider.cpp" />
+    <ClCompile Include="BodyComponent.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="DirectionalLightComponent.cpp" />
     <ClCompile Include="GameApplication.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -96,17 +100,24 @@
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaterialComponent.cpp" />
+    <ClCompile Include="MeshCollider.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="RenderInterfaceDirectx10.cpp" />
     <ClCompile Include="SoundClass.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Win32Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="BaseCollider.h" />
+    <ClInclude Include="BodyComponent.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="D3D10Effect.h" />
     <ClInclude Include="DefaultEffect.h" />
     <ClInclude Include="DirectionLightComponent.h" />
@@ -124,11 +135,14 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="MaterialComponent.h" />
+    <ClInclude Include="MeshCollider.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="RenderInterfaceDirectx10.h" />
     <ClInclude Include="SoundClass.h" />
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Vertex.h" />
