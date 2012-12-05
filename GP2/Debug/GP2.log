@@ -1,9 +1,10 @@
-﻿Build started 05/12/2012 00:43:58.
+﻿Build started 05/12/2012 21:53:46.
      1>Project "C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\GP2\GP2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\GP2.unsuccessfulbuild".
+         Creating "Debug\GP2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\hk2011_3_1_r1\Source /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I\inc /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Audio.cpp CameraComponent.cpp DirectionalLightComponent.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp main.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp SoundClass.cpp Timer.cpp Win32Window.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\hk2011_3_1_r1\Source /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\include" /I\inc /I"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Audio.cpp CameraComponent.cpp DirectionalLightComponent.cpp GameApplication.cpp GameObject.cpp GameObjectManager.cpp Geometry.cpp GeometryComponent.cpp Input.cpp Joypad.cpp Keyboard.cpp LightComponent.cpp MaterialComponent.cpp MeshComponent.cpp ModelLoader.cpp Mouse.cpp SoundClass.cpp Timer.cpp Win32Window.cpp main.cpp
+         main.cpp
          Win32Window.cpp
      1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(193): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
      1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\win32window.cpp(194): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
@@ -23,7 +24,6 @@
          MeshComponent.cpp
      1>c:\users\brian\documents\github\h5n1---coursework-gp2-\gp2\meshcomponent.cpp(35): warning C4018: '>' : signed/unsigned mismatch
          MaterialComponent.cpp
-         main.cpp
          LightComponent.cpp
          Keyboard.cpp
          Joypad.cpp
@@ -72,29 +72,9 @@
          Debug\Win32Window.obj
        Manifest:
          c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\GP2.exe.embed.manifest" /manifest Debug\GP2.exe.intermediate.manifest
-         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\GP2.exe.embed.manifest.res" Debug\GP2_manifest.rc 
+         All outputs are up-to-date.
        LinkEmbedManifest:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll /LIBPATH:"C:\Program Files\Autodesk\FBX\FBX SDK\2013.1\lib\vs2010\x86" /LIBPATH:\lib /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\lib\x86" d3d10.lib d3dx10.lib fmodL_vc.lib "fbxsdk-2013.1d.lib" hkBase.lib xinput.lib hkGeometryUtilities.lib hkSceneData.lib hkVisualize.lib hkpCollide.lib hkpInternal.lib hkpVehicle.lib hkcdInternal.lib hkCompat.lib hkInternal.lib hkSerialize.lib hkpConstraintSolver.lib hkpDynamics.lib hkpUtilities.lib hkcdCollide.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GP2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.lib" /MACHINE:X86 Debug\GP2.exe.embed.manifest.res
-         Debug\Audio.obj
-         Debug\CameraComponent.obj
-         Debug\DirectionalLightComponent.obj
-         Debug\GameApplication.obj
-         Debug\GameObject.obj
-         Debug\GameObjectManager.obj
-         Debug\Geometry.obj
-         Debug\GeometryComponent.obj
-         Debug\Input.obj
-         Debug\Joypad.obj
-         Debug\Keyboard.obj
-         Debug\LightComponent.obj
-         Debug\main.obj
-         Debug\MaterialComponent.obj
-         Debug\MeshComponent.obj
-         Debug\ModelLoader.obj
-         Debug\Mouse.obj
-         Debug\SoundClass.obj
-         Debug\Timer.obj
-         Debug\Win32Window.obj
+         All outputs are up-to-date.
          GP2.vcxproj -> C:\Users\Brian\Documents\GitHub\H5N1---Coursework-GP2-\Debug\GP2.exe
        FinalizeBuildStatus:
          Deleting file "Debug\GP2.unsuccessfulbuild".
@@ -103,4 +83,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:14.56
+Time Elapsed 00:00:15.78
