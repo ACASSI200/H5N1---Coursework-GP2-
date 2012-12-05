@@ -12,7 +12,7 @@
 #include "DirectionLightComponent.h"
 #include "MeshComponent.h"
 #include "Audio.h"
-
+#include "GameTimer.h"
 
 #include "ModelLoader.h"
 
@@ -35,11 +35,15 @@ public:
 	void run();
 	void MyOutputFunction(const char *str, ...);
 
-	string convertFloat(float number){
+	string convertFloat(float number)
+	{
 		std::ostringstream buff;
 		buff<<number;
-		return buff.str();
+		return buff.str();		
 	}
+
+	GameTimer mTimer;
+	std::wstring mFrameStats;
 
 private:
 	bool initInput();
@@ -60,13 +64,14 @@ private:
 	CCameraComponent *pCamera;
 	ID3DX10Font* mFont;
 	ID3D10InputLayout* mVertexLayout;
+	D3DXCOLOR mClearColor;
 
 	CWin32Window * m_pWindow;
 
 	CTimer m_Timer;
 
 	Audio *audio;
-	
+
 	//Get Game Object Manager
 	CGameObjectManager *m_pGameObjectManager;
 

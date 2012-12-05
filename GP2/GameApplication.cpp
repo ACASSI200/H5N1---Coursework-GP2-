@@ -19,6 +19,8 @@ CGameApplication::CGameApplication(void)
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
 	m_pGameObjectManager=new CGameObjectManager();
+	mFrameStats = L" ";													 
+	mClearColor = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
 }
 
 CGameApplication::~CGameApplication(void)
@@ -70,8 +72,8 @@ float y = 0;
 
 bool CGameApplication::initGame()
 {
-	
-    
+
+
 
 	//================================================================================================
 	D3DX10_FONT_DESC fontDesc;
@@ -89,9 +91,9 @@ bool CGameApplication::initGame()
 	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
 	//================================================================================================
 
-    // Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
-    //http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
-    m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
+	// Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
+	//http://msdn.microsoft.com/en-us/library/bb173590%28v=VS.85%29.aspx - BMD
+	m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );	
 
 
 	CGameObject *pTestGameObject=new CGameObject();
@@ -250,7 +252,7 @@ bool CGameApplication::initGame()
 	//========================================================================
 	// Game Objects - AC
 	//========================================================================
-	
+
 	CGameObject *pCameraGameObject=new CGameObject();
 	pCameraGameObject->getTransform()->setPosition(413.0f,80.0f,109.0f);
 	pCameraGameObject->setName("Camera_1");
@@ -289,7 +291,7 @@ bool CGameApplication::initGame()
 	audio->initSound();
 	audio->loadSound();
 	audio->playSoundtrack();
-	
+
 
 	m_Timer.start();
 	return true;
@@ -298,12 +300,14 @@ bool CGameApplication::initGame()
 
 void CGameApplication::run()
 {
+	mTimer.reset();
 	while(m_pWindow->running())
 	{
 		if (! m_pWindow->checkForWindowMessages())
 		{
 			update();
 			render();
+			mTimer.tick();
 		}
 	}
 }
@@ -315,17 +319,17 @@ void CGameApplication::render()
 	m_pD3D10Device->OMSetDepthStencilState(0, 0);
 	float blendFactor[] = {0.0f, 0.0f, 0.0f, 0.0f};
 	m_pD3D10Device->OMSetBlendState(0, blendFactor, 0xffffffff);
-    //m_pD3D10Device->IASetInputLayout(mVertexLayout);
-    m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//m_pD3D10Device->IASetInputLayout(mVertexLayout);
+	m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//===========================================================================================================================================
 
-    // Just clear the backbuffer, colours start at 0.0 to 1.0
+	// Just clear the backbuffer, colours start at 0.0 to 1.0
 	// Red, Green , Blue, Alpha - BMD
-    float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
+	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; 
 	//Clear the Render Target
 	//http://msdn.microsoft.com/en-us/library/bb173539%28v=vs.85%29.aspx - BMD
-    m_pD3D10Device->ClearRenderTargetView( m_pRenderTargetView, ClearColor );
+	m_pD3D10Device->ClearRenderTargetView( m_pRenderTargetView, ClearColor );
 	m_pD3D10Device->ClearDepthStencilView(m_pDepthStencelView,D3D10_CLEAR_DEPTH,1.0f,0);
 	//We need to iterate through all the Game Objects in the managers
 	for(vector<CGameObject*>::iterator iter=m_pGameObjectManager->getBegining();iter!=m_pGameObjectManager->getEnd();iter++)
@@ -354,7 +358,7 @@ void CGameApplication::render()
 			pMaterial->setDiffuseLightColour(light->getDiffuseColour());
 			pMaterial->setSpecularLightColour(light->getSpecularColour());
 			pMaterial->setLightDirection(light->getLightDirection());
-			
+
 			pMaterial->setCameraPosition(camera->getParent()->getTransform()->getPosition());
 
 			pMaterial->setTextures();
@@ -386,47 +390,59 @@ void CGameApplication::render()
 
 	//=============================================================BH=====================================================================
 	switch(cameraView){
-		case 1:
-			{
-				RECT R1 = {5, 5, 0, 0};
-				RECT R2 = {6, 6, 0, 0};
-				RECT R3 = {5, 22, 0, 0};
-				RECT R4 = {6, 23, 0, 0};
-				mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R1, DT_NOCLIP, WHITE);
-				mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R2, DT_NOCLIP, GREEN);
+	case 1:
+		{
+			RECT R1 = {5, 5, 0, 0};
+			RECT R2 = {6, 6, 0, 0};
+			RECT R3 = {5, 22, 0, 0};
+			RECT R4 = {6, 23, 0, 0};
+			mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R1, DT_NOCLIP, WHITE);
+			mFont->DrawTextA(NULL, " Rotate - A, W, S, D " , -1, &R2, DT_NOCLIP, GREEN);
 
-				mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R3, DT_NOCLIP, WHITE);
-				mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R4, DT_NOCLIP, GREEN);
-			}
-			break;
-		case 0:
-			{
-				RECT R1 = {200, 300, 0, 0};
-				mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R1, DT_NOCLIP, BLACK);
-				RECT R3 = {199, 299, 0, 0};
-				mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R3, DT_NOCLIP, BLACK);
-				RECT R2 = {201, 301, 0, 0};
-				mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R2, DT_NOCLIP, WHITE);
-			}
-			break;
+			mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R3, DT_NOCLIP, WHITE);
+			mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R4, DT_NOCLIP, GREEN);
+
+			//=======================================================BH=============================================================================
+
+			RECT FPS1 = {10, 550, 0, 0};
+			RECT FPS2 = {11, 551, 0, 0};
+			mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS1, DT_NOCLIP, WHITE);
+			mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS2, DT_NOCLIP, GREEN);
+			//=====================================================================================================================================
+
+		}
+		break;
+	case 0:
+		{
+			RECT R1 = {200, 300, 0, 0};
+			mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R1, DT_NOCLIP, BLACK);
+			RECT R3 = {199, 299, 0, 0};
+			mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R3, DT_NOCLIP, BLACK);
+			RECT R2 = {201, 301, 0, 0};
+			mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R2, DT_NOCLIP, WHITE);
+
+
+		}
+		break;
 	}
-	//====================================================================================================================================
+	//=====================================================================================================================================
+
 
 	//Swaps the buffers in the chain, the back buffer to the front(screen)
 	//http://msdn.microsoft.com/en-us/library/bb174576%28v=vs.85%29.aspx - BMD
-    m_pSwapChain->Present( 0, 0 );
+	m_pSwapChain->Present( 0, 0 );
 }
 
 void CGameApplication::MyOutputFunction(const char *str, ...)
 {
 
-  char buf[2048];
+	char buf[2048];
 
-  va_list ptr;
-  va_start(ptr,str);
-  vsprintf(buf,str,ptr);
+	va_list ptr;
+	va_start(ptr,str);
+	vsprintf(buf,str,ptr);
 
-  OutputDebugStringA(buf);
+	OutputDebugStringA(buf);
 }
 
 
@@ -439,61 +455,127 @@ void CGameApplication::update()
 	pCamera->update(m_Timer.getElapsedTime());
 
 	switch(cameraView){
-		case 1:
+	case 1:
+		{
+			if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 			{
-				if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
-				{
-					//play sound
-		
-					pCamera->pitch(1.0f*m_Timer.getElapsedTime());
-					//OutputDebugStringW(L"Working");
+				//play sound
 
-					//CTransformComponent * pTransform2=m_pGameObjectManager->findGameObject("Test")->getTransform();
-					//pTransform2->setPosition(0.0f,0.0f,m_Timer.getElapsedTime()*1);
-				}
-				else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
-				{
-					//play sound
-					pCamera->pitch(-1.0f*m_Timer.getElapsedTime());
-					//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-					//pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
-				}
-				if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
-				{
-					//play sound
-					pCamera->yaw(-1.0f*m_Timer.getElapsedTime());
-		
-					//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-					//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
-				}
-				else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
-				{
-					//play sound
-					pCamera->yaw(1.0f*m_Timer.getElapsedTime());
+				pCamera->pitch(1.0f*m_Timer.getElapsedTime());
+				//OutputDebugStringW(L"Working");
 
-					//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-					//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
-				}
-				else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'Q'))
-				{
-					//play sound
-					pCamera->movePosition(50.0f*m_Timer.getElapsedTime());
+				//CTransformComponent * pTransform2=m_pGameObjectManager->findGameObject("Test")->getTransform();
+				//pTransform2->setPosition(0.0f,0.0f,m_Timer.getElapsedTime()*1);
+			}
+			else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
+			{
+				//play sound
+				pCamera->pitch(-1.0f*m_Timer.getElapsedTime());
+				//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+				//pTransform->rotate(m_Timer.getElapsedTime()*-1,0.0f,0.0f);
+			}
+			if (CInput::getInstance().getKeyboard()->isKeyDown((int)'A'))
+			{
+				//play sound
+				pCamera->yaw(-1.0f*m_Timer.getElapsedTime());
 
-					//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-					//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
-				}
-				else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'E'))
-				{
-					//play sound
-					pCamera->movePosition(-50.0f*m_Timer.getElapsedTime());
+				//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+				//pTransform->rotate(0.0f,m_Timer.getElapsedTime(),0.0f);
+			}
+			else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
+			{
+				//play sound
+				pCamera->yaw(1.0f*m_Timer.getElapsedTime());
 
-					//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
-					//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
-				}else if (CInput::getInstance().getKeyboard()->isKeyDown(VK_ESCAPE))
-				{
+				//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+				//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+			}
+			else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'Q'))
+			{
+				//play sound
+				pCamera->movePosition(50.0f*m_Timer.getElapsedTime());
+
+				//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+				//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+			}
+			else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'E'))
+			{
+				//play sound
+				pCamera->movePosition(-50.0f*m_Timer.getElapsedTime());
+
+				//CTransformComponent * pTransform=m_pGameObjectManager->findGameObject("Test")->getTransform();
+				//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
+			}else if (CInput::getInstance().getKeyboard()->isKeyDown(VK_ESCAPE))
+			{
+				//================================================================================================
+				D3DX10_FONT_DESC fontDesc;
+				fontDesc.Height          = 42;
+				fontDesc.Width           = 0;
+				fontDesc.Weight          = 0;
+				fontDesc.MipLevels       = 1;
+				fontDesc.Italic          = false;
+				fontDesc.CharSet         = DEFAULT_CHARSET;
+				fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+				fontDesc.Quality         = DEFAULT_QUALITY;
+				fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+				wcscpy(fontDesc.FaceName, L"Times New Roman");
+
+				D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
+				//================================================================================================
+
+				pCamera->getParent()->getTransform()->setPosition(413.0f,80.0f,109.0f);
+				oldPitch = pCamera->getPitch();
+				oldYaw = pCamera->getYaw();
+				pCamera->setYaw(11.2f);
+				pCamera->setPitch(-0.2f);
+				cameraView = 0;
+
+			}
+
+			//================================================================BH===================================================================================================================
+			// Code computes the average frames per second, and also the
+			// average time it takes to render one frame.
+
+			static int frameCnt = 0;
+			static float t_base = 0.0f;
+
+			frameCnt++;
+
+			// Compute averages over one second period.
+			if( (mTimer.getGameTime() - t_base) >= 1.0f )
+			{
+				float fps = (float)frameCnt; // fps = frameCnt / 1
+				float mspf = 1000.0f / fps;
+
+				std::wostringstream outs;
+				outs.precision(6);
+				outs << L"FPS: " << fps << L"\n"
+					<< "Milliseconds: Per Frame: " << mspf;
+				mFrameStats = outs.str();
+
+				// Reset for next average.
+				frameCnt = 0;
+				t_base += 1.0f;
+			}
+			return;
+			//=====================================================================================================================================================================================
+
+		}	
+		break;
+	case 0:
+		{
+
+			GetCursorPos(&cursorPos);
+			x = cursorPos.x; 
+			y = cursorPos.y;
+
+			if(CInput::getInstance().getMouse()->getMouseDown(0)){
+				if(y > 330 && y < 365 && x > 210 && x < 625){
+
+					audio->EnterGame();
 					//================================================================================================
 					D3DX10_FONT_DESC fontDesc;
-					fontDesc.Height          = 42;
+					fontDesc.Height          = 22;
 					fontDesc.Width           = 0;
 					fontDesc.Weight          = 0;
 					fontDesc.MipLevels       = 1;
@@ -507,57 +589,20 @@ void CGameApplication::update()
 					D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
 					//================================================================================================
 
-					pCamera->getParent()->getTransform()->setPosition(413.0f,80.0f,109.0f);
-					oldPitch = pCamera->getPitch();
-					oldYaw = pCamera->getYaw();
-					pCamera->setYaw(11.2f);
-					pCamera->setPitch(-0.2f);
-					cameraView = 0;
-				}
-
-			}	
-			break;
-		case 0:
-			{
-				
-				GetCursorPos(&cursorPos);
-				x = cursorPos.x; 
-				y = cursorPos.y;
-				
-				if(CInput::getInstance().getMouse()->getMouseDown(0)){
-					if(y > 330 && y < 365 && x > 210 && x < 625){
-
-						audio->EnterGame();
-								//================================================================================================
-								D3DX10_FONT_DESC fontDesc;
-								fontDesc.Height          = 22;
-								fontDesc.Width           = 0;
-								fontDesc.Weight          = 0;
-								fontDesc.MipLevels       = 1;
-								fontDesc.Italic          = false;
-								fontDesc.CharSet         = DEFAULT_CHARSET;
-								fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
-								fontDesc.Quality         = DEFAULT_QUALITY;
-								fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-								wcscpy(fontDesc.FaceName, L"Times New Roman");
-
-								D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
-								//================================================================================================
-
-								pCamera->getParent()->getTransform()->setPosition(5.0f,0.0f,125.0f);
-								pCamera->setYaw(oldYaw);
-								pCamera->setPitch(oldPitch);
-								cameraView = 1;
-					}
-				}
-
-				//Enter
-				if (CInput::getInstance().getKeyboard()->isKeyDown(0x0D))
-				{
-						
+					pCamera->getParent()->getTransform()->setPosition(5.0f,0.0f,125.0f);
+					pCamera->setYaw(oldYaw);
+					pCamera->setPitch(oldPitch);
+					cameraView = 1;
 				}
 			}
-			break;
+
+			//Enter
+			if (CInput::getInstance().getKeyboard()->isKeyDown(0x0D))
+			{
+
+			}
+		}
+		break;
 	}
 
 	m_pGameObjectManager->update(m_Timer.getElapsedTime());
@@ -597,7 +642,7 @@ bool CGameApplication::initGraphics()
 	//Initialise the swap chain description by setting all its values to zero - BMD
 	DXGI_SWAP_CHAIN_DESC sd;
 	//http://msdn.microsoft.com/en-us/library/aa366920%28v=vs.85%29.aspx - BMD
-    ZeroMemory( &sd, sizeof( sd ) );
+	ZeroMemory( &sd, sizeof( sd ) );
 	//What kind of surface is contained in the swap chain, in this case something we draw too
 	//http://msdn.microsoft.com/en-us/library/bb173078%28v=vs.85%29.aspx - BMD
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -613,20 +658,20 @@ bool CGameApplication::initGraphics()
 	sd.Windowed = (BOOL)(!m_pWindow->isFullScreen());
 	//Multisampling(antialsing) parameters for the swap chain - this has performance considerations - see remarks in docs
 	//http://msdn.microsoft.com/en-us/library/bb173072%28v=vs.85%29.aspx - BMD
-    sd.SampleDesc.Count = 1;
-    sd.SampleDesc.Quality = 0;
+	sd.SampleDesc.Count = 1;
+	sd.SampleDesc.Quality = 0;
 	//The description of the swap chain buffer
 	//http://msdn.microsoft.com/en-us/library/bb173064%28v=vs.85%29.aspx - BMD
 	//width & height of the buffer - this matches the size of the window - BMD
-    sd.BufferDesc.Width = width;
-    sd.BufferDesc.Height = height;
+	sd.BufferDesc.Width = width;
+	sd.BufferDesc.Height = height;
 	//The data format of the buffer in the swap chain, 8bits used for Red, green, blue & alpha - unsigned int(UNIFORM) - BMD
 	//http://msdn.microsoft.com/en-us/library/bb173059%28v=vs.85%29.aspx
-    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	//Refresh rate of the buffer in the swap chain - BMD
-    sd.BufferDesc.RefreshRate.Numerator = 60;
-    sd.BufferDesc.RefreshRate.Denominator = 1;
-	
+	sd.BufferDesc.RefreshRate.Numerator = 60;
+	sd.BufferDesc.RefreshRate.Denominator = 1;
+
 	//NB. You should get use to seeing patterns like this when programming with D3D10 
 	//where we use a description object which is then used in the creation of a D3D10 resource 
 	//like swap chains. Also in a real application we would check to see if some of the above
@@ -654,9 +699,9 @@ bool CGameApplication::initGraphics()
 	//http://msdn.microsoft.com/en-us/library/bb174570%28v=vs.85%29.aspx - BMD
 	if (FAILED(m_pSwapChain->GetBuffer(0, //buffer index, 0 will get the back buffer
 		__uuidof(ID3D10Texture2D),//The unique identifier of the type of pointer we want in
-								  //this case a I3D10 Texture2D
+		//this case a I3D10 Texture2D
 		(void**)&pBackBuffer)))//A pointer to a memory address, this is cast to a void ** because this function
-							   //can return back different types dependent on the 2nd param
+		//can return back different types dependent on the 2nd param
 		return false;
 
 	D3D10_TEXTURE2D_DESC descDepth;
@@ -690,12 +735,12 @@ bool CGameApplication::initGraphics()
 		NULL, //The description of the view, in this case NULL - BMD
 		&m_pRenderTargetView ))) // the memory address of a pointer to D3D10 Render Target - BMD
 	{
-		
+
 		pBackBuffer->Release();
 		return  false;
 	}
 	//The above Get Buffer call will allocate some memory, we now need to release it. - BMD
-    pBackBuffer->Release();
+	pBackBuffer->Release();
 
 	//Binds one or more render targets and depth buffer to the Output merger stage - BMD
 	//http://msdn.microsoft.com/en-us/library/bb173597%28v=vs.85%29.aspx - BMD
@@ -703,18 +748,18 @@ bool CGameApplication::initGraphics()
 		&m_pRenderTargetView, //pointer to an array of D3D10 Render Target Views - BMD
 		m_pDepthStencelView); //point to Depth Stencil buffer - BMD
 
-    // Setup the viewport 
+	// Setup the viewport 
 	//http://msdn.microsoft.com/en-us/library/bb172500%28v=vs.85%29.aspx - BMD
-    D3D10_VIEWPORT vp;
-    vp.Width = width;
-    vp.Height = height;
-    vp.MinDepth = 0.0f;
-    vp.MaxDepth = 1.0f;
-    vp.TopLeftX = 0;
-    vp.TopLeftY = 0;
+	D3D10_VIEWPORT vp;
+	vp.Width = width;
+	vp.Height = height;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
 	//Sets the Viewport 
 	//http://msdn.microsoft.com/en-us/library/bb173613%28v=vs.85%29.aspx - BMD
-    m_pD3D10Device->RSSetViewports( 1 //Number of viewports to bind
+	m_pD3D10Device->RSSetViewports( 1 //Number of viewports to bind
 		, &vp );//an array of viewports
 
 	return true;
