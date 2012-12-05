@@ -149,12 +149,91 @@ bool CGameApplication::initGame()
 	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.2f,0.2f,0.2f,1.0f));
 	pMaterial->loadDiffuseTexture("Station/mat_stat.bmp");
 	//pMaterial->loadSpecularTexture("armoredrecon_spec.png");
-	pMaterial->loadBumpTexture("Station/mat_stat NORMAL");
+	pMaterial->loadBumpTexture("Station/mat_statNORMAL.bmp");
 	//pMaterial->loadParallaxTexture("armoredrecon_Height.png");
 	pTestGameObject->addComponent(pMaterial);
 
 	//Create Mesh
 	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"Station/station.fbx");
+	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	pMesh->SetRenderingDevice(m_pD3D10Device);
+	pTestGameObject->addComponent(pMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(pTestGameObject);
+
+	//Create Game Object
+	pTestGameObject=new CGameObject();
+	//Set the name
+	pTestGameObject->setName("Spaceship");
+	//Position
+	pTestGameObject->getTransform()->setPosition(0.0f,-5.0f,150.0f);
+	pTestGameObject->getTransform()->setScale(0.2,0.2, 0.2);
+	pTestGameObject->getTransform()->setRotation(1.7f,0.5f,0.0f);
+	//create material
+	pMaterial=new CMaterialComponent();
+	pMaterial->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("Parallax.fx");
+	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.2f,0.2f,0.2f,1.0f));
+	pMaterial->loadDiffuseTexture("Spaceship/mat_ship.bmp");
+	//pMaterial->loadSpecularTexture("armoredrecon_spec.png");
+	pMaterial->loadBumpTexture("Spaceship/mat_shipNORMAL.bmp");
+	//pMaterial->loadParallaxTexture("armoredrecon_Height.png");
+	pTestGameObject->addComponent(pMaterial);
+
+	//Create Mesh
+	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"Spaceship/spaceship01.fbx");
+	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	pMesh->SetRenderingDevice(m_pD3D10Device);
+	pTestGameObject->addComponent(pMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(pTestGameObject);
+
+	//Create Game Object
+	pTestGameObject=new CGameObject();
+	//Set the name
+	pTestGameObject->setName("Asteroid_1");
+	//Position
+	pTestGameObject->getTransform()->setPosition(250.0f,-50.0f,150.0f);
+	pTestGameObject->getTransform()->setRotation(1.7f,0.5f,0.0f);
+	//create material
+	pMaterial=new CMaterialComponent();
+	pMaterial->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("Parallax.fx");
+	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.2f,0.2f,0.2f,1.0f));
+	pMaterial->loadDiffuseTexture("Asteroids/mat_aste1.bmp");
+	//pMaterial->loadSpecularTexture("armoredrecon_spec.png");
+	pMaterial->loadBumpTexture("Asteroids/mat_asteNORMAL1.bmp");
+	//pMaterial->loadParallaxTexture("armoredrecon_Height.png");
+	pTestGameObject->addComponent(pMaterial);
+
+	//Create Mesh
+	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"Asteroids/asteroid1.fbx");
+	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
+	pMesh->SetRenderingDevice(m_pD3D10Device);
+	pTestGameObject->addComponent(pMesh);
+	//add the game object
+	m_pGameObjectManager->addGameObject(pTestGameObject);
+
+	//Create Game Object
+	pTestGameObject=new CGameObject();
+	//Set the name
+	pTestGameObject->setName("Asteroid_2");
+	//Position
+	pTestGameObject->getTransform()->setPosition(50.0f,50.0f,250.0f);
+	pTestGameObject->getTransform()->setRotation(1.0f,0.5f,0.0f);
+	//create material
+	pMaterial=new CMaterialComponent();
+	pMaterial->SetRenderingDevice(m_pD3D10Device);
+	pMaterial->setEffectFilename("Parallax.fx");
+	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.2f,0.2f,0.2f,1.0f));
+	pMaterial->loadDiffuseTexture("Asteroids/mat_aste2.bmp");
+	//pMaterial->loadSpecularTexture("armoredrecon_spec.png");
+	pMaterial->loadBumpTexture("Asteroids/mat_asteNORMAL2.bmp");
+	//pMaterial->loadParallaxTexture("armoredrecon_Height.png");
+	pTestGameObject->addComponent(pMaterial);
+
+	//Create Mesh
+	pMesh=modelloader.loadModelFromFile(m_pD3D10Device,"Asteroids/asteroid2.fbx");
 	//CMeshComponent *pMesh=modelloader.createCube(m_pD3D10Device,10.0f,10.0f,10.0f);
 	pMesh->SetRenderingDevice(m_pD3D10Device);
 	pTestGameObject->addComponent(pMesh);
@@ -188,7 +267,7 @@ bool CGameApplication::initGame()
 	pLightGameObject->setName("DirectionalLight");
 
 	CDirectionalLightComponent *pLightComponent=new CDirectionalLightComponent();
-	pLightComponent->setDirection(D3DXVECTOR3(0.0f,1.0f,-1.0f));
+	pLightComponent->setDirection(D3DXVECTOR3(0.0f,-1.0f,-1.0f));
 	pLightGameObject->addComponent(pLightComponent);
 
 	m_pGameObjectManager->addGameObject(pLightGameObject);

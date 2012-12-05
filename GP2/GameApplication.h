@@ -17,7 +17,6 @@
 #include "ModelLoader.h"
 
 #include <vector>
-#include <Common\Base\hkBase.h>
 #include <cstring>
 #include <sstream> 
 
