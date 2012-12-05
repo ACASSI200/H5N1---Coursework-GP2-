@@ -69,11 +69,11 @@ void CGUIManager::init(ID3D10Device * pD3D10Device,int width,int height)
 		return;
 	}
 	Rocket::Controls::Initialise();
-	//Rocket::Debugger::Initialise(m_pContext);
-	//Rocket::Debugger::SetVisible(false);
+	Rocket::Debugger::Initialise(m_pContext);
+	Rocket::Debugger::SetVisible(false);
 
 	//// Load and show the tutorial document.
-	//Rocket::Core::ElementDocument* document = m_pContext->LoadDocument("window.rml");
+	//Rocket::Core::ElementDocument* document = m_pContext->LoadDocument("GameGUI.rml");
 	//if (document != NULL)
 	//{
 	//	document->Show();
