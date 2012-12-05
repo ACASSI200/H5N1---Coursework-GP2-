@@ -30,6 +30,11 @@
 
 using namespace std;
 
+enum eCameraState{
+	player=0,
+	debug,
+};
+
 const D3DXCOLOR GREEN(0.0f, 1.0f, 0.0f, 1.0f);
 
 class CGameApplication:public hkpContactListener 
@@ -38,11 +43,13 @@ public:
 	CGameApplication(void);
 	~CGameApplication(void);
 	bool init();
+	bool b_UsePlayerCam;
 	void run();
 	GameTimer mTimer;
 	std::wstring mFrameStats;
 	virtual void drawScene();
 	std::wstring mMainWndCaption;
+	string userText;
 
 private:
 	bool initInput();
@@ -78,8 +85,8 @@ protected:
 	D3DXCOLOR mClearColor;
 
 	CWin32Window * m_pWindow;
-
 	CTimer m_Timer;
 
+	eCameraState m_camState;
 	
 };
