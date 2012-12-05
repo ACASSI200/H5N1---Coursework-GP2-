@@ -238,5 +238,14 @@
     <None Include="rkt.rcss">
       <Filter>GUIScripts</Filter>
     </None>
+    <None Include="GameGUI.rml">
+      <Filter>GUIScripts</Filter>
+    </None>
+    <None Include="mainMenu.rml">
+      <Filter>GUIScripts</Filter>
+    </None>
+    <None Include="PauseGUI.rml">
+      <Filter>GUIScripts</Filter>
+    </None>
   </ItemGroup>
 </Project>

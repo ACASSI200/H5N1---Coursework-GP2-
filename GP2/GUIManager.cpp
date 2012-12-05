@@ -13,6 +13,25 @@ CGUIManager::~CGUIManager()
 
 void CGUIManager::destroy()	
 {
+		vector<Rocket::Core::ElementDocument*>::iterator iter;
+		iter=m_GUIScreens.begin();
+		while(iter!=m_GUIScreens.end())
+		{
+			if ((*iter))
+		{
+			(*iter)->RemoveReference();
+
+			iter=m_GUIScreens.erase(iter);
+		}
+		else
+		{
+			iter++;
+		}
+}
+
+	
+	m_GUIScreens.clear();
+
 	m_pContext->RemoveReference();
 	Rocket::Core::Shutdown();
 

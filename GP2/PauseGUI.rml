@@ -1,0 +1,21 @@
+<template name="window" content="content">
+  <head>
+    <link type="text/rcss" href="rkt.rcss"/>
+    <link type="text/rcss" href="invader.rcss"/>
+  </head>
+  <body class="window">
+    <div id="title_bar">
+      <span id="title">GAME PAUSED ...</span>
+    </div>
+    <div id="window">
+      <div id="content">
+        YOUVE PAUSED THE GAMEYGAME NOW YOURE STUCK!
+      </div>
+      <div id="button">
+        <div id="content">
+          Start
+        </div>
+      </div>
+    </div>
+  </body>
+</template>
