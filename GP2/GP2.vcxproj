@@ -39,8 +39,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -52,13 +52,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(HAVOKSDK_DIR)\Source;$(DXSDK_DIR)\include;$(FMODSDK_DIR)\inc;$(FBXSDK_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\hk2011_3_1_r1\Source;$(DXSDK_DIR)\include;$(FMODSDK_DIR)\inc;$(FBXSDK_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(HAVOKSDK_DIR)\Lib\win32_vs2010\Debug_Multithreaded_DLL;$(FBXSDK_DIR)\lib\vs2010\x86;$(FMODSDK_DIR)\lib;$(DXSDK_Dir)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d10.lib;d3dx10.lib;fmodL_vc.lib;fbxsdk-2013.1d.lib;hkBase.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\hk2011_3_1_r1\Lib\win32_vs2010\debug_multithreaded_dll;$(FBXSDK_DIR)\lib\vs2010\x86;$(FMODSDK_DIR)\lib;$(DXSDK_Dir)\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d10.lib;d3dx10.lib;fmodL_vc.lib;fbxsdk-2013.1d.lib;hkBase.lib;xinput.lib;hkGeometryUtilities.lib;hkSceneData.lib;hkVisualize.lib;hkpCollide.lib;hkpInternal.lib;hkpVehicle.lib;hkcdInternal.lib;hkCompat.lib;hkInternal.lib;hkSerialize.lib;hkpConstraintSolver.lib;hkpDynamics.lib;hkpUtilities.lib;hkcdCollide.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
