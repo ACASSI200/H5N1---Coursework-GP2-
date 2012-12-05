@@ -7,6 +7,10 @@
 #include "Joypad.h"
 #include "Mouse.h"
 
+
+//just testing !!
+//stop hacking me 
+
 CGameApplication::CGameApplication(void)
 {
 m_pWindow=NULL;
