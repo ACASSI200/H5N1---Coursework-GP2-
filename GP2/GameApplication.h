@@ -30,10 +30,9 @@
 
 using namespace std;
 
-enum eCameraState
-{
-	DEBUG=0,
-	PLAYER,
+enum eCameraState{
+	player=0,
+	debug,
 };
 
 const D3DXCOLOR GREEN(0.0f, 1.0f, 0.0f, 1.0f);
@@ -52,7 +51,6 @@ public:
 	std::wstring mMainWndCaption;
 	string userText;
 
-
 private:
 	bool initInput();
 	bool initGame();
@@ -66,16 +64,14 @@ private:
 	void render();
 	void update();
 
-	void loadDebugCam();
-	void loadPlayerCam();
-	/*void loadGame();
+	void loadGame();
 	void loadMainMenu();
 	void loadExitScreen();
 	void updateGame();
 	void updateMenu();
 	void updateExit();
-	bool loadMenuGraphics()*/;
-
+	bool loadMenuGraphics();
+	
 	void contactPointCallback (const hkpContactPointEvent &event); 
 
 protected:
@@ -92,5 +88,5 @@ protected:
 	CTimer m_Timer;
 
 	eCameraState m_camState;
-
+	
 };

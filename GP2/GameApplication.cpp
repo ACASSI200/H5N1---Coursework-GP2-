@@ -19,7 +19,7 @@ CGameApplication::CGameApplication(void)
 	b_UsePlayerCam = false;
 	mFrameStats = L" ";
 	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
-	
+	m_camState = debug;
 }
 
 CGameApplication::~CGameApplication(void)
@@ -30,7 +30,7 @@ CGameApplication::~CGameApplication(void)
 	CGameObjectManager::getInstance().clear();
 
 	CPhysics::getInstance().destroy();
-
+	
 	if (m_pRenderTargetView)
 		m_pRenderTargetView->Release();
 	if (m_pDepthStencelView)
@@ -47,7 +47,7 @@ CGameApplication::~CGameApplication(void)
 		m_pWindow=NULL;
 	}
 
-
+	
 }
 
 bool CGameApplication::init()
@@ -109,13 +109,13 @@ bool CGameApplication::initGame()
 	CGameObject *pTestGameObject=new CGameObject();
 	//Set the name
 	pTestGameObject->setName("Test");
-
+	
 	//create material
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Texture.fx");
 	//pMaterial->loadDiffuseTexture("face.png");
-
+	
 
 	//Audio - Create our Audio Component
 	CAudioSourceComponent *pAudio=new CAudioSourceComponent();
@@ -154,7 +154,7 @@ bool CGameApplication::initGame()
 	//add the game object
 	CGameObjectManager::getInstance().addGameObject(pTestGameObject);
 	//===============================================================
-
+	
 
 	//===============================================================
 	//							PLAYER OBJECT
@@ -165,7 +165,7 @@ bool CGameApplication::initGame()
 	//create material
 	CMaterialComponent *pPlayerMaterial=new CMaterialComponent();
 	pPlayerMaterial->SetRenderingDevice(m_pD3D10Device);
-
+	
 	pPlayerMaterial->setEffectFilename("Texture.fx");
 	pPlayerMaterial->loadDiffuseTexture("face.png");
 	//Audio - Create our Audio Component
@@ -181,7 +181,7 @@ bool CGameApplication::initGame()
 	CModelLoader Playermodelloader;
 	//CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"arnoredRecon1.fbx");
 	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
-	pPlayer->getTransform()->setPosition(0.0f,20.0f,0.0f);
+	pPlayer->getTransform()->setPosition(0.0f,0.0,0.0f);
 
 	//create box
 	CBoxCollider *pPlayerBox=new CBoxCollider();
@@ -192,7 +192,7 @@ bool CGameApplication::initGame()
 	//create body make it fixed so no gravity effects it
 	CBodyComponent *pPlayerBody=new CBodyComponent();
 	pPlayerBody->setFixed(false);
-
+	
 	pPlayer->addComponent(pPlayerBody);
 
 	pPlayerGeometry->SetRenderingDevice(m_pD3D10Device);
@@ -203,7 +203,7 @@ bool CGameApplication::initGame()
 
 	CGameObjectManager::getInstance().addGameObject(pPlayer);
 	//===============================================================
-
+	
 	//===============================================================
 	//						CAMERA VARIABLES
 	//===============================================================
@@ -214,7 +214,7 @@ bool CGameApplication::initGame()
 	CGameObject *pCameraGameObject=new CGameObject();
 	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
 	pCameraGameObject->setName("Camera");
-
+	
 	D3D10_VIEWPORT vp;
 	UINT numViewports=1;
 	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
@@ -252,12 +252,12 @@ bool CGameApplication::initGame()
 
 	if(b_UsePlayerCam == true)
 	{
-
+			
 			CGameObject *pPlayerCam = new CGameObject();
 			pPlayerCam->getTransform()->setPosition(playerX+5.0f,playerY+5.0f,playerZ);
 			pPlayerCam->setName("PlayerCam");
 			CCameraComponent *pPlayerCamComp = new CCameraComponent();
-
+			
 			pPlayerCamComp->setUp(0.0f,1.0f,0.0f);
 			//pPlayerCamComp->setLookAt(0.0f,0.0f,0.0f);
 			pPlayerCamComp->setFOV(D3DX_PI*0.25f);
@@ -278,7 +278,7 @@ bool CGameApplication::initGame()
 
 	//Audio - play music audio source
 	pMusic->play();
-
+	
 	m_Timer.start();
 
 	return true;
@@ -379,7 +379,7 @@ void CGameApplication::update()
 		pCamera->yaw(mouseDeltaX*m_Timer.getElapsedTime());
 		pCamera->pitch(mouseDeltaY*m_Timer.getElapsedTime());
 	}
-
+	
 	if (CInput::getInstance().getKeyboard()->isKeyDown((int)'W'))
 	{
 		//play sound
@@ -392,28 +392,28 @@ void CGameApplication::update()
 		//play sound
 		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
 		pTransform->translate(-0.5f,0.0f,0.0f);
-
+		
 	}
 		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
 	{
 		//play sound
 		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
 		pTransform->translate(0.0f,0.0f,-0.5f);
-
+		
 	}
 		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'D'))
 	{
 		//play sound
 		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
 		pTransform->translate(0.5f,0.0f,0.0f);
-
+		
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'Q'))
 	{
 		//play sound
 		CTransformComponent * pTransform=CGameObjectManager::getInstance().findGameObject("Player")->getTransform();
 		pTransform->translate(0.0f,0.5f,0.0f);
-
+		
 	}
 		else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'E'))
 	{
@@ -451,15 +451,15 @@ void CGameApplication::update()
 		outs << L"FPS: " << fps << L"\n" 
 			 << "Milliseconds: Per Frame: " << mspf;
 		mFrameStats = outs.str();
-
+		
 		// Reset for next average.
 		frameCnt = 0;
 		t_base  += 1.0f;
 	}
+	
 
 
-
-
+	
 	CGameObjectManager::getInstance().update(m_Timer.getElapsedTime());
 }
 
@@ -544,7 +544,7 @@ bool CGameApplication::initGraphics()
 	//Refresh rate of the buffer in the swap chain - BMD
     sd.BufferDesc.RefreshRate.Numerator = 60;
     sd.BufferDesc.RefreshRate.Denominator = 1;
-
+	
 	//NB. You should get use to seeing patterns like this when programming with D3D10 
 	//where we use a description object which is then used in the creation of a D3D10 resource 
 	//like swap chains. Also in a real application we would check to see if some of the above
@@ -608,7 +608,7 @@ bool CGameApplication::initGraphics()
 		NULL, //The description of the view, in this case NULL - BMD
 		&m_pRenderTargetView ))) // the memory address of a pointer to D3D10 Render Target - BMD
 	{
-
+		
 		pBackBuffer->Release();
 		return  false;
 	}
