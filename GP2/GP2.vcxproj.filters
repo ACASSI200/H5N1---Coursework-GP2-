@@ -191,4 +191,13 @@
       <Filter>Effects</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Debug\GP2.exe.embed.manifest" />
+    <Manifest Include="Debug\GP2.exe.intermediate.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Debug\GP2_manifest.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
 </Project>
