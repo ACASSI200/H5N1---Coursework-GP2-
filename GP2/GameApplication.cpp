@@ -85,8 +85,8 @@ void CGameApplication::initMainGame()
 {
 	//to do code here
 	m_pGameObjectManager->clear();
-
-
+	//to do code here
+	//to do code here
 }
 
 
