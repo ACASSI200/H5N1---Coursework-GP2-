@@ -2,7 +2,7 @@ float4x4 matWorld:WORLD<string UIWidget="None";>;
 float4x4 matView:VIEW<string UIWidget="None";>;
 float4x4 matProjection:PROJECTION<string UIWidget="None";>;
 
-float4 ambientMaterialColour
+float4 ambientMaterial
 <
 	string UIName="Ambient Material";
 	string UIWidget="Color";
@@ -13,7 +13,7 @@ float4 ambientLightColour
 	string UIWidget="Color";	
 >;
 
-float4 diffuseMaterialColour
+float4 diffuseMaterial
 <
 	string UIName="Diffuse Material";
 	string UIWidget="Color";	
@@ -60,8 +60,8 @@ float4 PS(PS_INPUT input):SV_TARGET
 	
 	float diffuse=saturate(dot(normal,lightDir));
 	
-	return(ambientMaterialColour*ambientLightColour)+
-	(diffuseMaterialColour*diffuseLightColour*diffuse);
+	return(ambientMaterial*ambientLightColour)+
+	(diffuseMaterial*diffuseLightColour*diffuse);
 }
 
 RasterizerState DisableCulling

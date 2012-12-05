@@ -164,6 +164,9 @@
     <ClInclude Include="Geometry.h">
       <Filter>Components\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="fbxsdk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScreenSpace.fx">
@@ -194,6 +197,21 @@
       <Filter>Effects</Filter>
     </None>
     <None Include="Environment.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="wood.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="shadowSpot.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="shadow_PCSS.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="Post_glow.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="transparency.fx">
       <Filter>Effects</Filter>
     </None>
   </ItemGroup>

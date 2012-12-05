@@ -99,6 +99,7 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="DefaultEffect.h" />
     <ClInclude Include="DirectionLightComponent.h" />
+    <ClInclude Include="fbxsdk.h" />
     <ClInclude Include="GameApplication.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
@@ -124,10 +125,15 @@
     <None Include="DirectionalLight.fx" />
     <None Include="Environment.fx" />
     <None Include="Parallax.fx" />
+    <None Include="Post_glow.fx" />
     <None Include="ScreenSpace.fx" />
+    <None Include="shadowSpot.fx" />
+    <None Include="shadow_PCSS.fx" />
     <None Include="Specular.fx" />
     <None Include="Texture.fx" />
     <None Include="Transform.fx" />
+    <None Include="transparency.fx" />
+    <None Include="wood.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

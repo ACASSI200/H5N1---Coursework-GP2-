@@ -2,15 +2,16 @@ float4x4 matView:VIEW;
 float4x4 matProjection:PROJECTION;
 
 float4 cameraPosition:POSITION<
-	string Object ="PerspectiveCamera";
+string Object =  "PerspectiveCamera";
 >;
 
 TextureCube envMap;
+
 SamplerState wrapSampler
 {
     Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
+    AddressU = Wrap;
+    AddressV = Wrap;
 };
 
 struct VS_INPUT
@@ -21,7 +22,7 @@ struct VS_INPUT
 struct PS_INPUT
 {
 	float4 pos:SV_POSITION;
-	float3 texCoord:TEXCOORD0;	
+	float3 texCoord:TEXCOORD0;
 };
 
 PS_INPUT VS(VS_INPUT input)
@@ -29,9 +30,10 @@ PS_INPUT VS(VS_INPUT input)
 	PS_INPUT output=(PS_INPUT)0;
 	
 	float4x4 matViewProjection=mul(matView,matProjection);
+	output.pos = input.pos + cameraPosition;
 	
-	output.pos=mul(input.pos+cameraPosition,matViewProjection);
-	output.texCoord=normalize(input.pos.xyz);
+	output.pos=mul(output.pos,matViewProjection);
+	output.texCoord = input.pos.xyz;
 	return output;
 }
 
@@ -47,10 +49,8 @@ RasterizerState DisableCulling
 
 DepthStencilState DisableZBuffering
 {
-	DepthEnable=FALSE;
+	DepthEnable = FALSE;
 };
-
-
 
 technique10 Render
 {
@@ -60,6 +60,6 @@ technique10 Render
 		SetGeometryShader( NULL );
 		SetPixelShader( CompileShader( ps_4_0,  PS() ) );
 		SetRasterizerState(DisableCulling); 
-		SetDepthStencilState(DisableZBuffering,0);
+		SetDepthStencilState(DisableZBuffering, 0);
 	}
 }
