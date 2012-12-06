@@ -154,7 +154,7 @@ bool CGameApplication::initGame()
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Texture.fx");
-	//pMaterial->loadDiffuseTexture("face.png");
+	pMaterial->loadDiffuseTexture("rockwall.png");
 	
 
 	//Audio - Create our Audio Component
@@ -168,8 +168,8 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader modelloader;
-	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
-	//pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"CityScene.fbx");
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
 	//pTestGameObject->getTransform()->rotate(90.0f,0.0f,0.0f);
 	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,200.0f,2.0f,200.0f);
 	CBoxCollider *pBox=new CBoxCollider();
@@ -495,10 +495,13 @@ void CGameApplication::update()
 		//Audio - call play
 		pAudio->play();
 	}
-
+	
 	float playerPosX = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().x;
 	float playerPosY = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().y;
 	float playerPosZ = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().z;
+
+	CTransformComponent * pEnemTransform=CGameObjectManager::getInstance().findGameObject("TestCube")->getTransform();
+	//pEnemTransform->setPosition(playerPosX,playerPosY,playerPosZ);
 
 	static int frameCnt = 0;
 	static float t_base = 0.0f;
