@@ -402,6 +402,12 @@ void CGameApplication::render()
 			mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R3, DT_NOCLIP, WHITE);
 			mFont->DrawTextA(NULL, " Move Foward - Q, Move Back - E " , -1, &R4, DT_NOCLIP, GREEN);
 
+
+			RECT R5 = {5, 42, 0, 0};
+			RECT R6 = {6, 43, 0, 0};
+			mFont->DrawTextA(NULL, " Esc to exit " , -1, &R5, DT_NOCLIP, WHITE);
+			mFont->DrawTextA(NULL, " Esc to exit " , -1, &R6, DT_NOCLIP, GREEN);
+
 			//=======================================================BH=============================================================================
 
 			RECT FPS1 = {10, 550, 0, 0};
@@ -529,9 +535,9 @@ void CGameApplication::update()
 				pCamera->setYaw(11.2f);
 				pCamera->setPitch(-0.2f);
 				cameraView = 0;
-
+			}else if(CInput::getInstance().getMouse()->getMouseDown(0)){
+				audio->PlayShoot();
 			}
-
 			//================================================================BH===================================================================================================================
 			// Code computes the average frames per second, and also the
 			// average time it takes to render one frame.
@@ -557,7 +563,6 @@ void CGameApplication::update()
 				frameCnt = 0;
 				t_base += 1.0f;
 			}
-			return;
 			//=====================================================================================================================================================================================
 
 		}	
@@ -572,7 +577,7 @@ void CGameApplication::update()
 			if(CInput::getInstance().getMouse()->getMouseDown(0)){
 				if(y > 330 && y < 365 && x > 210 && x < 625){
 
-					audio->EnterGame();
+					audio->PlayEnterGame();
 					//================================================================================================
 					D3DX10_FONT_DESC fontDesc;
 					fontDesc.Height          = 22;

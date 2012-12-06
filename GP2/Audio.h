@@ -16,7 +16,7 @@ public:
 	
 	FMOD::Sound *soundtrack;
 	FMOD::Sound *sound1;
-	FMOD::Sound *sound2;
+	FMOD::Sound *shoot;
 
 	
 	void initSound();
@@ -24,8 +24,8 @@ public:
 	void loadSound();
 
 	void playSoundtrack();
-	void EnterGame();
-	void playSound2();
+	void PlayEnterGame();
+	void PlayShoot();
 
 };
 
