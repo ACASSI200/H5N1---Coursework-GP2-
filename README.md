@@ -8,9 +8,9 @@
 <p>Marc Clelland</p>
 <p>Andrew Cassidy</p>
 
-<h3>Environment Variable</h3>
+<h3>Environment Variables</h3>
 
-<p>To compile the audio sample you need to first add an environment variable that point to the FMOD install directory. The environment variable should be <b>FMODSDK_DIR</b> and point to <b>C:\Program Files (x86)\FMOD SoundSystem\FMOD Programmers API Windows\api</b>. This assumes that you have installed FMOD to the default directoy.</p>
+<P></P>
 
 <h3>Include and Linker settings</h3>
 
