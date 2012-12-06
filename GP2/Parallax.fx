@@ -68,7 +68,7 @@ bool useHeightTexture
 string UIName="Use Parrallax";
 > = false;
 
-float scale=0.03;
+float scale=0.05;
 float bias=0.01;
 
 SamplerState wrapSampler
@@ -167,6 +167,11 @@ RasterizerState DisableCulling
     CullMode = NONE;
 };
 
+DepthStencilState EnableZBuffering
+{
+	DepthEnable=TRUE;
+};
+
 technique10 Render
 {
 	pass P0
@@ -175,5 +180,6 @@ technique10 Render
 		SetGeometryShader( NULL );
 		SetPixelShader( CompileShader( ps_4_0,  PS() ) );
 		SetRasterizerState(DisableCulling); 
+		SetDepthStencilState(EnableZBuffering,0);
 	}
 }

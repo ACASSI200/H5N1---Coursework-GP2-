@@ -55,7 +55,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(HAVOKSDK_DIR)\Lib\win32_vs2010\debug_multithreaded_dll;$(FMODSDK_DIR)\lib;$(FBXSDK_DIR)\lib\vs2010\x86;$(DXSDK_DIR)\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(HAVOKSDK_DIR)\Lib\win32_vs2010\debug_multithreaded_dll;$(FMODSDK_DIR)\lib;$(FBXSDK_DIR)\lib;$(DXSDK_DIR)\lib\x86</AdditionalLibraryDirectories>
       <AdditionalDependencies>d3d10.lib;d3dx10.lib;xinput.lib;fbxsdk-2013.1d.lib;fmodex_vc.lib;hkBase.lib;hkCompat.lib;hkSceneData.lib;hkSerialize.lib;hkVisualize.lib;hkInternal.lib;hkGeometryUtilities.lib;hkcdInternal.lib;hkcdCollide.lib;hkpCollide.lib;hkpConstraintSolver.lib;hkpDynamics.lib;hkpInternal.lib;hkpUtilities.lib;hkpVehicle.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -124,16 +124,12 @@
     <None Include="diffuse.fx" />
     <None Include="DirectionalLight.fx" />
     <None Include="Environment.fx" />
+    <None Include="fbxsdk-2013.1d.dll" />
     <None Include="Parallax.fx" />
-    <None Include="Post_glow.fx" />
     <None Include="ScreenSpace.fx" />
-    <None Include="shadowSpot.fx" />
-    <None Include="shadow_PCSS.fx" />
     <None Include="Specular.fx" />
     <None Include="Texture.fx" />
     <None Include="Transform.fx" />
-    <None Include="transparency.fx" />
-    <None Include="wood.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
