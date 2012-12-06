@@ -16,10 +16,11 @@ CGameApplication::CGameApplication(void)
 	m_pSwapChain=NULL;
 	m_pDepthStencelView=NULL;
 	m_pDepthStencilTexture=NULL;
-	b_UsePlayerCam = false;
+	playerHealth = 100;
+	
 	mFrameStats = L" ";
 	mClearColor     = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
-	m_camState = debug;
+	m_camState = DEBUG;
 }
 
 CGameApplication::~CGameApplication(void)
@@ -66,6 +67,42 @@ bool CGameApplication::init()
 		return false;
 	return true;
 }
+void CGameApplication::createBox(float x,float y,float z)
+{
+	//Create Game Object
+	CGameObject *EnemyObject=new CGameObject();
+	EnemyObject->getTransform()->setPosition(x,y,z);
+	//Set the name
+	EnemyObject->setName("TestCube");
+	
+	//create material
+	CMaterialComponent *EnemyMaterial=new CMaterialComponent();
+	EnemyMaterial->SetRenderingDevice(m_pD3D10Device);
+	EnemyMaterial->setEffectFilename("Texture.fx");
+
+	//Create geometry
+	CModelLoader modelloader;
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"humanoid.fbx");
+	CGeometryComponent *EnemyGeom=modelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	
+	//create a box collider, this could be any collider
+	CBoxCollider *EnemBox=new CBoxCollider();
+	//set the size of the box
+	EnemBox->setExtents(1.0f,1.0f,1.0f);
+	//add collider
+	EnemyObject->addComponent(EnemBox);
+
+	//create body
+	CBodyComponent *pBody=new CBodyComponent();
+	EnemyObject->addComponent(pBody);
+
+	EnemyGeom->SetRenderingDevice(m_pD3D10Device);
+	//Add component
+	EnemyObject->addComponent(EnemyMaterial);
+	EnemyObject->addComponent(EnemyGeom);
+	//add the game object
+	CGameObjectManager::getInstance().addGameObject(EnemyObject);
+}
 
 
 
@@ -75,10 +112,13 @@ void CGameApplication::contactPointCallback (const hkpContactPointEvent &event)
 	hkpRigidBody *pBody1=event.getBody(0);
 	hkpRigidBody *pBody2=event.getBody(1);
 
+
 	CGameObject *pGameObject1=(CGameObject*)pBody1->getUserData();
 	CGameObject *pGameObject2=(CGameObject*)pBody2->getUserData();
-
+	//CGameObject *pGameObject3=(CGameObject*)pBody3->getUserData();
 	//Do something with the game objects
+
+	//playerHealth --;
 }
 
 bool CGameApplication::initGame()
@@ -114,7 +154,7 @@ bool CGameApplication::initGame()
 	CMaterialComponent *pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
 	pMaterial->setEffectFilename("Texture.fx");
-	//pMaterial->loadDiffuseTexture("face.png");
+	pMaterial->loadDiffuseTexture("rockwall.png");
 	
 
 	//Audio - Create our Audio Component
@@ -128,16 +168,15 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader modelloader;
-	////CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
-	//pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"CityScene.fbx");
+	pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
 	//pTestGameObject->getTransform()->rotate(90.0f,0.0f,0.0f);
 	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,200.0f,2.0f,200.0f);
 	CBoxCollider *pBox=new CBoxCollider();
 	CMeshCollider *pMesh = new CMeshCollider();
-	float verts = pGeometry->getNumberOfVertices();
+	//float verts = pGeometry->getNumberOfVertices();
 
 	pBox->setExtents(200.0f,1.0f,200.0f);
-
 
 //	pBox->physicsShape()->isConvex();
 	pTestGameObject->addComponent(pBox);
@@ -155,7 +194,6 @@ bool CGameApplication::initGame()
 	CGameObjectManager::getInstance().addGameObject(pTestGameObject);
 	//===============================================================
 	
-
 	//===============================================================
 	//							PLAYER OBJECT
 	//===============================================================
@@ -179,9 +217,9 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader Playermodelloader;
-	//CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"arnoredRecon1.fbx");
-	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
-	pPlayer->getTransform()->setPosition(0.0f,0.0,0.0f);
+	CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
+	//CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	pPlayer->getTransform()->setPosition(10.0f,20.0f,0.0f);
 
 	//create box
 	CBoxCollider *pPlayerBox=new CBoxCollider();
@@ -200,29 +238,56 @@ bool CGameApplication::initGame()
 	pPlayer->addComponent(pPlayerMaterial);
 	pPlayer->addComponent(pPlayerGeometry);
 	//add the game object
-
 	CGameObjectManager::getInstance().addGameObject(pPlayer);
-	//===============================================================
-	
-	//===============================================================
-	//						CAMERA VARIABLES
-	//===============================================================
-	float playerX = pPlayer->getTransform()->getPosition().x;
-	float playerY = pPlayer->getTransform()->getPosition().y;
-	float playerZ = pPlayer->getTransform()->getPosition().z;
+	//=========================================================
 
-	CGameObject *pCameraGameObject=new CGameObject();
-	pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
-	pCameraGameObject->setName("Camera");
-	
-	D3D10_VIEWPORT vp;
-	UINT numViewports=1;
-	m_pD3D10Device->RSGetViewports(&numViewports,&vp);
-	CAudioSourceComponent *pMusic=new CAudioSourceComponent();
+	//=========================================================
+	//					ENEMY
+	//=========================================================
 
-	//===============================================================
-	//						DEBUG CAM
-	//===============================================================
+	float startY=10.0f;
+	for (int i=0;i<10;i++)
+	{
+		//call create bi=ox
+		createBox(0.0f,(10.0f*i)+startY,0.0f);
+	}
+	//=========================================================
+
+	CGameObjectManager::getInstance().init();
+
+	//Audio - play music audio source
+	//pMusic->play();
+	
+	m_Timer.start();
+
+	return true;
+}
+
+void CGameApplication::run()
+{
+	mTimer.reset();
+	while(m_pWindow->running())
+	{
+		if (! m_pWindow->checkForWindowMessages())
+		{
+			update();
+			render();
+			mTimer.tick();
+		}
+	}
+}
+
+void CGameApplication::DebugCam()
+{
+
+			D3D10_VIEWPORT vp;
+			UINT numViewports=1;
+			m_pD3D10Device->RSGetViewports(&numViewports,&vp);
+
+			CAudioSourceComponent *pMusic=new CAudioSourceComponent();
+			CGameObject *pCameraGameObject=new CGameObject();
+			pCameraGameObject->getTransform()->setPosition(0.0f,0.0f,-50.0f);
+			pCameraGameObject->setName("Camera");
 			CCameraComponent *pCamera=new CCameraComponent();
 			pCamera->setUp(0.0f,1.0f,0.0f);
 			pCamera->setLookAt(0.0f,0.0f,0.0f);
@@ -244,15 +309,19 @@ bool CGameApplication::initGame()
 			CAudioListenerComponent *pListener=new CAudioListenerComponent();
 			pCameraGameObject->addComponent(pListener);	
 			CGameObjectManager::getInstance().addGameObject(pCameraGameObject);
-	//===============================================================
 
-	//===============================================================
-	//						PLAYER CAM 				
-	//===============================================================
 
-	if(b_UsePlayerCam == true)
-	{
-			
+
+}
+
+void CGameApplication::PlayerCam()
+{
+			D3D10_VIEWPORT vp;
+			UINT numViewports=1;
+			m_pD3D10Device->RSGetViewports(&numViewports,&vp);
+			float playerX = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().x;
+			float playerY =  CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().y;
+			float playerZ = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().z;
 			CGameObject *pPlayerCam = new CGameObject();
 			pPlayerCam->getTransform()->setPosition(playerX+5.0f,playerY+5.0f,playerZ);
 			pPlayerCam->setName("PlayerCam");
@@ -267,35 +336,8 @@ bool CGameApplication::initGame()
 			CAudioListenerComponent *pPlayerListner=new CAudioListenerComponent();
 			pPlayerCam->addComponent(pPlayerCamComp);
 			pPlayerCam->addComponent(pPlayerListner);
-
-			pCamera->disable();
-			CGameObjectManager::getInstance().removeGameObject(pCameraGameObject);
 			CGameObjectManager::getInstance().addGameObject(pPlayerCam);
-	}
-	//=============================================================
 
-	CGameObjectManager::getInstance().init();
-
-	//Audio - play music audio source
-	pMusic->play();
-	
-	m_Timer.start();
-
-	return true;
-}
-
-void CGameApplication::run()
-{
-	mTimer.reset();
-	while(m_pWindow->running())
-	{
-		if (! m_pWindow->checkForWindowMessages())
-		{
-			update();
-			render();
-			mTimer.tick();
-		}
-	}
 }
 
 void CGameApplication::render()
@@ -364,6 +406,20 @@ void CGameApplication::render()
 
 void CGameApplication::update()
 {
+	switch( m_camState)
+	{
+	case DEBUG:
+		{
+			DebugCam();
+			break;
+		}
+	case PLAYER:
+		{
+			PlayerCam();
+			break;
+		}
+	}
+
 	m_Timer.update();
 	CPhysics::getInstance().update(m_Timer.getElapsedTime());
 	//Audio - Update the audio system, this must be called to update streams and listener position
@@ -423,7 +479,11 @@ void CGameApplication::update()
 	}
 	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'P'))
 	{
-		b_UsePlayerCam==true;
+		m_camState = PLAYER;
+	}
+	else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'O'))
+	{
+		m_camState = DEBUG;
 	}
 
 	//Audio -  If the left mouse button has been pressed
@@ -434,6 +494,13 @@ void CGameApplication::update()
 		//Audio - call play
 		pAudio->play();
 	}
+	
+	float playerPosX = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().x;
+	float playerPosY = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().y;
+	float playerPosZ = CGameObjectManager::getInstance().findGameObject("Player")->getTransform()->getPosition().z;
+
+	CTransformComponent * pEnemTransform=CGameObjectManager::getInstance().findGameObject("TestCube")->getTransform();
+	//pEnemTransform->setPosition(playerPosX,playerPosY,playerPosZ);
 
 	static int frameCnt = 0;
 	static float t_base = 0.0f;
@@ -448,7 +515,7 @@ void CGameApplication::update()
 
 		std::wostringstream outs;   
 		outs.precision(6);
-		outs << L"FPS: " << fps << L"\n" 
+		outs << L"fps: " << fps << L"\n" 
 			 << "Milliseconds: Per Frame: " << mspf;
 		mFrameStats = outs.str();
 		
@@ -456,9 +523,6 @@ void CGameApplication::update()
 		frameCnt = 0;
 		t_base  += 1.0f;
 	}
-	
-
-
 	
 	CGameObjectManager::getInstance().update(m_Timer.getElapsedTime());
 }
