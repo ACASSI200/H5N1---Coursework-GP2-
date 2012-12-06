@@ -1,4 +1,4 @@
-<h1>H5N1---Coursework-GP2-
+H5N1---Coursework-GP2-
 ======================
 
 Games Programming 2<h1>Games Programming 2</h1>
