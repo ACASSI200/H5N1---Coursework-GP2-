@@ -514,7 +514,7 @@ void CGameApplication::update()
 
 		std::wostringstream outs;   
 		outs.precision(6);
-		outs << L"Health: " << playerHealth << L"\n" 
+		outs << L"fps: " << fps << L"\n" 
 			 << "Milliseconds: Per Frame: " << mspf;
 		mFrameStats = outs.str();
 		
