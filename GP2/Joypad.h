@@ -30,6 +30,7 @@ public:
 	{
 		return m_fRightThumbstickY;
 	};
+
 private:
 	XINPUT_STATE m_JoypadState;
 	int m_iIndex;

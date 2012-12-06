@@ -56,6 +56,7 @@ void CJoypad::update()
 			m_fRightNormalizedMagnitude=0.0f;
 		}
 
+
 		//triggers
 		if (m_JoypadState.Gamepad.bRightTrigger>XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 		{

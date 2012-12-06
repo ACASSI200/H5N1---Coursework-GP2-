@@ -31,6 +31,10 @@ CGameApplication::~CGameApplication(void)
 		delete audio;
 		audio = NULL;
 	}
+	if(joypad){
+		delete joypad;
+		joypad = NULL;
+	}
 	if (m_pGameObjectManager)
 	{
 		delete m_pGameObjectManager;
@@ -69,15 +73,14 @@ bool CGameApplication::init()
 POINT cursorPos;
 float x = 0;
 float y = 0;
+D3DX10_FONT_DESC fontDesc;
 
 bool CGameApplication::initGame()
 {
 
-
-
 	//================================================================================================
-	D3DX10_FONT_DESC fontDesc;
-	fontDesc.Height          = 42;
+	
+	fontDesc.Height          = 22;
 	fontDesc.Width           = 0;
 	fontDesc.Weight          = 0;
 	fontDesc.MipLevels       = 1;
@@ -89,6 +92,22 @@ bool CGameApplication::initGame()
 	wcscpy(fontDesc.FaceName, L"Times New Roman");
 
 	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
+	//================================================================================================
+
+	//================================================================================================
+	
+	fontDesc.Height          = 42;
+	fontDesc.Width           = 0;
+	fontDesc.Weight          = 0;
+	fontDesc.MipLevels       = 1;
+	fontDesc.Italic          = false;
+	fontDesc.CharSet         = DEFAULT_CHARSET;
+	fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fontDesc.Quality         = DEFAULT_QUALITY;
+	fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
+	wcscpy(fontDesc.FaceName, L"Times New Roman");
+
+	D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mBigFont);
 	//================================================================================================
 
 	// Set primitive topology, how are we going to interpet the vertices in the vertex buffer - BMD
@@ -181,7 +200,7 @@ bool CGameApplication::initGame()
 	//create material
 	pMaterial=new CMaterialComponent();
 	pMaterial->SetRenderingDevice(m_pD3D10Device);
-	pMaterial->setEffectFilename("Parallax.fx");
+	pMaterial->setEffectFilename("Bumpmapping.fx");
 	pMaterial->setAmbientMaterialColour(D3DXCOLOR(0.2f,0.2f,0.2f,1.0f));
 	pMaterial->loadDiffuseTexture("Spaceship/mat_ship.bmp");
 	//pMaterial->loadSpecularTexture("armoredrecon_spec.png");
@@ -292,6 +311,7 @@ bool CGameApplication::initGame()
 	audio->loadSound();
 	audio->playSoundtrack();
 
+	joypad = new CJoypad(1);
 
 	m_Timer.start();
 	return true;
@@ -408,24 +428,24 @@ void CGameApplication::render()
 			mFont->DrawTextA(NULL, " Esc to exit " , -1, &R5, DT_NOCLIP, WHITE);
 			mFont->DrawTextA(NULL, " Esc to exit " , -1, &R6, DT_NOCLIP, GREEN);
 
-			//=======================================================BH=============================================================================
-
-			RECT FPS1 = {10, 550, 0, 0};
-			RECT FPS2 = {11, 551, 0, 0};
-			mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS1, DT_NOCLIP, WHITE);
-			mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS2, DT_NOCLIP, GREEN);
-			//=====================================================================================================================================
-
+			
 		}
 		break;
 	case 0:
 		{
+			//=======================================================BH=============================================================================
+			RECT FPS1 = {5, 5, 0, 0};
+			RECT FPS2 = {6, 6, 0, 0};
+			mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS1, DT_NOCLIP, WHITE);
+			mFont->DrawText(0, mFrameStats.c_str(), -1, &FPS2, DT_NOCLIP, GREEN);
+			//=====================================================================================================================================
+
 			RECT R1 = {200, 300, 0, 0};
-			mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R1, DT_NOCLIP, BLACK);
+			mBigFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R1, DT_NOCLIP, BLACK);
 			RECT R3 = {199, 299, 0, 0};
-			mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R3, DT_NOCLIP, BLACK);
+			mBigFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R3, DT_NOCLIP, BLACK);
 			RECT R2 = {201, 301, 0, 0};
-			mFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R2, DT_NOCLIP, WHITE);
+			mBigFont->DrawTextA(NULL, " CLICK HERE TO START!" , -1, &R2, DT_NOCLIP, WHITE);
 
 
 		}
@@ -458,7 +478,28 @@ void CGameApplication::update()
 	audio->updateSound();
 	CCameraComponent *pCamera=m_pGameObjectManager->getMainCamera();
 
+	CTransformComponent * pTransformAsteroid_1=m_pGameObjectManager->findGameObject("Asteroid_1")->getTransform();
+	pTransformAsteroid_1->setRotation(pTransformAsteroid_1->getRotation().x + (m_Timer.getElapsedTime()*0.1),0.0f,pTransformAsteroid_1->getRotation().z + (m_Timer.getElapsedTime()*0.1));
+
+	CTransformComponent * pTransformAsteroid_2=m_pGameObjectManager->findGameObject("Asteroid_2")->getTransform();
+	pTransformAsteroid_2->setRotation(pTransformAsteroid_2->getRotation().x + (m_Timer.getElapsedTime()*0.1),pTransformAsteroid_2->getRotation().y + (m_Timer.getElapsedTime()*0.1),0.0f);
+
+	CTransformComponent * pTransformPlanet=m_pGameObjectManager->findGameObject("Planet")->getTransform();
+	pTransformPlanet->setRotation(pTransformPlanet->getRotation().x + (m_Timer.getElapsedTime()*0.005),0.0f,0.0f);
+
+	GetCursorPos(&cursorPos);
+	x = cursorPos.x; 
+	y = cursorPos.y;
 	pCamera->update(m_Timer.getElapsedTime());
+
+
+	joypad->update();
+	//MyOutputFunction("%d \n", (float)joypad->getLeftThumbStickY());
+
+	if(joypad->getLeftThumbStickX() != 0){
+		//pCamera->yaw(joypad->getLeftThumbStickX());
+	}
+
 
 	switch(cameraView){
 	case 1:
@@ -470,8 +511,7 @@ void CGameApplication::update()
 				pCamera->pitch(1.0f*m_Timer.getElapsedTime());
 				//OutputDebugStringW(L"Working");
 
-				//CTransformComponent * pTransform2=m_pGameObjectManager->findGameObject("Test")->getTransform();
-				//pTransform2->setPosition(0.0f,0.0f,m_Timer.getElapsedTime()*1);
+				
 			}
 			else if (CInput::getInstance().getKeyboard()->isKeyDown((int)'S'))
 			{
@@ -513,21 +553,6 @@ void CGameApplication::update()
 				//pTransform->rotate(0.0f,m_Timer.getElapsedTime()*-1,0.0f);
 			}else if (CInput::getInstance().getKeyboard()->isKeyDown(VK_ESCAPE))
 			{
-				//================================================================================================
-				D3DX10_FONT_DESC fontDesc;
-				fontDesc.Height          = 42;
-				fontDesc.Width           = 0;
-				fontDesc.Weight          = 0;
-				fontDesc.MipLevels       = 1;
-				fontDesc.Italic          = false;
-				fontDesc.CharSet         = DEFAULT_CHARSET;
-				fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
-				fontDesc.Quality         = DEFAULT_QUALITY;
-				fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-				wcscpy(fontDesc.FaceName, L"Times New Roman");
-
-				D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
-				//================================================================================================
 
 				pCamera->getParent()->getTransform()->setPosition(413.0f,80.0f,109.0f);
 				oldPitch = pCamera->getPitch();
@@ -538,6 +563,12 @@ void CGameApplication::update()
 			}else if(CInput::getInstance().getMouse()->getMouseDown(0)){
 				audio->PlayShoot();
 			}
+
+		}	
+		break;
+	case 0:
+		{
+
 			//================================================================BH===================================================================================================================
 			// Code computes the average frames per second, and also the
 			// average time it takes to render one frame.
@@ -565,34 +596,10 @@ void CGameApplication::update()
 			}
 			//=====================================================================================================================================================================================
 
-		}	
-		break;
-	case 0:
-		{
-
-			GetCursorPos(&cursorPos);
-			x = cursorPos.x; 
-			y = cursorPos.y;
-
 			if(CInput::getInstance().getMouse()->getMouseDown(0)){
 				if(y > 330 && y < 365 && x > 210 && x < 625){
 
 					audio->PlayEnterGame();
-					//================================================================================================
-					D3DX10_FONT_DESC fontDesc;
-					fontDesc.Height          = 22;
-					fontDesc.Width           = 0;
-					fontDesc.Weight          = 0;
-					fontDesc.MipLevels       = 1;
-					fontDesc.Italic          = false;
-					fontDesc.CharSet         = DEFAULT_CHARSET;
-					fontDesc.OutputPrecision = OUT_DEFAULT_PRECIS;
-					fontDesc.Quality         = DEFAULT_QUALITY;
-					fontDesc.PitchAndFamily  = DEFAULT_PITCH | FF_DONTCARE;
-					wcscpy(fontDesc.FaceName, L"Times New Roman");
-
-					D3DX10CreateFontIndirect(m_pD3D10Device, &fontDesc, &mFont);
-					//================================================================================================
 
 					pCamera->getParent()->getTransform()->setPosition(5.0f,0.0f,125.0f);
 					pCamera->setYaw(oldYaw);
@@ -616,10 +623,9 @@ void CGameApplication::update()
 bool CGameApplication::initInput()
 {
 	CInput::getInstance().init();
+
 	return true;
 }
-
-
 
 //initGraphics - initialise the graphics subsystem - BMD
 bool CGameApplication::initGraphics()

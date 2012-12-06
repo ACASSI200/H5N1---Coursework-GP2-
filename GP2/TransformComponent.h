@@ -10,6 +10,10 @@
 class CTransformComponent:public CBaseComponent
 {
 public:
+	D3DXVECTOR3 getRotation()
+	{
+		return m_vecRotation;
+	}
 	//Constructor
 	CTransformComponent()
 	{

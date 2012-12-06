@@ -52,6 +52,7 @@ public:
 	{
 		return m_strName;
 	};
+
 private:
 	//transform component
 	CTransformComponent * m_pTransform;

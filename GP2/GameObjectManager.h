@@ -58,6 +58,8 @@ public:
 	{
 		m_pMainLight=lightDir;
 	};
+
+	
 private:
 	//vector of game objects
 	vector<CGameObject*> m_GameObjects;

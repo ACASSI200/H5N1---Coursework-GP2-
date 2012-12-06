@@ -196,5 +196,14 @@
     <None Include="Transform.fx">
       <Filter>Effects</Filter>
     </None>
+    <None Include="Lighting.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="transparency.fx">
+      <Filter>Effects</Filter>
+    </None>
+    <None Include="Post_glow.fx">
+      <Filter>Effects</Filter>
+    </None>
   </ItemGroup>
 </Project>

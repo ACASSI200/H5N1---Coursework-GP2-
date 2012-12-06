@@ -10,7 +10,6 @@ void Audio::updateSound(){
 	result = fmodSystem->update();
 }
 
-
 void Audio::loadSound(){
 	result = fmodSystem->createSound("sounds/Shoot.mp3", FMOD_DEFAULT, 0, &shoot);
 	shoot->setMode(FMOD_LOOP_OFF);

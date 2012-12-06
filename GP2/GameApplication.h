@@ -20,6 +20,11 @@
 #include <cstring>
 #include <sstream> 
 
+#include "Input.h"
+#include "Keyboard.h"
+#include "Joypad.h"
+#include "Mouse.h"
+
 using namespace std;
 const D3DXCOLOR WHITE(1.0f, 1.0f, 1.0f, 1.0f);
 const D3DXCOLOR BLACK(0.0f, 0.0f, 0.0f, 1.0f);
@@ -49,6 +54,7 @@ private:
 	bool initInput();
 	bool initGame();
 	bool initGraphics();
+	bool initJoypad();
 
 	bool initWindow();
 	void render();
@@ -63,10 +69,12 @@ private:
 	ID3D10Texture2D *m_pDepthStencilTexture;
 	CCameraComponent *pCamera;
 	ID3DX10Font* mFont;
+	ID3DX10Font* mBigFont;
 	ID3D10InputLayout* mVertexLayout;
 	D3DXCOLOR mClearColor;
 
 	CWin32Window * m_pWindow;
+	CJoypad *joypad;
 
 	CTimer m_Timer;
 
