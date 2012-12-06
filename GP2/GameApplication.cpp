@@ -168,16 +168,15 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader modelloader;
-	////CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
+	//CGeometryComponent *pGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"Scenery.fbx");
 	//pTestGameObject->getTransform()->setPosition(0.0f,0.0f,0.0f);
 	//pTestGameObject->getTransform()->rotate(90.0f,0.0f,0.0f);
 	CGeometryComponent *pGeometry=modelloader.createCube(m_pD3D10Device,200.0f,2.0f,200.0f);
 	CBoxCollider *pBox=new CBoxCollider();
 	CMeshCollider *pMesh = new CMeshCollider();
-	float verts = pGeometry->getNumberOfVertices();
+	//float verts = pGeometry->getNumberOfVertices();
 
 	pBox->setExtents(200.0f,1.0f,200.0f);
-
 
 //	pBox->physicsShape()->isConvex();
 	pTestGameObject->addComponent(pBox);
@@ -219,8 +218,8 @@ bool CGameApplication::initGame()
 
 	//Create geometry
 	CModelLoader Playermodelloader;
-	//CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"arnoredRecon1.fbx");
-	CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
+	CGeometryComponent *pPlayerGeometry=modelloader.loadModelFromFile(m_pD3D10Device,"armoredrecon.fbx");
+	//CGeometryComponent *pPlayerGeometry=Playermodelloader.createCube(m_pD3D10Device,1.0f,1.0f,1.0f);
 	pPlayer->getTransform()->setPosition(10.0f,20.0f,0.0f);
 
 	//create box
