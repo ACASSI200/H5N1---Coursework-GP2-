@@ -1,0 +1,238 @@
+/************* UN-TWEAKABLES **************/
+
+float Script : STANDARDSGLOBAL <
+    string UIWidget = "none";
+    string ScriptClass = "object";
+    string ScriptOrder = "standard";
+    string ScriptOutput = "color";
+    string Script = "Technique=Main;";
+> = 0.8;
+
+//// UN-TWEAKABLES - AUTOMATICALLY-TRACKED TRANSFORMS ////////////////
+
+float4x4 WorldITXf : WorldInverseTranspose < string UIWidget="None"; >;
+float4x4 WvpXf : WorldViewProjection < string UIWidget="None"; >;
+float4x4 WorldXf : World < string UIWidget="None"; >;
+float4x4 ViewIXf : ViewInverse < string UIWidget="None"; >;
+
+/*** tweakables ***/
+
+/// Point Lamp 0 ////////////
+float3 Lamp0Pos : Position <
+    string Object = "PointLight0";
+    string UIName =  "Lamp 0 Position";
+    string Space = "World";
+> = {-0.5f,2.0f,1.25f};
+float3 Lamp0Color : Specular <
+    string UIName =  "Lamp 0";
+    string Object = "Pointlight0";
+    string UIWidget = "Color";
+> = {1.0f,1.0f,1.0f};
+
+////
+
+float3 AmbiColor : Ambient <
+    string UIName =  "Ambient Light";
+    string UIWidget = "Color";
+> = {0.17f, 0.17f, 0.17f};
+
+////
+
+float3 WoodColor1 <
+    string UIName =  "Light Wood";
+    string UIWidget = "Color";
+> = {0.85f, 0.55f, 0.01f};
+
+float3 WoodColor2 <
+    string UIName =  "Dark Wood";
+    string UIWidget = "Color";
+> = {0.60f, 0.41f, 0.0f};
+
+float Ks1 <
+    string UIWidget = "slider";
+    float UIMin = 0.0;
+    float UIMax = 2.0;
+    float UIStep = 0.01;
+    string UIName =  "Light Wood Specular";
+> = 0.5;
+
+float Ks2 <
+    string UIWidget = "slider";
+    float UIMin = 0.0;
+    float UIMax = 2.0;
+    float UIStep = 0.01;
+    string UIName =  "Dark Wood Specular";
+> = 0.7;
+
+float SpecExpon : SpecularPower <
+    string UIWidget = "slider";
+    float UIMin = 1.0;
+    float UIMax = 128.0;
+    float UIStep = 1.0;
+    string UIName =  "Specular Power";
+> = 50.0;
+
+float RingScale <
+    string units = "inch";
+    string UIWidget = "slider";
+    float UIMin = 0.0;
+    float UIMax = 10.0;
+    float UIStep = 0.01;
+    string UIName =  "Ring Scale";
+> = 0.46;
+
+float AmpScale <
+    string UIWidget = "slider";
+    float UIMin = 0.01;
+    float UIMax = 2.0;
+    float UIStep = 0.01;
+    string UIName = "Wobbliness";
+> = 0.7;
+
+//	They define the relative size of the log to the model.
+float WoodScale <
+    string UIWidget = "slider";
+    float UIMin = 0.01;
+    float UIMax = 20.0;
+    float UIStep = 0.01;
+    string UIName =  "Model Size, Relative to Wood";
+> = 8;
+
+float3 WoodOffset <
+    string UIName =  "Log-Center Offset";
+> = {-10.0f, -11.0f, 7.0f};
+
+
+// #define USE_SHARED_SHADOW
+
+#ifdef USE_SHARED_SHADOW
+#define MAX_SHADOW_BIAS 0.01
+#define MIN_SHADOW_BIAS 0.00005
+#include "include/shadowMap.cgh"
+DECLARE_SHADOW_XFORMS("SpotLight0",LampViewXf,LampProjXf,ShadowViewProjXf)
+DECLARE_SHADOW_BIAS
+DECLARE_SHADOW_MAPS(ColorShadTarget,ColorShadSampler,DepthShadTarget,DepthShadSampler)
+
+float ShadDens <
+    string UIWidget = "slider";
+    float UIMin = 0.0;
+    float UIMax = 1.0;
+    float UIStep = 0.01;
+    string UIName =  "Shadow Density";
+> = 0.7;
+#endif 
+
+texture NoiseTex <
+    string ResourceName = "noiseL8_32x32x32.dds";
+    string UIName =  "Noise";
+    string ResourceType = "3D";
+>;
+
+sampler3D NoiseSamp = sampler_state {
+    Texture = <NoiseTex>;
+    MagFilter = Point;
+    MinFilter = Point;
+    WrapS = Repeat;
+    WrapS = Repeat;
+    WrapR = Repeat;
+};
+
+/************* DATA STRUCTS **************/
+
+/* data from application vertex buffer */
+struct appdata {
+    float3 Position	: POSITION;
+    float4 UV		: TEXCOORD0;
+    float4 Normal	: NORMAL;
+    float4 Tangent	: TANGENT0;
+    float4 Binormal	: BINORMAL0;
+};
+
+/* data passed from vertex shader to pixel shader */
+struct woodVertexOutput {
+    float4 HPosition	: POSITION;
+    float3 WoodPos	: TEXCOORD0; // wood grain coordinate system
+    float3 LightVec	: TEXCOORD1;
+    float3 WorldNormal	: TEXCOORD2;
+    float3 WorldView	: TEXCOORD3;
+#ifdef USE_SHARED_SHADOW
+    float4 LProj	: LPROJ_COORD;
+#endif 
+};
+
+/*********** vertex shader ******/
+
+woodVertexOutput mainVS(appdata IN)
+{
+    woodVertexOutput OUT = (woodVertexOutput)0;
+    OUT.WorldNormal = mul(WorldITXf,IN.Normal).xyz;
+    float4 Po = float4(IN.Position.xyz,1);
+    float3 Pw = mul(WorldXf,Po).xyz;
+    OUT.LightVec = Lamp0Pos - Pw;
+    OUT.WorldView = (float3(ViewIXf[0].w,ViewIXf[1].w,ViewIXf[2].w) - Pw);
+    float4 hpos = mul(WvpXf,Po);
+    OUT.HPosition = hpos;
+    //
+    // This shader uses the object coordinates to determine the wood-grain
+    //   coordinate system at shader runtime. Alternatively, you could bake
+    //	 the coordinate system into the model as an alternative texcoord. The
+    //	 current method applies to all possible models, while baking-in lets
+    //	 you try different tricks such as modeling the grain of bent wood,
+    //	 say for a bow or for the hull timbers of a ship.
+    //
+    OUT.WoodPos = (WoodScale*Po.xyz) + WoodOffset; // wood grain coordinate system
+#ifdef USE_SHARED_SHADOW
+    float4 Pl = mul(ShadowViewProjXf,float4(Pw.xyz,1.0));  // "P" in light coords
+    float4x4 BiasXf = make_bias_mat(ShadBias);
+    OUT.LProj = mul(BiasXf,Pl);		// bias to make texcoord
+#endif 
+    return OUT;
+}
+
+/********* pixel shader ********/
+
+float4 woodPS(woodVertexOutput IN) : COLOR
+{
+    float3 Ln = normalize(IN.LightVec);
+    float3 Nn = normalize(IN.WorldNormal);
+    float3 Pwood = IN.WoodPos + (AmpScale * tex3D(NoiseSamp,IN.WoodPos.xyz/32.0).xyz);
+    float r = RingScale * sqrt(dot(Pwood.yz,Pwood.yz));
+    r = r + tex3D(NoiseSamp,r.xxx/32.0).x;
+    r = r - floor(r);
+    r = smoothstep(0.0, 0.8, r) - smoothstep(0.83,1.0,r);
+    float3 dColor = lerp(WoodColor1,WoodColor2,r);
+    float Ks = lerp(Ks1,Ks2,r);
+    float3 Vn = normalize(IN.WorldView);
+    float3 Hn = normalize(Vn + Ln);
+    float hdn = dot(Hn,Nn);
+    float ldn = dot(Ln,Nn);
+    float4 litV = lit(ldn,hdn,SpecExpon);
+#ifdef USE_SHARED_SHADOW
+    float shadowed = tex2Dproj(DepthShadSampler,IN.LProj).x;
+	float faded = 1.0-(ShadDens*(1.0-shadowed));
+	litV.y *= faded;
+	litV.z *= shadowed;
+#endif 
+    float3 diffContrib = dColor * ((litV.y*Lamp0Color) + AmbiColor);
+    float3 specContrib = Ks * litV.z * Lamp0Color;
+    float3 result = diffContrib + specContrib;
+    return float4(result,1);
+}
+
+/*************/
+
+technique Main <
+    string Script = "Pass=p0;";
+> {
+    pass p0 <
+	string Script = "Draw=geometry;";
+    > {		
+	VertexProgram = compile vp40 mainVS();
+	    DepthTestEnable = true;
+		DepthMask = true;
+		CullFaceEnable = false;
+		BlendEnable = false;
+		DepthFunc = LEqual;
+	FragmentProgram = compile fp40 woodPS();
+    }
+}
